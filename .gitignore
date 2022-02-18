@@ -1,0 +1,24 @@
+*.py[cod]
+.idea/
+logs/
+env
+.mypy_cache
+.pytest_cache
+*.iml
+run/
+*.mo
+.venv
+venv
+
+htmlcov
+.coverage
+
+development.py
+
+# we use pytest.ini in development only - it has higher precedence
+# than setup.cfg for pytests
+pytest.ini
+.DS_Store
+*.dump
+latest.tar.gz
+/media

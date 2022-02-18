@@ -1,0 +1,7 @@
+mutation ($code: String!, $state: String!, $system: SystemBackend!) {
+  socialLoginComplete(code: $code, state: $state, system: $system) {
+    token {
+      key
+    }
+  }
+}

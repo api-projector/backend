@@ -1,0 +1,15 @@
+{
+  "access_token": "ya29.a_access_token",
+  "expires_in": 3510,
+  "scope": "openid https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email",
+  "token_type": "Bearer",
+  "id_token": "eyJhb_id_token",
+  "sub": "102_sub",
+  "name": "Василий Попов",
+  "given_name": "Василий",
+  "family_name": "Попов",
+  "picture": "https://lh3.googleusercontent.com/-3OOPP/VV/CC/RR/s96-c/photo.jpg",
+  "email": "vasiliy.popov@gitlab.com",
+  "email_verified": true,
+  "locale": "ru"
+}

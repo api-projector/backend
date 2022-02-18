@@ -1,0 +1,14 @@
+mutation ($input: UploadFigmaProjectAssetInput!) {
+  uploadFigmaAsset(input: $input) {
+    projectAsset {
+      project {
+        id
+      }
+      file {
+        id
+        url
+      }
+      source
+    }
+  }
+}

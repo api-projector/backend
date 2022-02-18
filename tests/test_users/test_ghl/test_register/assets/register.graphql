@@ -1,0 +1,8 @@
+mutation($input: RegisterInput!) {
+    register(input: $input) {
+        token {
+            key
+            created
+        }
+    }
+}

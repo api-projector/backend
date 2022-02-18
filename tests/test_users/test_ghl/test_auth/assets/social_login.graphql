@@ -1,0 +1,5 @@
+mutation ($system: SystemBackend!) {
+  socialLogin(system: $system) {
+    redirectUrl
+  }
+}

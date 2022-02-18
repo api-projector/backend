@@ -1,0 +1,17 @@
+mutation ($input: CreateProjectInput!){
+  createProject(input: $input){
+    project{
+      id
+      title
+      dbName
+      description
+      figmaIntegration{
+        token
+      }
+      emblem {
+        id
+        url
+      }
+    }
+  }
+}

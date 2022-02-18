@@ -1,0 +1,245 @@
+#content {
+    padding: 0;
+    margin: 15px;
+}
+
+#bookmark-form {
+    clear: both;
+}
+
+/* HEADER */
+
+#header {
+    background: #0B227B;
+    padding-left: 0;
+    padding-right: 0;
+    display: block;
+    line-height: 70px;
+    height: 90px;
+    color: #76B515;
+}
+
+#header #branding h1 {
+    margin: 10px;
+    padding: 10px;
+    text-indent: -9999px;
+    background: transparent url(../img/logo-light.svg) 10px 5px no-repeat;
+    height: 30px;
+    width: 220px;
+}
+
+#header #user-tools {
+    padding-right: 1.2em;
+    font-size: 12px;
+}
+
+@media (min-width: 1025px) {
+    div.breadcrumbs {
+        margin-top: 5px;
+    }
+}
+
+/* LINKS */
+
+a:link, a:visited {
+    color: #6F74DD;
+    text-align: left;
+}
+
+a:hover {
+    color: #0B227B;
+}
+
+#changelist-filter li.selected a {
+    color: #3949AB;
+    font-weight: bold;
+}
+
+#changelist-filter li.selected a:hover {
+    color: #933183;
+    font-weight: bold;
+}
+
+#changelist-filter a {
+    color: #6F74DD;
+}
+
+#changelist-filter a:hover  {
+    color: #933183;
+}
+
+/* PAGINATOR */
+
+.paginator a:link, .paginator a:visited {
+    background: #933183;
+}
+
+.paginator a.hover {
+    color: #0B227B;
+}
+
+.paginator a.showall {
+    background: none;
+    color: #6F74DD;
+}
+
+.paginator a.showall:hover {
+    background: none;
+    color: #933183;
+}
+
+/* BUTTONS */
+
+.button, input[type=submit], input[type=button], .submit-row input, a.button {
+    background: #6F74DD;
+    color: #fff;
+}
+
+.button:hover, input[type=submit]:hover, input[type=button]:hover, .submit-row input:hover, a.button:hover {
+    background: #0B227B;
+    color: #fff;
+}
+
+.button.default, input[type=submit].default, .submit-row input.default {
+    background: #3949AB;
+    color: #fff;
+}
+
+.submit-row input.default:hover {
+    background: #0B227B;
+    color: #fff;
+}
+
+.object-tools a:link, .object-tools a:visited {
+    background: #933183;
+    font-weight: normal;
+    font-size: 12px;
+}
+
+.object-tools a.addlink {
+    background-image: url(../img/tooltag-add.svg);
+    background-repeat: no-repeat;
+    background-position: right 7px center;
+    padding-right: 26px;
+}
+
+/* BREADCRUMBS */
+
+div.breadcrumbs {
+    display: block;
+    padding: 10px 15px;
+    border: 0;
+    background-position: 0 -8px;
+    border-bottom: 1px solid #ededed;
+    background: #6F74DD;
+}
+
+div.breadcrumbs a {
+    display: inline;
+}
+
+
+/* MODULES */
+
+.module h2, .module caption, .inline-group h2 {
+  background: #6F74DD;
+}
+
+.dashboard-module h2 {
+  background: #6F74DD;
+  color: #fff;
+}
+
+.dashboard-module ul li ul li {
+    padding: 0 16px;
+}
+
+
+/* WIDGETS */
+
+p.datetime br {
+  display: none
+}
+
+.select2-results__option[aria-selected] {
+    color: #6F74DD;
+}
+
+.select2-container--admin-autocomplete .select2-results__option--highlighted[aria-selected] {
+    background-color: #6F74DD;
+}
+
+.select2-results__option[aria-selected]:hover {
+    color: #fff;
+    background: #6F74DD;
+}
+
+.calendar td.selected a {
+    background: #6F74DD;
+    color: #fff;
+}
+
+.calendar td a:focus, .timelist a:focus,
+.calendar td a:hover, .timelist a:hover {
+    background: #6F74DD;
+    color: #fff;
+}
+
+/* ICONS */
+
+#header ul#navigation-menu li.first a {
+    background: transparent url(../img/icons/home.svg) 0 4px no-repeat;
+    text-indent: 13px;
+}
+
+.addlink {
+    background: url(../img/icons/plus.svg) 0 3px no-repeat;
+    padding-left: 23px;
+}
+
+.related-widget-wrapper-link.add-related {
+    content: url(../img/icons/plus.svg);
+}
+
+.changelink, .inlinechangelink {
+    background: url(../img/icons/edit.svg) 0 1px no-repeat;
+    padding-left: 23px;
+    background-size: contain;
+    background-position-y: center;
+}
+
+.related-widget-wrapper-link.change-related {
+    content: url(../img/icons/edit.svg);
+}
+
+.related-widget-wrapper-link.delete-related {
+    content: url(../img/icons/close.svg);
+}
+
+.datetimeshortcuts .date-icon {
+    background: url(../img/icons/calendar.svg) 0 0 no-repeat;
+}
+
+.datetimeshortcuts a:focus .date-icon, .datetimeshortcuts a:hover .date-icon {
+    background-position: 0 0;
+}
+
+.datetimeshortcuts .clock-icon {
+    background: url(../img/icons/time.svg) 0 0 no-repeat;
+}
+
+.datetimeshortcuts a:focus .clock-icon, .datetimeshortcuts a:hover .clock-icon {
+    background-position: 0 0;
+}
+
+/* CONFIGURATION */
+
+div.constance > #changelist {
+    display: block;
+}
+
+/* SIDEBAR */
+
+.toggle-nav-sidebar {
+    color: #6F74DD;
+}

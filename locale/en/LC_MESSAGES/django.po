@@ -1,0 +1,241 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-11-24 18:00+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "VN__JOB_QUEUE"
+msgstr "Job queue"
+
+msgid "VN__GRAPHQL_PLAYGROUND"
+msgstr "GraphQL playground"
+
+msgid "VN__HOME"
+msgstr "Home"
+
+msgid "VN__APPLICATIONS"
+msgstr "Applications"
+
+msgid "VN__MANAGEMENT"
+msgstr "Management"
+
+msgid "VN__UTILS"
+msgstr "Utils"
+
+msgid "VN__CORE"
+msgstr "Core"
+
+msgid "MSG__INVALID_INPUT"
+msgstr "Invalid input"
+
+msgid "MSG__OPERATION_NOT_PERMITTED"
+msgstr "Operation not permitted"
+
+msgid "VN__CREATED_AT"
+msgstr "Created at"
+
+msgid "HT__CREATED_AT"
+msgstr " "
+
+msgid "VN__UPDATED_AT"
+msgstr "Updated at"
+
+msgid "HT__UPDATED_AT"
+msgstr " "
+
+msgid "VN__MEDIA"
+msgstr "Media"
+
+msgid "VN__FILE"
+msgstr "File"
+
+msgid "HT__FILE"
+msgstr "Asset file"
+
+msgid "VN__IMAGE"
+msgstr "Image"
+
+msgid "HT__IMAGE"
+msgstr " "
+
+msgid "VN__FILES"
+msgstr "Files"
+
+msgid "VN__STORAGE_FILE"
+msgstr "Storage file"
+
+msgid "HT__STORAGE_FILE"
+msgstr " "
+
+msgid "VN__ORIGINAL_FILENAME"
+msgstr "Original filename"
+
+msgid "HT__ORIGINAL_FILENAME"
+msgstr " "
+
+msgid "VN__CREATED_BY"
+msgstr "Created by"
+
+msgid "HT__CREATED_BY"
+msgstr " "
+
+msgid "VN__IMAGES"
+msgstr "Images"
+
+msgid "VN__STORAGE_IMAGE"
+msgstr "Storage image"
+
+msgid "HT__STORAGE_IMAGE"
+msgstr " "
+
+msgid "VN__PROJECTS"
+msgstr "Projects"
+
+msgid "VN__FIGMA_INTEGRATION"
+msgstr "Figma integration"
+
+msgid "VN__FIGMA_INTERGRATIONS"
+msgstr "Figma integrations"
+
+msgid "VN__TOKEN"
+msgstr "Token"
+
+msgid "HT__TOKEN"
+msgstr "Token"
+
+msgid "VN__PROJECT"
+msgstr "Project"
+
+msgid "HT__PROJECT"
+msgstr "Project"
+
+msgid "VN__TITLE"
+msgstr "Title"
+
+msgid "HT__TITLE"
+msgstr " "
+
+msgid "VN__DESCRIPTION"
+msgstr "Description"
+
+msgid "HT__DESCRIPTION"
+msgstr "Description"
+
+msgid "VN__DB_NAME"
+msgstr "DB name"
+
+msgid "HT__DB_NAME"
+msgstr "Only lowercase and start from non digit"
+
+msgid "VN__EMBLEM"
+msgstr "Emblem"
+
+msgid "HT__EMBLEM"
+msgstr " "
+
+msgid "VN__OWNER"
+msgstr "Owner"
+
+msgid "HT__OWNER"
+msgstr " "
+
+msgid "CH__FIGMA"
+msgstr "Figma"
+
+msgid "VN__PROJECT_ASSET"
+msgstr "Project asset"
+
+msgid "VN__PROJECTS_ASSETS"
+msgstr "Projects assets"
+
+msgid "VN__PROJECT_ASSET_SOURCE"
+msgstr "Source"
+
+msgid "HT__PROJECT_ASSET_SOURCE"
+msgstr " "
+
+msgid "MSG__FIGMA_INTEGRATION_NOT_FOUND"
+msgstr "Figma integration not found"
+
+msgid "MSG__FIGMA_NOT_VALID_URL"
+msgstr "Figma: not valid url"
+
+#, python-brace-format
+msgid "MSG__FIGMA_REQUEST_ERROR {error}"
+msgstr "Figma request error: {error}"
+
+msgid "VN__USERS"
+msgstr "User"
+
+msgid "MSG__MUST_INCLUDE_EMAIL_AND_PASSWORD"
+msgstr "Must include email and password"
+
+msgid "MSG__USER_ALREADY_EXISTS"
+msgstr "User already exists"
+
+msgid "MSG__NOT_VALID_REGISTRATION_INPUT"
+msgstr "Not valid registration input"
+
+msgid "VN__USER_MUST_HAVE_A_EMAIL"
+msgstr "User must have a email"
+
+msgid "VN__TOKENS"
+msgstr "Tokens"
+
+msgid "VN__USER"
+msgstr "User"
+
+msgid "VN__FIRST_NAME"
+msgstr "First name"
+
+msgid "HT__FIRST_NAME"
+msgstr " "
+
+msgid "VN__LAST_NAME"
+msgstr "Last name"
+
+msgid "HT__LAST_NAME"
+msgstr " "
+
+msgid "VN__EMAIL"
+msgstr "Email"
+
+msgid "HT__EMAIL"
+msgstr "Email"
+
+msgid "VN__IS_STAFF"
+msgstr "Is staff"
+
+msgid "HT__IS_STAFF"
+msgstr "Is staff"
+
+msgid "VN__IS_ACTIVE"
+msgstr "Is active"
+
+msgid "HT__IS_ACTIVE"
+msgstr " "
+
+msgid "MSG__UNABLE_TO_LOGIN_WITH_PROVIDED_CREDENTIALS"
+msgstr "Unable login with provided credentials"
+
+msgid "MESSAGE__ENGLISH"
+msgstr "English"
+
+msgid "MESSAGE__RUSSIAN"
+msgstr "Russian"
+
+msgid "VN__ADMIN_DASHBOARD"
+msgstr "Admin dashboard"

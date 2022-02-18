@@ -1,0 +1,14 @@
+mutation ($input: UploadImageProjectAssetInput!) {
+  uploadImageAsset(input: $input) {
+    projectAsset {
+      project {
+        id
+      }
+      file {
+        id
+        url
+      }
+      source
+    }
+  }
+}

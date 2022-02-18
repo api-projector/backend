@@ -1,0 +1,64 @@
+{
+  "spec": {
+    "schemas": [
+      {
+        "_id": "1"
+      },
+      {
+        "_id": "2"
+      },
+      {
+        "_id": "3"
+      }
+    ]
+  },
+  "1": {
+    "name": "AccountDTO",
+    "json": {
+      "type": "object",
+      "properties": {
+        "currency": {
+          "type": "string",
+          "nullable": false,
+          "example": "PHP"
+        }
+      }
+    }
+  },
+  "2": {
+    "name": "CardDTO",
+    "json": {
+      "type": "object",
+      "properties": {
+        "ucid": {
+          "type": "string",
+          "nullable": false,
+          "example": 1123385340
+        },
+        "accountNumber": {
+          "type": "string",
+          "nullable": false,
+          "example": 60810000020003
+        }
+      }
+    }
+  },
+  "3": {
+    "name": "CreditAccountDetailsDTO",
+    "json": {
+      "type": "object",
+      "properties": {
+        "customerId": {
+          "type": "string",
+          "nullable": false,
+          "example": "5-GBK4L8H1"
+        },
+        "accountNumber": {
+          "type": "string",
+          "nullable": false,
+          "example": 60810000020003
+        }
+      }
+    }
+  }
+}

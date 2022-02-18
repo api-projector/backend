@@ -1,0 +1,245 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+input CreateProjectInput {
+  title: String!
+  description: String
+  figmaIntegration: UpdateFigmaIntegrationType
+  emblem: ID
+}
+
+type CreateProjectMutation {
+  project: Project
+}
+
+scalar DateTime
+
+type DeleteProjectMutation {
+  status: String
+}
+
+type DjangoDebug {
+  sql: [DjangoDebugSQL]
+}
+
+type DjangoDebugSQL {
+  vendor: String!
+  alias: String!
+  sql: String
+  duration: Float!
+  rawSql: String!
+  params: String!
+  startTime: Float!
+  stopTime: Float!
+  isSlow: Boolean!
+  isSelect: Boolean!
+  transId: String
+  transStatus: String
+  isoLevel: String
+  encoding: String
+}
+
+type FigmaIntegration {
+  token: String!
+}
+
+type File implements ModelRelayNode {
+  id: ID!
+  url: String
+}
+
+type Image implements ModelRelayNode {
+  id: ID!
+  url: String
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+type LoginMutation {
+  token: Token
+}
+
+type LogoutMutation {
+  status: String
+}
+
+type MeUserType {
+  id: ID
+  firstName: String
+  lastName: String
+  email: String
+  isActive: Boolean
+  avatar: Image
+}
+
+interface ModelRelayNode {
+  id: ID!
+}
+
+type Mutation {
+  uploadFigmaAsset(input: UploadFigmaProjectAssetInput!): UploadFigmaProjectAssetMutation
+  uploadImageAsset(input: UploadImageProjectAssetInput!): UploadImageProjectAssetMutation
+  createProject(input: CreateProjectInput): CreateProjectMutation
+  updateProject(id: ID!, input: UpdateProjectInput): UpdateProjectMutation
+  deleteProject(project: ID!): DeleteProjectMutation
+  uploadImage(input: UploadImageInput!): UploadImageMutation
+  login(input: LoginInput!): LoginMutation
+  logout: LogoutMutation
+  register(input: RegisterInput!): RegisterMutation
+  updateMe(input: UpdateMeInput!): UpdateMeMutation
+  socialLogin(system: SystemBackend!): SocialLoginMutation
+  socialLoginComplete(code: String!, state: String!, system: SystemBackend!): SocialLoginCompleteMutation
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+type Project implements ModelRelayNode {
+  id: ID!
+  title: String
+  description: String
+  dbName: String
+  owner: User
+  createdAt: DateTime
+  updatedAt: DateTime
+  emblem: Image
+  figmaIntegration: FigmaIntegration
+}
+
+type ProjectAsset {
+  project: Project
+  file: File
+  source: String
+  fileUrl: String
+}
+
+enum ProjectSort {
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+}
+
+type ProjectTypeConnection {
+  pageInfo: PageInfo!
+  edges: [ProjectTypeEdge]!
+  count: Int
+}
+
+type ProjectTypeEdge {
+  node: Project
+  cursor: String!
+}
+
+type Query {
+  me: MeUserType
+  project(id: ID!): Project
+  allProjects(title: String, offset: Int, sort: [ProjectSort], before: String, after: String, first: Int, last: Int): ProjectTypeConnection
+  _debug: DjangoDebug
+}
+
+input RegisterInput {
+  firstName: String!
+  lastName: String!
+  email: String!
+  password: String!
+}
+
+type RegisterMutation {
+  token: Token
+}
+
+type SocialLoginCompleteMutation {
+  token: Token
+  isNewUser: Boolean
+}
+
+type SocialLoginMutation {
+  redirectUrl: String
+}
+
+enum SystemBackend {
+  GOOGLE
+}
+
+type Token implements ModelRelayNode {
+  id: ID!
+  user: User
+  key: String
+  created: DateTime
+}
+
+input UpdateFigmaIntegrationType {
+  token: String
+}
+
+input UpdateMeInput {
+  firstName: String
+  lastName: String
+}
+
+type UpdateMeMutation {
+  me: User
+}
+
+input UpdateProjectInput {
+  title: String
+  description: String
+  figmaIntegration: UpdateFigmaIntegrationType
+  emblem: ID
+}
+
+type UpdateProjectMutation {
+  project: Project
+}
+
+scalar Upload
+
+input UploadFigmaProjectAssetInput {
+  project: ID!
+  url: String!
+}
+
+type UploadFigmaProjectAssetMutation {
+  projectAsset: ProjectAsset
+}
+
+input UploadImageInput {
+  file: Upload!
+  left: Int!
+  top: Int!
+  width: Int!
+  height: Int!
+  scale: Float!
+}
+
+type UploadImageMutation {
+  image: Image
+}
+
+input UploadImageProjectAssetInput {
+  project: ID!
+  file: Upload!
+}
+
+type UploadImageProjectAssetMutation {
+  projectAsset: ProjectAsset
+}
+
+type User implements ModelRelayNode {
+  id: ID!
+  firstName: String
+  lastName: String
+  email: String
+  isStaff: Boolean
+  isActive: Boolean
+  lastLogin: DateTime
+  avatar: Image
+}
