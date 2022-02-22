@@ -56,7 +56,7 @@ COPY . .
 RUN export DJANGO_ENV=build \
     && python manage.py collectstatic --noinput --verbosity 0 \
     && python manage.py compilemessages \
-    && cp deploy/nginx/* /etc/nginx \
+    && cp docker/nginx/* /etc/nginx \
     && chmod -R 755 /app \
     && mkdir /var/run/app \
     && mkdir /var/run/nginx \
@@ -72,7 +72,7 @@ ENV DJANGO_ENV=production \
 
 USER app
 
-CMD ["/bin/bash", "deploy/server/backend.sh"]
+CMD ["/bin/bash", "docker/server/backend.sh"]
 
 # ---
 

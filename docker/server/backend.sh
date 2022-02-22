@@ -6,7 +6,7 @@ set -o errexit
 
 nginx
 
-_UWSGI_OPTS="--ini deploy/server/uwsgi.ini"
+_UWSGI_OPTS="--ini docker/server/uwsgi.ini"
 if [ "${UWSGI_PROCESSES_AUTO:-}" == "1" ]; then
   _UWSGI_OPTS="${_UWSGI_OPTS} --processes $(nproc)"
 fi

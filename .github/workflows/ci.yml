@@ -18,7 +18,7 @@ jobs:
 
       - uses: hadolint/hadolint-action@v1.6.0
         with:
-          dockerfile: deploy/Dockerfile
+          dockerfile: docker/Dockerfile
 
   build_test_image:
     runs-on: ubuntu-20.04
@@ -41,7 +41,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: deploy/Dockerfile
+          file: docker/Dockerfile
           push: false
           tags: ${{ env.TEST_IMAGE_NAME }}
           target: test
@@ -100,7 +100,7 @@ jobs:
         env:
           APP_TEST_IMAGE: ${{ env.TEST_IMAGE_NAME }}
         run: |
-          docker-compose -f deploy/docker-compose.yml up --exit-code-from app
+          docker-compose -f ci/docker-compose.yml up --exit-code-from app
 
   build:
     runs-on: ubuntu-20.04
@@ -128,13 +128,13 @@ jobs:
             type=sha
 
       - name: Update .dockerignore
-        run: cat deploy/.dockerignore.production >> .dockerignore
+        run: cat docker/.dockerignore.production >> .dockerignore
 
       - name: Build production and push Docker image
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: deploy/Dockerfile
+          file: docker/Dockerfile
           push: ${{ github.ref == 'refs/heads/main' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
