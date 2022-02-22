@@ -6,7 +6,7 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ghcr.io/${{ github.repository }}
   TEST_IMAGE_NAME: app_test:latest
-  TEST_IMAGE_ARTIFACT: ${{ env.GITHUB_SHA }}_image
+  TEST_IMAGE_ARTIFACT: ${{ GITHUB_SHA }}_image
   TEST_IMAGE_PATH: /tmp/test_image.tar
 
 jobs:
