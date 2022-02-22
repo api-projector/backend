@@ -13,6 +13,10 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    - uses: hadolint/hadolint-action@v1.6.0
+      with:
+        dockerfile: deploy/Dockerfile
+
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
 
