@@ -1,0 +1,7 @@
+version: '2.4'
+
+services:
+  app:
+    image: ${APP_TEST_IMAGE}
+  postgres:
+    image: registry.esanum.de:5000/postgres:12.1

@@ -5,8 +5,8 @@ on: [ pull_request, push ]
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ghcr.io/${{ github.repository }}
-  TEST_IMAGE_NAME: app_test:latest
-  TEST_IMAGE_ARTIFACT: ${{ github.sha }}_image
+  TEST_IMAGE_NAME: app_test:${{ github.sha }}
+  TEST_IMAGE_ARTIFACT: test_image_${{ github.sha }}
   TEST_IMAGE_PATH: /tmp/test_image.tar
 
 jobs:
@@ -73,6 +73,9 @@ jobs:
         run: |
           docker load --input ${{ env.TEST_IMAGE_PATH }}
           docker image ls -a
+      - name: Lint
+        run: |
+          docker run ${{ env.TEST_IMAGE_NAME }} make lint
 
   build:
     runs-on: ubuntu-20.04
