@@ -67,11 +67,10 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: ${{ env.TEST_IMAGE_ARTIFACT }}
-          path: ${{ env.TEST_IMAGE_PATH }}
+          path: /tmp
 
       - name: Load Docker image
         run: |
-          ls -l  ${{ env.TEST_IMAGE_PATH }}
           docker load --input ${{ env.TEST_IMAGE_PATH }}
           docker image ls -a
 
