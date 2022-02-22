@@ -5,47 +5,104 @@ on: [ pull_request, push ]
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ghcr.io/${{ github.repository }}
+  TEST_IMAGE_NAME: app_test:latest
+  TEST_IMAGE_ARTIFACT: ${{ env.GITHUB_SHA }}_image
+  TEST_IMAGE_PATH: /tmp/test_image.tar
 
 jobs:
-  build:
+  pre_build:
     runs-on: ubuntu-20.04
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - uses: hadolint/hadolint-action@v1.6.0
-      with:
-        dockerfile: deploy/Dockerfile
+      - uses: hadolint/hadolint-action@v1.6.0
+        with:
+          dockerfile: deploy/Dockerfile
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
+  build_test_image:
+    runs-on: ubuntu-20.04
+    needs: pre_build
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Login to GitHub Container Registry
-      uses: docker/login-action@v1
-      with:
-        registry: ${{ env.REGISTRY }}
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
 
-    - name: Extract metadata (tags, labels) for Docker
-      id: meta
-      uses: docker/metadata-action@v3
-      with:
-        images: ${{ env.IMAGE_NAME }}
-        tags: |
-          type=sha
+      - name: Build production and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: deploy/Dockerfile
+          push: false
+          tags: ${{ env.TEST_IMAGE_NAME }}
+          target: test
+          cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:_buildcache
+          cache-to: type=registry,ref=${{ env.IMAGE_NAME }}:_buildcache,mode=max
+          outputs: type=docker,dest=${{ TEST_IMAGE_PATH }}
 
-    - name: Build production and push Docker image
-      uses: docker/build-push-action@v2
-      with:
-        context: .
-        file: deploy/Dockerfile
-        push: ${{ github.ref == 'refs/heads/main' }}
-        tags: ${{ steps.meta.outputs.tags }}
-        labels: ${{ steps.meta.outputs.labels }}
-        target: production
-        cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:_buildcache
-        cache-to: type=registry,ref=${{ env.IMAGE_NAME }}:_buildcache,mode=max
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.TEST_IMAGE_ARTIFACT }}
+          path: ${{ TEST_IMAGE_PATH }}
+          retention-days: 1
+
+  lint:
+    runs-on: ubuntu-20.04
+    needs: build_test_image
+    steps:
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Download artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: ${{ env.TEST_IMAGE_ARTIFACT }}
+          path: ${{ env.TEST_IMAGE_PATH }}
+
+      - name: Load Docker image
+        run: |
+          docker load --input ${{ env.TEST_IMAGE_PATH }}
+          docker image ls -a
+
+  build:
+    runs-on: ubuntu-20.04
+    needs: [ lint ]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ env.IMAGE_NAME }}
+          tags: |
+            type=sha
+
+      - name: Build production and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: deploy/Dockerfile
+          push: ${{ github.ref == 'refs/heads/main' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          target: production
+          cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:_buildcache
+          cache-to: type=registry,ref=${{ env.IMAGE_NAME }}:_buildcache,mode=max
 
     outputs:
       tag: ${{ steps.meta.outputs.version  }}
