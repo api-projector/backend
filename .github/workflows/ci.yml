@@ -37,7 +37,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build production and push Docker image
+      - name: Build test Docker image
         uses: docker/build-push-action@v2
         with:
           context: .
@@ -71,6 +71,7 @@ jobs:
 
       - name: Load Docker image
         run: |
+          ls -l  ${{ env.TEST_IMAGE_PATH }}
           docker load --input ${{ env.TEST_IMAGE_PATH }}
           docker image ls -a
 
