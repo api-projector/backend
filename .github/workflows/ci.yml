@@ -97,7 +97,7 @@ jobs:
         env:
           APP_TEST_IMAGE: ${{ env.TEST_IMAGE_NAME }}
         run: |
-          docker-compose up
+          docker-compose up -f deploy/docker-compose.yml
 
   build:
     runs-on: ubuntu-20.04
