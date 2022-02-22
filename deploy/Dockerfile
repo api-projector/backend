@@ -22,11 +22,12 @@ COPY pyproject.toml poetry.lock ./
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN apt-get update \
-    && apt-get install -y gcc \
-                      binutils \
-                      gettext \
-                      nginx \
-                      make \
+    && apt-get install -y --no-install-recommends \
+                      gcc=4:* \
+                      binutils=2.* \
+                      gettext=0.* \
+                      nginx=1.* \
+                      make=4.* \
     && curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/${POETRY_VERSION}/get-poetry.py | python \
     && poetry install --no-dev --no-interaction --no-ansi \
     && apt-get remove --purge -y gcc binutils \
