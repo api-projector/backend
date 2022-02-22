@@ -24,6 +24,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
               gcc=4:* \
+              libc6-dev=2.* \
               binutils=2.* \
               gettext=0.* \
               nginx=1.* \
