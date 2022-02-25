@@ -102,7 +102,6 @@ make test
    |-- setup.cfg                             # Tools settings
    |-- Makefile                              # Useful scripts. To use run: "make <command>" 
    |-- ... 
-   |
 ```
 
 ### Django application structure
@@ -119,6 +118,7 @@ make test
    |    |    |-- ...
    |    |    |-- main.py                   # mutations registration
    |    |-- queries/
+   |    |
    |    |    |-- ...
    |    |    |-- main.py                   # queries registration
    |    |
@@ -165,7 +165,6 @@ make test
    |    |-- ...                            # async tasks 
    | 
    |-- apps.py                             # application config 
-   |
 ```
 
 ### Architecture
