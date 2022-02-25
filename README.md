@@ -165,8 +165,8 @@ Visit http://localhost:8000 in your browser. The app should be up & running.
 The application architecture is implemented as CQRS. The main idea - using commands and queries for communication between layers.
 
 #### Layers
-- business: main logic, commands, queries, business services,..
-- infrastructure: auth, couchdb access, graphql, admin,..
+- **business**: main logic, commands, queries, business services,..
+- **infrastructure**: auth, couchdb access, graphql, admin,..
  
 #### Core ideas
 - create command/query and send it to the command/query bus:
