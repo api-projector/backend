@@ -1,5 +1,3 @@
-STORAGE_ADDRESS := 162.55.208.173
-
 install_deps:
 	@poetry install --remove-untracked
 
@@ -26,9 +24,3 @@ install_pre_commit:
 
 update_pre_commit:
 	@pre-commit autoupdate
-
-download_pg_dump:
-	@rsync -Lav --progress root@${STORAGE_ADDRESS}:/mnt/storage/pg/backup/api_projector/latest.dump .
-
-download_couchdb_dump:
-	@rsync -Lav --progress root@${STORAGE_ADDRESS}:/mnt/storage/api-projector/couchdb/backups/latest.tar.gz .
