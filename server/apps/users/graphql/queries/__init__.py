@@ -1,1 +1,1 @@
-from .users import UsersQueries
+from .main import UsersQueries
