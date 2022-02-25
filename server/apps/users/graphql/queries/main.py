@@ -2,10 +2,11 @@ import graphene
 from graphql import ResolveInfo
 from jnt_django_graphene_toolbox.errors import GraphQLPermissionDenied
 
+from apps.users.graphql.queries.me import MeQueries
 from apps.users.graphql.types import MeUserType
 
 
-class UsersQueries(graphene.ObjectType):
+class UsersQueries(MeQueries):
     """Graphql users queries."""
 
     me = graphene.Field(MeUserType)

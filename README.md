@@ -9,18 +9,23 @@
 - python 3.10
 - poetry
 
-### Setup developing
+### Getting started 
 ```bash
 git clone git@github.com:api-projector/backend.git
 cd backend
+make install_pre_commit
 
 cp server/settings/environments/development.py.example server/settings/environments/development.py # prepare default config
 
-poetry install # install deps 
-poetry shell
 
-./m
+poetry install # install deps 
+poetry shell # activate the python env
+
+python manage.py migrate # apply migrations to sqlite
+python manage.py runserver # run development server 
 ```
+
+Visit http://localhost:8000 in your browser. The app should be up & running.
 
 ### Code-base structure
 ```bash
@@ -92,3 +97,88 @@ poetry shell
    |-- ... 
    |
 ```
+
+### Django application structure
+```bash
+< APP ROOT >
+   |
+   |-- admin/                              # admin panel related modules 
+   |    |-- inlines/                       # inlines
+   |    |    | ...
+   |    |-- ... 
+   |    
+   |-- graphql/                            # graphql related modules 
+   |    |-- mutations
+   |    |    |-- ...
+   |    |    |-- main.py                   # mutations registration
+   |    |-- queries/
+   |    |    |-- ...
+   |    |    |-- main.py                   # queries registration
+   |    |
+   |    |-- types/                         # graphql types
+   |    |    |-- ... 
+   |
+   |-- logic/                              # business layer logic
+   |    |-- commands/ 
+   |    |    |-- ...
+   |    |    |-- main.py                   # commands registration 
+   |    |
+   |    |-- queries/
+   |    |    |-- ...
+   |    |    |-- main.py                   # queries registration 
+   |    |
+   |    |-- services/ 
+   |    |    |-- ...                       # business layer services
+   |    |
+   |    |-- interfaces/ 
+   |    |    |-- ...                       # business layer interfaces 
+   |    
+   |-- management/                         # django commands
+   |    |-- ...                       
+   |
+   |-- migrations/                         # django database migrations 
+   |    |-- ...                       
+   | 
+   |-- models/                             # models
+   |    |-- managers/                      # models managers
+   |    |    |-- ...
+   |    |
+   |    |-- ...
+   |
+   |-- pages/                              # django views modules
+   |    |-- views                          # views 
+   |    |     |-- ...
+   |    |
+   |    |-- urls.py                        # urls routing registration  
+   |    
+   |-- services/
+   |    |-- ...                            # infrastructure layer services
+   |
+   |-- tasks/
+   |    |-- ...                            # async tasks 
+   | 
+   |-- apps.py                             # application config 
+   |
+```
+
+### Architecture
+The application architecture is implemented as CQRS. The main idea - using commands and queries for communication between layers.
+
+#### Layers
+- business: main logic, commands, queries, business services,..
+- infrastructure: auth, couchdb access, graphql, admin,..
+ 
+#### Core ideas
+- create command/query and send it to the command/query bus:
+```python
+from apps.core.logic import commands
+from apps.core.logic import queries 
+
+command_result = commands.execute_command(MyCommand(param="test"))
+query_result = queries.execute_query(MyQuery(id=1))
+```
+
+- no any business logic at admin, django commands, graphql, async tasks,...
+- command/query must be simple data object with primitive types
+- command/query must return result
+
