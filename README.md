@@ -14,9 +14,12 @@
 git clone git@github.com:api-projector/backend.git
 cd backend
 
-cp server/settings/environments/development.py.example server/settings/environments/development.py
+cp server/settings/environments/development.py.example server/settings/environments/development.py # prepare default config
 
 poetry install # install deps 
+poetry shell
+
+./m
 ```
 
 ### Code-base structure
