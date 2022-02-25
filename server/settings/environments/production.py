@@ -17,7 +17,10 @@ DATABASES = {
     },
 }
 
-DEFAULT_FILE_STORAGE = "minio_storage.storage.MinioMediaStorage"
+DEFAULT_FILE_STORAGE = config(
+    "DJANGO_DEFAULT_FILE_STORAGE",
+    default="django.core.files.storage.FileSystemStorage",
+)
 
 FLUENTD_HOST = config("DJANGO_FLUENTD", default=None)
 if FLUENTD_HOST:
