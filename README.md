@@ -27,6 +27,13 @@ python manage.py runserver # run development server
 
 Visit http://localhost:8000 in your browser. The app should be up & running.
 
+### Tests
+For tests pytest testing tool is used.
+
+```bash
+make test
+```
+
 ### Code-base structure
 ```bash
 < PROJECT ROOT >
