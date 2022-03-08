@@ -41,11 +41,23 @@ class Query(queries.IQuery):
     only_owned: bool = True
 
 
-class QueryHandler(queries.IQueryHandler[Query, models.QuerySet]):
+@dataclass(frozen=True)
+class QueryResult:
+    """Query result."""
+
+    instances: models.QuerySet
+
+
+class QueryHandler(queries.IQueryHandler[Query, QueryResult]):
     """Allowed projects for user query."""
 
-    def ask(self, query: Query) -> models.QuerySet:
+    def ask(self, query: Query) -> QueryResult:
         """Handler."""
+        return QueryResult(
+            instances=self._get_allowed_projects_for_user(query),
+        )
+
+    def _get_allowed_projects_for_user(self, query: Query):
         if not query.user:
             return Project.objects.none()
 

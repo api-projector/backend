@@ -1,4 +1,5 @@
 import enum
+import typing as ty
 from functools import partial
 from typing import Optional, Type, get_args, get_type_hints
 
@@ -19,6 +20,13 @@ from jnt_django_graphene_toolbox.types import BaseModelObjectType
 from promise import Promise
 
 from apps.core.logic import queries
+
+
+@ty.runtime_checkable
+class InstancesQueryResult(ty.Protocol):
+    """Query result with instances queryset field."""
+
+    instances: models.QuerySet
 
 
 class BaseQueryConnectionField(ConnectionField):  # noqa: WPS214
@@ -119,7 +127,7 @@ class BaseQueryConnectionField(ConnectionField):  # noqa: WPS214
         raise NotImplementedError()
 
     @classmethod
-    def resolve_connection(  # noqa: WPS210
+    def resolve_connection(  # noqa: WPS210, C901
         cls,
         connection,
         args,
@@ -137,6 +145,8 @@ class BaseQueryConnectionField(ConnectionField):  # noqa: WPS214
             args["after"] = offset_to_cursor(offset - 1)
 
         iterable = utils.maybe_queryset(iterable)
+        if isinstance(iterable, InstancesQueryResult):
+            iterable = iterable.instances
 
         if isinstance(iterable, models.QuerySet):
             list_length = iterable.count()

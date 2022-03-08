@@ -21,43 +21,43 @@ def test_query(user, ghl_client, ghl_raw):
 def test_owner(ghl_auth_mock_info, project_query):
     """Test success getting project when owner."""
     project = ProjectFactory.create(owner=ghl_auth_mock_info.context.user)
-    response = project_query(
+    query_result = project_query(
         root=None,
         info=ghl_auth_mock_info,
         id=project.id,
     )
 
-    assert response == project
+    assert query_result == project
 
 
 def test_not_owner(ghl_auth_mock_info, project_query):
     """Test success getting project when not owner."""
     project = ProjectFactory.create()
-    response = project_query(
+    query_result = project_query(
         root=None,
         info=ghl_auth_mock_info,
         id=project.id,
     )
 
-    assert response == project
+    assert query_result == project
 
 
 def test_not_found(ghl_auth_mock_info, project_query):
     """Test project not found."""
     ProjectFactory.create()
 
-    response = project_query(
+    query_result = project_query(
         root=None,
         info=ghl_auth_mock_info,
         id="1",
     )
-    assert isinstance(response, GraphQLNotFound)
+    assert isinstance(query_result, GraphQLNotFound)
 
 
 def test_unauth(ghl_mock_info, project_query, db):
     """Test non authorized user."""
     project = ProjectFactory.create()
 
-    response = project_query(root=None, info=ghl_mock_info, id=project.id)
+    query_result = project_query(root=None, info=ghl_mock_info, id=project.id)
 
-    assert isinstance(response, GraphQLNotFound)
+    assert isinstance(query_result, GraphQLNotFound)

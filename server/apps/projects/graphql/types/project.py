@@ -43,4 +43,4 @@ class ProjectType(types.BaseModelObjectType):
                 queryset=queryset,
                 only_owned=False,
             ),
-        )
+        ).instances
