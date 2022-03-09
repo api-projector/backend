@@ -1,5 +1,6 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![wemake-python-styleguide](https://img.shields.io/badge/style-wemake-000000.svg)](https://github.com/wemake-services/wemake-python-styleguide)
+[![CI/CD](https://github.com/api-projector/backend/actions/workflows/ci.yml/badge.svg)](https://github.com/api-projector/backend/actions/workflows/ci.yml)
 
 # Api Projector Backend
 
