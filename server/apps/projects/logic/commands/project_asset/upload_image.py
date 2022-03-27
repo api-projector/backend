@@ -1,11 +1,12 @@
 from dataclasses import dataclass
 
+import injector
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from rest_framework import serializers
 
 from apps.core.logic import commands
 from apps.core.logic.errors import InvalidInputApplicationError
-from apps.media.models import File
+from apps.projects.logic.services.projects.assets import ProjectAssetsService
 from apps.projects.models import Project, ProjectAsset, ProjectAssetSource
 from apps.users.models import User
 
@@ -44,6 +45,14 @@ class CommandResult:
 class CommandHandler(commands.ICommandHandler[Command, CommandResult]):
     """Create project asset."""
 
+    @injector.inject
+    def __init__(
+        self,
+        project_assets_service: ProjectAssetsService,
+    ):
+        """Initialize."""
+        self._project_assets_service = project_assets_service
+
     def execute(self, command: Command) -> CommandResult:
         """Main logic here."""
         validator = _ProjectAssetDtoValidator(
@@ -58,18 +67,11 @@ class CommandHandler(commands.ICommandHandler[Command, CommandResult]):
 
         validated_data = validator.validated_data
 
-        instance_file = File()
-        instance_file.original_filename = command.data.file.name
-        instance_file.storage_file.save(
-            command.data.file.name,
-            command.data.file,
-        )
-        instance_file.save()
-
-        project_asset = ProjectAsset.objects.create(
+        project_asset = self._project_assets_service.add_image_asset(
             project=validated_data["project"],
+            filename=command.data.file.name,
             source=ProjectAssetSource.UPLOAD,
-            file=instance_file,
+            image=command.data.file.file,
         )
 
         return CommandResult(
