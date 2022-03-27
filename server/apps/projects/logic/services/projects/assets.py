@@ -7,6 +7,8 @@ from apps.projects.models import Project, ProjectAsset, ProjectAssetSource
 
 
 class ProjectAssetsService:
+    """Project assets manager."""
+
     def add_image_asset(
         self,
         project: Project,
@@ -14,6 +16,7 @@ class ProjectAssetsService:
         source: ProjectAssetSource,
         image_source: DjangoFile | io.BytesIO,
     ) -> ProjectAsset:
+        """Add project asset to project."""
         instance_file = File()
         instance_file.original_filename = filename
         instance_file.storage_file.save(

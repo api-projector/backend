@@ -5,7 +5,6 @@ import typing as ty
 import requests
 from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator
-from requests import HTTPError
 
 from apps.media.logic.interfaces.external_files import IExternalFilesService
 
@@ -28,7 +27,7 @@ class ExternalFilesService(IExternalFilesService):
 
         try:
             return self._download_file(file_url)
-        except HTTPError:
+        except requests.HTTPError:
             logger.warning("The file wasn't downloaded.")
 
         return None

@@ -5,17 +5,16 @@ import injector
 from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 
-from apps.core.logic import commands
-from apps.core.logic.errors import BaseApplicationError
+from apps.core.logic import commands, errors
 from apps.core.logic.helpers.validation import validate_input
 from apps.media.logic.interfaces import IExternalFilesService
-from apps.projects.logic.interfaces import IFigmaServiceFactory, IFigmaService
+from apps.projects.logic.interfaces import IFigmaService, IFigmaServiceFactory
 from apps.projects.logic.services.projects.assets import ProjectAssetsService
 from apps.projects.models import Project, ProjectAsset, ProjectAssetSource
 from apps.users.models import User
 
 
-class ImageNotDownloadedError(BaseApplicationError):
+class ImageNotDownloadedError(errors.BaseApplicationError):
     """Mark the error as not_found error."""
 
     code = "image_not_downloaded"
@@ -76,25 +75,32 @@ class CommandHandler(commands.ICommandHandler[Command, CommandResult]):
             _ProjectAssetDtoValidator,
         )
 
-        project = validated_data["project"]
-        figma_service = self._figma_service_factory.create(project)
+        project_asset = self._create_project_asset(
+            validated_data["project"],
+            validated_data["url"],
+        )
 
-        url = str(validated_data["url"])
+        return CommandResult(
+            project_asset=project_asset,
+        )
+
+    def _create_project_asset(
+        self,
+        project: Project,
+        url: str,
+    ) -> ProjectAsset:
+        figma_service = self._figma_service_factory.create(project)
 
         figma_file = self._download_file(url, figma_service)
 
         image_params = figma_service.get_image_params(url)
 
         filename = self._get_filename(url, image_params.title)
-        project_asset = self._project_assets_service.add_image_asset(
+        return self._project_assets_service.add_image_asset(
             project=project,
             filename=filename,
             source=ProjectAssetSource.FIGMA,
             image_source=figma_file,
-        )
-
-        return CommandResult(
-            project_asset=project_asset,
         )
 
     def _download_file(
