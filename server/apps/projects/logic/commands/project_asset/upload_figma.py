@@ -100,7 +100,7 @@ class CommandHandler(commands.ICommandHandler[Command, CommandResult]):
             project=project,
             filename=filename,
             source=ProjectAssetSource.FIGMA,
-            image_source=figma_file,
+            image=figma_file,
         )
 
     def _download_file(

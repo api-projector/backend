@@ -71,7 +71,7 @@ class CommandHandler(commands.ICommandHandler[Command, CommandResult]):
             project=validated_data["project"],
             filename=command.data.file.name,
             source=ProjectAssetSource.UPLOAD,
-            image_source=command.data.file,
+            image=command.data.file.file,
         )
 
         return CommandResult(

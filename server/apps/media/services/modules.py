@@ -21,3 +21,7 @@ class MediaInfrastructureServicesModule(injector.Module):
             interfaces.IExternalFilesService,
             services.ExternalFilesService,
         )
+        binder.bind(
+            interfaces.IImageConverter,
+            services.ImageConverter,
+        )
