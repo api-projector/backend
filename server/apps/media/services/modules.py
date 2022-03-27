@@ -17,3 +17,7 @@ class MediaInfrastructureServicesModule(injector.Module):
             interfaces.ICleanupMediaFilesService,
             services.CleanupMediaFilesService,
         )
+        binder.bind(
+            interfaces.IExternalFilesService,
+            services.ExternalFilesService,
+        )
