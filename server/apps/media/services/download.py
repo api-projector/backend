@@ -6,12 +6,12 @@ import requests
 from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator
 
-from apps.media.logic.interfaces.external_files import IExternalFilesService
+from apps.media.logic.interfaces.download import IDownloadService
 
 logger = logging.getLogger(__name__)
 
 
-class ExternalFilesService(IExternalFilesService):
+class DownloadService(IDownloadService):
     """Service for download external files."""
 
     def download_file_from_url(self, file_url: str) -> ty.Optional[io.BytesIO]:

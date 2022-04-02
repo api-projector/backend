@@ -3,7 +3,7 @@ import io
 import typing as ty
 
 
-class IExternalFilesService(abc.ABC):
+class IDownloadService(abc.ABC):
     """Service for download external files."""
 
     @abc.abstractmethod

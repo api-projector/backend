@@ -18,8 +18,8 @@ class MediaInfrastructureServicesModule(injector.Module):
             services.CleanupMediaFilesService,
         )
         binder.bind(
-            interfaces.IExternalFilesService,
-            services.ExternalFilesService,
+            interfaces.IDownloadService,
+            services.DownloadService,
         )
         binder.bind(
             interfaces.IImageConverter,

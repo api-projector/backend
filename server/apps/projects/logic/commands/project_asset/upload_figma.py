@@ -7,7 +7,7 @@ from rest_framework import serializers
 
 from apps.core.logic import commands, errors
 from apps.core.logic.helpers.validation import validate_input
-from apps.media.logic.interfaces import IExternalFilesService
+from apps.media.logic.interfaces import IDownloadService
 from apps.projects.logic.interfaces import IFigmaService, IFigmaServiceFactory
 from apps.projects.logic.services.projects.assets import ProjectAssetsService
 from apps.projects.models import Project, ProjectAsset, ProjectAssetSource
@@ -60,7 +60,7 @@ class CommandHandler(commands.ICommandHandler[Command, CommandResult]):
     def __init__(
         self,
         figma_service_factory: IFigmaServiceFactory,
-        external_files_service: IExternalFilesService,
+        external_files_service: IDownloadService,
         project_assets_service: ProjectAssetsService,
     ):
         """Initialize."""
