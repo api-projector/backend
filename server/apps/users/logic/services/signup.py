@@ -40,7 +40,7 @@ class SignupService(ISignupService):
         social_data = asdict(signup_data)
         avatar_url = social_data.pop("avatar", None)
         if avatar_url:
-            avatar = self._image_service.download_image_from_url(avatar_url)
+            avatar = self._image_service.download_image(avatar_url)
             if avatar:
                 social_data["avatar"] = avatar
 

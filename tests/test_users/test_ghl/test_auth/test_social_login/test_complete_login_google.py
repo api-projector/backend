@@ -84,6 +84,7 @@ def test_user_not_in_system(
         user__email=CREATED_EMAIL,
     )
     assert token.user.avatar
+    assert token.user.avatar.original_filename == "photo.jpg"
     assert token.user.last_login
 
 

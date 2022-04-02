@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 class DownloadService(IDownloadService):
     """Service for download external files."""
 
-    def download_file_from_url(self, file_url: str) -> ty.Optional[io.BytesIO]:
+    def download(self, file_url: str) -> ty.Optional[io.BytesIO]:
         """Upload file from url."""
         if not file_url:
             return None

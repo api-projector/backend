@@ -109,9 +109,7 @@ class CommandHandler(commands.ICommandHandler[Command, CommandResult]):
         figma_service: IFigmaService,
     ) -> io.BytesIO:
         image_url = figma_service.get_image_url(url)
-        downloaded_file = self._external_files_service.download_file_from_url(
-            image_url,
-        )
+        downloaded_file = self._external_files_service.download(image_url)
 
         if not downloaded_file:
             raise ImageNotDownloadedError()
