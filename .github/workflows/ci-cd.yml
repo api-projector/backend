@@ -20,6 +20,13 @@ jobs:
         with:
           dockerfile: docker/Dockerfile
 
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/node@master
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+
   build_test_image:
     runs-on: ubuntu-20.04
     needs: pre_build
