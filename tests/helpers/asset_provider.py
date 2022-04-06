@@ -42,7 +42,7 @@ class AssetsProvider:
         """Get md5-hash of file."""
         filepath = find_path(self._cwd, filename)
 
-        hash_md5 = hashlib.md5()  # noqa: S303
+        hash_md5 = hashlib.md5()  # noqa: S303 S324
         with open(filepath, "rb") as reader:
             for chunk in iter(lambda: reader.read(4096), b""):  # noqa: WPS426
                 hash_md5.update(chunk)

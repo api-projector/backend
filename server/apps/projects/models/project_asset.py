@@ -12,7 +12,7 @@ from apps.media.models.fields import FileField
 
 def assets_upload_to(project_asset, filename: str) -> str:
     """Generate folder for uploads."""
-    project_hash = hashlib.md5(  # noqa: S303
+    project_hash = hashlib.md5(  # noqa: S303 S324
         str(project_asset.project.pk).encode(),
     ).hexdigest()
     return "projects/{0}/{1}".format(project_hash, filename)
