@@ -1,5 +1,3 @@
-from typing import List
-
 import requests
 from ibmcloudant.cloudant_v1 import Document
 
@@ -13,7 +11,7 @@ class StubCouchDBService(ICouchDBService):  # noqa: WPS214
         """Initializing."""
         self.create_database_called = False
         self.delete_database_called = False
-        self.deleted_db_names: List[str] = []
+        self.deleted_db_names: list[str] = []
         self._doc_map: dict[str, dict] = {}  # type: ignore
 
     def set_documents(  # noqa: WPS615

@@ -15,7 +15,7 @@ class CouchDBMaintenanceService:
         """Initialize."""
         self._couchdb_service = couchdb_service
 
-    def cleanup_databases(self, stdout: ty.Optional[ty.TextIO] = None):
+    def cleanup_databases(self, stdout: ty.TextIO | None = None):
         """Cleanup all databases."""
         for db_name in self._couchdb_service.list_databases():
             self._log('cleanup database "{0}"...\n'.format(db_name), stdout)
@@ -31,7 +31,7 @@ class CouchDBMaintenanceService:
     def _purge_database(
         self,
         db,
-        stdout: ty.Optional[ty.TextIO],
+        stdout: ty.TextIO | None,
     ):
         self._log("purge... ", stdout)
         response = self._exec_request(db, "_changes", "get")
@@ -53,7 +53,7 @@ class CouchDBMaintenanceService:
     def _compact_database(
         self,
         db,
-        stdout: ty.Optional[ty.TextIO],
+        stdout: ty.TextIO | None,
     ):
         self._log("compact... ", stdout)
         self._exec_request(db, "_compact")
@@ -62,7 +62,7 @@ class CouchDBMaintenanceService:
     def _view_cleanup_database(
         self,
         db,
-        stdout: ty.Optional[ty.TextIO],
+        stdout: ty.TextIO | None,
     ):
         self._log("view cleanup... ", stdout)
         self._exec_request(db, "_view_cleanup")
@@ -84,7 +84,7 @@ class CouchDBMaintenanceService:
         response.raise_for_status()
         return response
 
-    def _log(self, text: str, stdout: ty.Optional[ty.TextIO]):
+    def _log(self, text: str, stdout: ty.TextIO | None):
         if not stdout:
             return
 

@@ -1,5 +1,3 @@
-import typing as ty
-
 from graphql import ResolveInfo
 from jnt_django_graphene_toolbox.errors import (
     GraphQLInputError,
@@ -25,7 +23,7 @@ class BaseCommandMutation(BaseMutation):
     @classmethod
     def mutate_and_get_payload(
         cls,
-        root: ty.Optional[object],
+        root: object | None,
         info: ResolveInfo,  # noqa: WPS110
         **kwargs,
     ):
@@ -46,7 +44,7 @@ class BaseCommandMutation(BaseMutation):
     @classmethod
     def build_command(
         cls,
-        root: ty.Optional[object],
+        root: object | None,
         info: ResolveInfo,  # noqa: WPS110
         validated_data,
     ):
@@ -56,8 +54,8 @@ class BaseCommandMutation(BaseMutation):
     @classmethod
     def get_response_data(
         cls,
-        root: ty.Optional[object],
+        root: object | None,
         info: ResolveInfo,  # noqa: WPS110
         command_result,
-    ) -> ty.Dict[str, object]:
+    ) -> dict[str, object]:
         """Stub for getting usecase input dto."""

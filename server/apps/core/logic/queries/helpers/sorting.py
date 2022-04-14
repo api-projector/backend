@@ -71,7 +71,7 @@ class SortHandler(OrderingFilter):
 
         return set(fields)
 
-    def _get_model_ordering(self, model: models.Model) -> ty.List[str]:
+    def _get_model_ordering(self, model: models.Model) -> list[str]:
         """Get default ordering for model."""
         return (
             list(model._meta.ordering)  # noqa: WPS437
@@ -79,7 +79,7 @@ class SortHandler(OrderingFilter):
             else []
         )
 
-    def _adjust_default_sort(self, ordering: ty.List[str]) -> ty.List[str]:
+    def _adjust_default_sort(self, ordering: list[str]) -> list[str]:
         """Append ordering field."""
         default_exists = any(
             field.strip("-") == DEFAULT_SORT_FIELD for field in ordering

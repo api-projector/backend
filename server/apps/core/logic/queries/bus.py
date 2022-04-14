@@ -23,7 +23,7 @@ class IQueryBus(abc.ABC):
         """Register query handler."""
 
     @abc.abstractmethod
-    def register_many(self, handlers: ty.List[QueryInfo]) -> None:
+    def register_many(self, handlers: list[QueryInfo]) -> None:
         """Register many query handlers."""
 
     @abc.abstractmethod
@@ -46,7 +46,7 @@ class QueryBus(IQueryBus):
         """Register command handler."""
         self._registry[query_type] = query_handler
 
-    def register_many(self, handlers: ty.List[QueryInfo]) -> None:
+    def register_many(self, handlers: list[QueryInfo]) -> None:
         """Register many query handlers."""
         for query, query_handler in handlers:
             self.register(query, query_handler)

@@ -1,6 +1,5 @@
 import io
 import logging
-import typing as ty
 
 import requests
 from django.core.exceptions import ValidationError
@@ -14,7 +13,7 @@ logger = logging.getLogger(__name__)
 class DownloadService(IDownloadService):
     """Service for download external files."""
 
-    def download(self, file_url: str) -> ty.Optional[io.BytesIO]:
+    def download(self, file_url: str) -> io.BytesIO | None:
         """Upload file from url."""
         if not file_url:
             return None

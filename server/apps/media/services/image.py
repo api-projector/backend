@@ -1,5 +1,4 @@
 import os
-from typing import Optional
 
 import injector
 from django.core.files import File
@@ -16,7 +15,7 @@ class ImageDownloadService(IImageDownloadService):
         """Initialize."""
         self._download_service = download_service
 
-    def download_image(self, image_link: str) -> Optional[Image]:
+    def download_image(self, image_link: str) -> Image | None:
         """Download image from url."""
         raw_data = self._download_service.download(image_link)
         if not raw_data:

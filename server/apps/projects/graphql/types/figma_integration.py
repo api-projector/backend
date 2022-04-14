@@ -1,5 +1,3 @@
-import typing as ty
-
 import graphene
 from graphql import ResolveInfo
 
@@ -17,6 +15,6 @@ class FigmaIntegrationType(graphene.ObjectType):
     def resolve_token(
         self: FigmaIntegration,
         info: ResolveInfo,  # noqa: WPS110
-    ) -> ty.Optional[str]:
+    ) -> str | None:
         """Resolve token integration."""
         return "*" if self.token else None

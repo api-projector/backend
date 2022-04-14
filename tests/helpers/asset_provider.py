@@ -1,7 +1,7 @@
 import hashlib
 import json
 import pathlib
-from typing import IO, Dict, List, Optional
+import typing as ty
 
 from tests.helpers.path_finder import find_path
 
@@ -14,14 +14,14 @@ class AssetsProvider:
     def __init__(self, fspath) -> None:
         """Init provider."""
         self._cwd: pathlib.Path = pathlib.Path(fspath)
-        self._opened_files: List[object] = []
+        self._opened_files: list[object] = []
 
     def open_file(
         self,
         filename: str,
         mode: str = "rb",
-        encoding: Optional[str] = None,
-    ) -> IO[str]:
+        encoding: str | None = None,
+    ) -> ty.IO[str]:
         """Open file and return a stream."""
         filepath = find_path(self._cwd, filename)
 
@@ -29,7 +29,7 @@ class AssetsProvider:
         self._opened_files.append(file_handler)
         return file_handler
 
-    def read_json(self, filename: str) -> Dict[str, object]:
+    def read_json(self, filename: str) -> dict[str, object]:
         """Read json file to dict."""
         return json.loads(
             self.open_file(

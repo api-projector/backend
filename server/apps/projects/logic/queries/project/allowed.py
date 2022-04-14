@@ -1,4 +1,3 @@
-import typing as ty
 from dataclasses import dataclass
 from enum import Enum
 
@@ -34,10 +33,10 @@ class ProjectFilter:
 class Query(queries.IQuery):
     """List allowed projects."""
 
-    user: ty.Optional[User]
-    queryset: ty.Optional[models.QuerySet] = None
-    sort: ty.Optional[ProjectSort] = None
-    filters: ty.Optional[ProjectFilter] = None
+    user: User | None
+    queryset: models.QuerySet | None = None
+    sort: ProjectSort | None = None
+    filters: ProjectFilter | None = None
     only_owned: bool = True
 
 

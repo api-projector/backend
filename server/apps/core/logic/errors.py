@@ -1,5 +1,4 @@
 import abc
-from typing import Optional
 
 from django.utils.translation import gettext_lazy as _
 
@@ -11,8 +10,8 @@ class BaseApplicationError(BaseError, metaclass=abc.ABCMeta):
 
     def __init__(
         self,
-        code: Optional[str] = None,
-        message: Optional[str] = None,
+        code: str | None = None,
+        message: str | None = None,
     ):
         """Initizaling."""
         if code:

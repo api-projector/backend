@@ -1,5 +1,3 @@
-from typing import Optional
-
 from django.http import HttpResponseBadRequest
 from django.utils import timezone
 from social_core.backends.oauth import BaseOAuth2
@@ -30,7 +28,7 @@ class OAuth2BackendMixin(BaseOAuth2):
 
         return token  # noqa: WPS331
 
-    def authenticate(self, *args, **kwargs) -> Optional[User]:
+    def authenticate(self, *args, **kwargs) -> User | None:
         """Return authenticated user."""
         if not self._backend_valid(**kwargs):
             return None
@@ -49,7 +47,7 @@ class OAuth2BackendMixin(BaseOAuth2):
         user.is_new = True
         return user
 
-    def find_user(self, response) -> Optional[User]:
+    def find_user(self, response) -> User | None:
         """Find user for response."""
         raise NotImplementedError()
 

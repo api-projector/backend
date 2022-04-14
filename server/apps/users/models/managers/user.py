@@ -1,5 +1,3 @@
-from typing import Optional
-
 from django.contrib.auth.base_user import BaseUserManager
 from django.utils.translation import gettext_lazy as _
 
@@ -10,7 +8,7 @@ class UserManager(BaseUserManager):
     def create_user(
         self,
         email: str,
-        password: Optional[str] = None,
+        password: str | None = None,
         **kwargs,
     ):
         """Create user."""

@@ -1,5 +1,3 @@
-from typing import Dict, Optional
-
 import graphene
 from graphql import ResolveInfo
 
@@ -29,7 +27,7 @@ class UpdateProjectMutation(BaseCommandMutation):
     @classmethod
     def build_command(
         cls,
-        root: Optional[object],
+        root: object | None,
         info: ResolveInfo,  # noqa: WPS110
         **kwargs,
     ) -> commands.ICommand:
@@ -43,10 +41,10 @@ class UpdateProjectMutation(BaseCommandMutation):
     @classmethod
     def get_response_data(
         cls,
-        root: Optional[object],
+        root: object | None,
         info: ResolveInfo,  # noqa: WPS110
         command_result: project_update.CommandResult,
-    ) -> Dict[str, object]:
+    ) -> dict[str, object]:
         """Prepare response data."""
         return {
             "project": command_result.project,

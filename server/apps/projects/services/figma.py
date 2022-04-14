@@ -1,5 +1,4 @@
 import re
-from typing import Dict
 from urllib.parse import parse_qs, unquote, urlsplit
 
 import requests
@@ -94,7 +93,7 @@ class FigmaService(IFigmaService):
         if not re.match(RE_FIGMA_URL, inbound_url):
             raise ValueError
 
-    def _get_response(self, image_params: ImageParams) -> Dict[str, object]:
+    def _get_response(self, image_params: ImageParams) -> dict[str, object]:
         """Get response from figma api."""
         return requests.get(
             API_URL_IMAGES.format(image_params.key),

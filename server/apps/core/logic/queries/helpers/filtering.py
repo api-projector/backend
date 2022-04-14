@@ -29,7 +29,7 @@ def filter_queryset(
     return filterset.qs
 
 
-def _prepare_filters(filters) -> ty.Dict[str, object]:
+def _prepare_filters(filters) -> dict[str, object]:
     return {
         data_key: data_value
         for data_key, data_value in dataclasses.asdict(filters).items()

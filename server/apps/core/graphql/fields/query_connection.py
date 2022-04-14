@@ -1,7 +1,6 @@
 import enum
 import typing as ty
 from functools import partial
-from typing import Optional, Type, get_args, get_type_hints
 
 import graphene
 from django.db import models
@@ -32,7 +31,7 @@ class InstancesQueryResult(ty.Protocol):
 class BaseQueryConnectionField(ConnectionField):  # noqa: WPS214
     """Base class for model collections."""
 
-    query: Type[queries.IQuery]
+    query: ty.Type[queries.IQuery]
     auth_required: bool = False
 
     def __init__(self, *args, **kwargs):
@@ -289,14 +288,14 @@ class BaseQueryConnectionField(ConnectionField):  # noqa: WPS214
 
         return self.model._default_manager  # noqa: WPS437
 
-    def _get_sort_argument(self) -> Optional[graphene.Argument]:
-        type_hints = get_type_hints(self.query)
+    def _get_sort_argument(self) -> graphene.Argument | None:
+        type_hints = ty.get_type_hints(self.query)
         sort_type = type_hints.get("sort")
         if not sort_type:
             return None
 
         if not isinstance(sort_type, enum.EnumMeta):
-            sort_type = get_args(sort_type)[0]
+            sort_type = ty.get_args(sort_type)[0]
 
         return graphene.Argument(
             graphene.List(

@@ -1,5 +1,3 @@
-from typing import Dict
-
 import pytest
 
 from apps.users.logic.commands.register.errors import UserAlreadyExistsError
@@ -73,7 +71,7 @@ def test_wrong_register(
     assert User.objects.count() == 1
 
 
-def _get_register_data() -> Dict[str, str]:
+def _get_register_data() -> dict[str, str]:
     """Create register data."""
     return {
         "email": EMAIL,

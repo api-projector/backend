@@ -23,7 +23,7 @@ class ICommandBus(abc.ABC):
         """Register command handler."""
 
     @abc.abstractmethod
-    def register_many(self, handlers: ty.List[CommandInfo]) -> None:
+    def register_many(self, handlers: list[CommandInfo]) -> None:
         """Register many command handlers."""
 
     @abc.abstractmethod
@@ -46,7 +46,7 @@ class CommandBus(ICommandBus):
         """Register command handler."""
         self._registry[command_type] = command_handler
 
-    def register_many(self, handlers: ty.List[CommandInfo]) -> None:
+    def register_many(self, handlers: list[CommandInfo]) -> None:
         """Register many command handlers."""
         for command, command_handler in handlers:
             self.register(command, command_handler)

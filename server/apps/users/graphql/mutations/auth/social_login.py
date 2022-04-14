@@ -1,5 +1,3 @@
-from typing import Dict, Optional
-
 import graphene
 from graphql import ResolveInfo
 
@@ -23,7 +21,7 @@ class SocialLoginMutation(BaseCommandMutation):
     @classmethod
     def build_command(
         cls,
-        root: Optional[object],
+        root: object | None,
         info: ResolveInfo,  # noqa: WPS110
         **kwargs,
     ) -> commands.ICommand:
@@ -36,10 +34,10 @@ class SocialLoginMutation(BaseCommandMutation):
     @classmethod
     def get_response_data(
         cls,
-        root: Optional[object],
+        root: object | None,
         info: ResolveInfo,  # noqa: WPS110
         command_result: social_login.CommandResult,
-    ) -> Dict[str, object]:
+    ) -> dict[str, object]:
         """Prepare response data."""
         return {
             "redirect_url": command_result.redirect_url,

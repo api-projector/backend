@@ -1,5 +1,3 @@
-import typing
-
 from django.core.files.storage import default_storage
 from django.db import models
 
@@ -39,7 +37,7 @@ class CleanupMediaFilesService(ICleanupMediaFilesService):
         self,
         instance: models.Model,
         related_model: models.Model,
-    ) -> typing.List[models.Field]:
+    ) -> list[models.Field]:
         return [
             field
             for field in instance._meta.get_fields()  # noqa: WPS437

@@ -1,5 +1,4 @@
 import json
-from typing import Dict, Optional
 
 from graphene_django.views import GraphQLView
 from graphene_file_upload.utils import place_files_in_operations
@@ -37,7 +36,7 @@ class ApiGraphQLView(GraphQLView):
 
         return super().parse_body(request)
 
-    def _parse_multipart(self, request) -> Optional[Dict[str, object]]:
+    def _parse_multipart(self, request) -> dict[str, object] | None:
         """Handle multipart request spec for multipart/form-data."""
         content_type = self.get_content_type(request)
         if content_type == "multipart/form-data":

@@ -1,5 +1,3 @@
-from typing import Optional
-
 from django.contrib.auth.models import AnonymousUser
 from graphene.test import Client
 from jnt_django_toolbox.helpers.objects import dict2obj
@@ -16,14 +14,14 @@ class GraphQLClient(Client):
         """Initializing."""
         super().__init__(schema, *args, **kwargs)
 
-        self._user: Optional[User] = None
-        self._token: Optional[Token] = None
+        self._user: User | None = None
+        self._token: Token | None = None
         self._token_service = TokenService()
 
     def set_user(  # noqa: WPS615
         self,
         user: User,
-        token: Optional[Token] = None,
+        token: Token | None = None,
     ) -> None:
         """Set user for auth requests."""
         self._user = user

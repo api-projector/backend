@@ -1,5 +1,3 @@
-from typing import Optional
-
 from django.contrib.auth.models import AnonymousUser
 from django.http import HttpRequest
 from rest_framework.test import APIRequestFactory as DjangoAPIRequestFactory
@@ -15,14 +13,14 @@ class ApiRequestFactory(DjangoAPIRequestFactory):
         """Initializing."""
         super().__init__(*args, **kwargs)
 
-        self._user: Optional[User] = None
-        self._token: Optional[Token] = None
+        self._user: User | None = None
+        self._token: Token | None = None
         self._token_service = TokenService()
 
     def set_user(  # noqa: WPS615
         self,
         user: User,
-        token: Optional[Token] = None,
+        token: Token | None = None,
     ) -> None:
         """Set user for auth requests."""
         self._user = user

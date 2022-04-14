@@ -1,6 +1,5 @@
 import argparse
 import json
-import typing as ty
 
 import yaml
 from django.core.management import BaseCommand
@@ -65,7 +64,7 @@ class Command(BaseCommand):
             "Spec: {0}\nImport completed.".format(str(spec_response)),
         )
 
-    def _get_path_docs(self, path, path_meta) -> ty.List[Document]:
+    def _get_path_docs(self, path, path_meta) -> list[Document]:
         documents = []
         allowed_methods = ["get", "post", "patch", "delete", "put"]
         for method_name, method_body in path_meta.items():
@@ -88,7 +87,7 @@ class Command(BaseCommand):
         open_api_json,
         couch_db_service,
         db_name,
-    ) -> ty.List[ty.Dict[str, str]]:
+    ) -> list[dict[str, str]]:
         self.stdout.write("Adding paths to db...")
         path_docs = []
         for api_path, api_path_meta in open_api_json["paths"].items():
@@ -106,7 +105,7 @@ class Command(BaseCommand):
         open_api_json,
         couch_db_service,
         db_name,
-    ) -> ty.List[ty.Dict[str, str]]:
+    ) -> list[dict[str, str]]:
         self.stdout.write("Adding schemas to db...")
         schemas_docs = []
         schemas_items = open_api_json["components"]["schemas"].items()
@@ -127,5 +126,5 @@ class Command(BaseCommand):
             yaml=yaml.dump(sw_schema_meta),
         )
 
-    def _get_open_api_json(self, options) -> ty.Dict[str, object]:
+    def _get_open_api_json(self, options) -> dict[str, object]:
         return json.loads(options["source_file"].read())
