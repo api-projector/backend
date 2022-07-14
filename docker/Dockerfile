@@ -1,4 +1,4 @@
-FROM python:3.10.3-slim as base
+FROM python:3.11.0b3-slim as base
 
 ENV C_FORCE_ROOT=true \
     # python
