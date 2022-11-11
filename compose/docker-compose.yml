@@ -1,0 +1,25 @@
+version: '2.4'
+
+services:
+  #  postgres:
+  #    image: postgres:15.1
+  #    shm_size: 2gb
+  #    ports:
+  #      - "5432:5432"
+  #    env_file:
+  #      - config.env
+  #    volumes:
+  #      - pg-data:/var/lib/postgresql/data
+  couchdb:
+    image: couchdb:3.0.1
+    ports:
+      - 5984:5984
+    environment:
+      COUCHDB_USER: admin
+      COUCHDB_PASSWORD: admin
+    volumes:
+      - ./couchdb/data:/opt/couchdb/data
+      - ./couchdb/config:/opt/couchdb/etc/local.d
+
+volumes:
+  pg-data:

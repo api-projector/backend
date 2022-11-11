@@ -1,4 +1,4 @@
-FROM python:3.10.3-slim as base
+FROM python:3.10.8-slim as base
 
 ENV C_FORCE_ROOT=true \
     # python
@@ -44,12 +44,8 @@ FROM base as production
 
 ARG APP_VERSION
 
-RUN addgroup --system --gid 10001 app \
-    && adduser --system --uid 10001 \
-        --shell /sbin/false \
-        --disabled-login --ingroup app \
-        --no-create-home --home /app  \
-        app
+RUN groupadd --system --gid 10001 app \
+    && useradd --system --uid 10001 --no-log-init -g app app
 
 COPY . .
 

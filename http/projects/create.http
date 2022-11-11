@@ -1,0 +1,21 @@
+GRAPHQL {{address}}/api/graphql
+Authorization: {{authorization}}
+
+mutation createProject($input: CreateProjectInput!) {
+  response: createProject(input: $input) {
+    project {
+      id
+      title
+      description
+      figmaIntegration {
+        token
+      }
+    }
+  }
+}
+
+{
+  "input": {
+    "title": "my project"
+  }
+}
