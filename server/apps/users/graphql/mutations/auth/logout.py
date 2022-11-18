@@ -2,7 +2,6 @@ import graphene
 from graphql import ResolveInfo
 
 from apps.core.graphql.mutations import BaseCommandMutation
-from apps.core.logic import commands
 from apps.users.logic.commands.auth import logout
 
 
@@ -20,7 +19,7 @@ class LogoutMutation(BaseCommandMutation):
         root: object | None,
         info: ResolveInfo,  # noqa: WPS110
         **kwargs,
-    ) -> commands.ICommand:
+    ) -> logout.Command:
         """Create command."""
         return logout.Command(
             token=info.context.auth,  # type: ignore

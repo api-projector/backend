@@ -34,9 +34,10 @@ fluent-logger = "*"
 celery = "*"
 pillow = "*"
 types-PyYAML = "*"
-social-auth-core = "^4.1.0"
-social-auth-app-django = "^5.0.0"
-PyYAML = "^6.0"
+social-auth-core = "*"
+social-auth-app-django = "*"
+PyYAML = "*"
+pydantic = "*"
 
 [tool.poetry.dev-dependencies]
 mypy = "*"

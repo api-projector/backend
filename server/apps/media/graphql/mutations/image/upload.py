@@ -3,9 +3,8 @@ from graphene_file_upload.scalars import Upload
 from graphql import ResolveInfo
 
 from apps.core.graphql.mutations import BaseCommandMutation
-from apps.core.logic import commands
 from apps.media.graphql.types import ImageType
-from apps.media.logic.commands.image import upload_image
+from apps.media.logic.commands.images import upload_image
 
 
 class UploadImageInput(graphene.InputObjectType):
@@ -36,7 +35,7 @@ class UploadImageMutation(BaseCommandMutation):
         root: object | None,
         info: ResolveInfo,  # noqa: WPS110
         **kwargs,
-    ) -> commands.ICommand:
+    ) -> upload_image.Command:
         """Build command."""
         return upload_image.Command(
             user=info.context.user,  # type: ignore

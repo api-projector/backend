@@ -2,7 +2,6 @@ import graphene
 from graphql import ResolveInfo
 
 from apps.core.graphql.mutations import BaseCommandMutation
-from apps.core.logic import commands
 from apps.users.logic.commands.auth import social_login
 from apps.users.logic.interfaces.social_login import SystemBackend
 
@@ -24,7 +23,7 @@ class SocialLoginMutation(BaseCommandMutation):
         root: object | None,
         info: ResolveInfo,  # noqa: WPS110
         **kwargs,
-    ) -> commands.ICommand:
+    ) -> social_login.Command:
         """Create command."""
         return social_login.Command(
             request=info.context,

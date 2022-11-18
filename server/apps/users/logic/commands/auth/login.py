@@ -5,7 +5,7 @@ import injector
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
-from apps.core.logic import commands
+from apps.core.logic import messages
 from apps.core.logic.errors import BaseApplicationError
 from apps.core.services.errors import BaseInfrastructureError
 from apps.users.logic.interfaces import IAuthenticationService, ITokenService
@@ -13,18 +13,17 @@ from apps.users.models import Token, User
 
 
 @dataclass(frozen=True)
-class Command(commands.ICommand):
-    """Login command."""
-
-    email: str
-    password: str
-
-
-@dataclass(frozen=True)
 class CommandResult:
     """Login command result."""
 
     token: Token
+
+
+class Command(messages.BaseCommand[CommandResult]):
+    """Login command."""
+
+    email: str
+    password: str
 
 
 class LoginError(BaseApplicationError, metaclass=abc.ABCMeta):
@@ -38,7 +37,7 @@ class EmptyCredentialsError(LoginError):
     message = _("MSG__MUST_INCLUDE_EMAIL_AND_PASSWORD")
 
 
-class CommandHandler(commands.ICommandHandler[Command, CommandResult]):
+class CommandHandler(messages.BaseCommandHandler[Command]):
     """Login command handler."""
 
     @injector.inject
@@ -51,7 +50,7 @@ class CommandHandler(commands.ICommandHandler[Command, CommandResult]):
         self._auth_service = auth_service
         self._token_service = token_service
 
-    def execute(self, command: Command) -> CommandResult:
+    def handle(self, command: Command) -> CommandResult:
         """Handle command."""
         self._validate_command(command)
 

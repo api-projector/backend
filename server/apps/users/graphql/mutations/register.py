@@ -2,7 +2,6 @@ import graphene
 from graphql import ResolveInfo
 
 from apps.core.graphql.mutations import BaseCommandMutation
-from apps.core.logic import commands
 from apps.users.graphql.types import TokenType
 from apps.users.logic.commands import register
 
@@ -30,7 +29,7 @@ class RegisterMutation(BaseCommandMutation):
         root: object | None,
         info: ResolveInfo,  # noqa: WPS110
         **kwargs,
-    ) -> commands.ICommand:
+    ) -> register.Command:
         """Build command."""
         return register.Command(**kwargs["input"])
 

@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from rest_framework import serializers
 
-from apps.core.utils.objects import Empty, empty
+from apps.core.helpers.objects import Empty, empty
 from apps.media.models import Image
 from apps.projects.logic.commands.project.dto import (
     FigmaIntegrationDto,

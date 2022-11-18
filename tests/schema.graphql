@@ -8,6 +8,7 @@ input CreateProjectInput {
   description: String
   figmaIntegration: UpdateFigmaIntegrationType
   emblem: ID
+  fromSwagger: ProjectFromSwaggerType
 }
 
 type CreateProjectMutation {
@@ -122,6 +123,11 @@ type ProjectAsset {
   fileUrl: String
 }
 
+input ProjectFromSwaggerType {
+  schemeUrl: String
+  scheme: Upload
+}
+
 enum ProjectSort {
   CREATED_AT_ASC
   CREATED_AT_DESC
@@ -194,6 +200,7 @@ input UpdateProjectInput {
   description: String
   figmaIntegration: UpdateFigmaIntegrationType
   emblem: ID
+  fromSwagger: ProjectFromSwaggerType
 }
 
 type UpdateProjectMutation {

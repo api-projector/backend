@@ -18,7 +18,7 @@ from jnt_django_graphene_toolbox.errors import GraphQLPermissionDenied
 from jnt_django_graphene_toolbox.types import BaseModelObjectType
 from promise import Promise
 
-from apps.core.logic import queries
+from apps.core.logic import messages
 
 
 @ty.runtime_checkable
@@ -31,7 +31,7 @@ class InstancesQueryResult(ty.Protocol):
 class BaseQueryConnectionField(ConnectionField):  # noqa: WPS214
     """Base class for model collections."""
 
-    query: ty.Type[queries.IQuery]
+    query: ty.Type[messages.BaseQuery]
     auth_required: bool = False
 
     def __init__(self, *args, **kwargs):
@@ -113,7 +113,7 @@ class BaseQueryConnectionField(ConnectionField):  # noqa: WPS214
             info,
         )
 
-        return queries.execute_query(cls.build_query(queryset, info, args))
+        return messages.dispatch_message(cls.build_query(queryset, info, args))
 
     @classmethod
     def build_query(
@@ -121,7 +121,7 @@ class BaseQueryConnectionField(ConnectionField):  # noqa: WPS214
         queryset: models.QuerySet,
         info: ResolveInfo,  # noqa: WPS110
         args,
-    ) -> queries.IQuery:
+    ) -> messages.BaseQuery:
         """Get params for creating query."""
         raise NotImplementedError()
 

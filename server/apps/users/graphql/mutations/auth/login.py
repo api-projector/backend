@@ -2,7 +2,6 @@ import graphene
 from graphql import ResolveInfo
 
 from apps.core.graphql.mutations import BaseCommandMutation
-from apps.core.logic import commands
 from apps.users.graphql.types import TokenType
 from apps.users.logic.commands.auth import login
 
@@ -28,7 +27,7 @@ class LoginMutation(BaseCommandMutation):
         root: object | None,
         info: ResolveInfo,  # noqa: WPS110
         **kwargs,
-    ) -> commands.ICommand:
+    ) -> login.Command:
         """Create command."""
         return login.Command(**kwargs["input"])
 

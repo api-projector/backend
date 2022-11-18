@@ -16,6 +16,9 @@ mutation createProject($input: CreateProjectInput!) {
 
 {
   "input": {
-    "title": "my project"
+    "title": "my project",
+    "fromSwagger": {
+      "schemeUrl": ""
+    }
   }
 }

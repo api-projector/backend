@@ -2,7 +2,6 @@ import graphene
 from graphql import ResolveInfo
 
 from apps.core.graphql.mutations import BaseCommandMutation
-from apps.core.logic import commands
 from apps.projects.logic.commands.project import delete as project_delete
 
 
@@ -23,7 +22,7 @@ class DeleteProjectMutation(BaseCommandMutation):
         root: object | None,
         info: ResolveInfo,  # noqa: WPS110
         **kwargs,
-    ) -> commands.ICommand:
+    ) -> project_delete.Command:
         """Build command."""
         return project_delete.Command(
             user=info.context.user,  # type: ignore

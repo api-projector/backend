@@ -65,7 +65,7 @@ def test_not_found(user, ghl_auth_mock_info, delete_project_mutation, project):
     response = delete_project_mutation(
         root=None,
         info=ghl_auth_mock_info,
-        project=uuid.uuid4(),
+        project=str(uuid.uuid4()),
     )
 
     assert isinstance(response, GraphQLInputError)

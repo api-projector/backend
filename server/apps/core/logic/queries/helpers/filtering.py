@@ -4,8 +4,8 @@ import typing as ty
 import django_filters
 from django.db import models
 
+from apps.core.helpers.objects import empty
 from apps.core.logic.errors import InvalidInputApplicationError
-from apps.core.utils.objects import empty
 
 
 def filter_queryset(

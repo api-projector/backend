@@ -3,7 +3,7 @@ from django.db import models
 from graphql import ResolveInfo
 from jnt_django_graphene_toolbox import types
 
-from apps.core.logic import queries
+from apps.core.logic import messages
 from apps.media.graphql.types import ImageType
 from apps.projects.graphql.types import FigmaIntegrationType
 from apps.projects.logic.queries.project import allowed
@@ -33,14 +33,14 @@ class ProjectType(types.BaseModelObjectType):
         info: ResolveInfo,  # noqa: WPS110
     ) -> models.QuerySet:
         """Get queryset."""
-        return queries.execute_query(
+        return messages.dispatch_message(
             allowed.Query(
                 user=(
                     None
                     if info.context.user.is_anonymous  # type: ignore
                     else info.context.user  # type: ignore
                 ),
-                queryset=queryset,
+                queryset=queryset.all(),
                 only_owned=False,
             ),
         ).instances

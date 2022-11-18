@@ -5,25 +5,10 @@ from enum import Enum
 import injector
 import yaml
 
-from apps.core.logic import queries
+from apps.core.logic import messages
 from apps.core.logic.errors import ObjectNotFoundError
 from apps.projects.logic.services.projects.openapi import ProjectOpenApiService
 from apps.projects.models import Project
-
-
-class SchemeFormat(Enum):
-    """Supported swagger formats."""
-
-    JSON = "json"  # noqa: WPS115
-    YAML = "yaml"  # noqa: WPS115
-
-
-@dataclass(frozen=True)
-class Query(queries.IQuery):
-    """Project swagger."""
-
-    project: str
-    output_format: SchemeFormat = SchemeFormat.JSON
 
 
 @dataclass(frozen=True)
@@ -33,7 +18,21 @@ class QueryResult:
     scheme: str
 
 
-class QueryHandler(queries.IQueryHandler[Query, QueryResult]):
+class SchemeFormat(Enum):
+    """Supported swagger formats."""
+
+    JSON = "json"  # noqa: WPS115
+    YAML = "yaml"  # noqa: WPS115
+
+
+class Query(messages.BaseQuery[QueryResult]):
+    """Project swagger."""
+
+    project: str
+    output_format: SchemeFormat = SchemeFormat.JSON
+
+
+class QueryHandler(messages.BaseQueryHandler[Query]):
     """Provides project swagger."""
 
     @injector.inject
@@ -41,7 +40,7 @@ class QueryHandler(queries.IQueryHandler[Query, QueryResult]):
         """Initialize."""
         self._project_swagger_service = project_swagger_service
 
-    def ask(self, query: Query) -> QueryResult:
+    def handle(self, query: Query) -> QueryResult:
         """Handler."""
         project = self._get_project(query)
         scheme = self._project_swagger_service.get_schema(project)

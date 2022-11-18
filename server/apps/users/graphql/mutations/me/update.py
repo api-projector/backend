@@ -2,7 +2,6 @@ import graphene
 from graphql import ResolveInfo
 
 from apps.core.graphql.mutations import BaseCommandMutation
-from apps.core.logic import commands
 from apps.users.graphql.types import UserType
 from apps.users.logic.commands.me import update
 
@@ -31,7 +30,7 @@ class UpdateMeMutation(BaseCommandMutation):
         root: object | None,
         info: ResolveInfo,  # noqa: WPS110
         **kwargs,
-    ) -> commands.ICommand:
+    ) -> update.Command:
         """Create command."""
         return update.Command(
             user=info.context.user,  # type: ignore

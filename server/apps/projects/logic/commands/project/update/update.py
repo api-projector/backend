@@ -4,21 +4,12 @@ from typing import Type
 from django.db import models
 from rest_framework import exceptions
 
-from apps.core.logic import commands
+from apps.core.helpers.objects import empty
+from apps.core.logic import messages
 from apps.core.logic.helpers.validation import validate_input
-from apps.core.utils.objects import empty
 from apps.projects.logic.commands.project.update import dto
 from apps.projects.models import FigmaIntegration, Project
 from apps.users.models import User
-
-
-@dataclass(frozen=True)
-class Command(commands.ICommand):
-    """Update project command."""
-
-    data: dto.ProjectDto  # noqa: WPS110
-    project: int
-    user: User
 
 
 @dataclass(frozen=True)
@@ -28,10 +19,19 @@ class CommandResult:
     project: Project
 
 
-class CommandHandler(commands.ICommandHandler[Command, CommandResult]):
+@dataclass(frozen=True)
+class Command(messages.BaseCommand[CommandResult]):
+    """Update project command."""
+
+    data: dto.ProjectDto  # noqa: WPS110
+    project: int
+    user: User
+
+
+class CommandHandler(messages.BaseCommandHandler[Command]):
     """Updating projects."""
 
-    def execute(self, command: Command) -> CommandResult:
+    def handle(self, command: Command) -> CommandResult:
         """Main logic here."""
         project = Project.objects.filter(pk=command.project).first()
         if not project:

@@ -6,12 +6,12 @@ from jnt_django_graphene_toolbox.errors import (
 from jnt_django_graphene_toolbox.mutations import BaseMutation
 
 from apps.core.graphql.errors import GenericGraphQLError
-from apps.core.logic import commands
 from apps.core.logic.errors import (
     AccessDeniedApplicationError,
     BaseApplicationError,
     InvalidInputApplicationError,
 )
+from apps.core.tasks import messages
 
 
 class BaseCommandMutation(BaseMutation):
@@ -29,7 +29,7 @@ class BaseCommandMutation(BaseMutation):
     ):
         """Overrideable mutation operation."""
         try:
-            command_result = commands.execute_command(
+            command_result = messages.dispatch_message(
                 cls.build_command(root, info, **kwargs),
             )
         except InvalidInputApplicationError as err:

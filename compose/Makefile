@@ -1,7 +1,13 @@
 COMPOSE_PROJECT=api-projector
 
-compose-up:
+up:
 	@docker compose -p ${COMPOSE_PROJECT} up --remove-orphans
+
+down:
+	@docker compose -p ${COMPOSE_PROJECT} down
+
+stop:
+	@docker compose -p ${COMPOSE_PROJECT} stop
 
 download-dump:
 	@rsync -L -av --progress jworker02:/mnt/volumes/pg/backup/api_projector/latest.dump dumps/

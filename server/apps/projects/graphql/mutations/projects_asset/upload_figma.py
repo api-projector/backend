@@ -2,7 +2,6 @@ import graphene
 from graphql import ResolveInfo
 
 from apps.core.graphql.mutations import BaseCommandMutation
-from apps.core.logic import commands
 from apps.projects.graphql.types import ProjectAssetType
 from apps.projects.logic.commands.project_asset import (
     upload_figma as project_asset_create,
@@ -36,7 +35,7 @@ class UploadFigmaProjectAssetMutation(BaseCommandMutation):
         root: object | None,
         info: ResolveInfo,  # noqa: WPS110
         **kwargs,
-    ) -> commands.ICommand:
+    ) -> project_asset_create.Command:
         """Build command."""
         return project_asset_create.Command(
             user=info.context.user,  # type: ignore

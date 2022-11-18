@@ -3,6 +3,8 @@ from django.conf import settings
 from social_core.backends.google import GoogleOAuth2
 
 from apps.users.logic.interfaces.social_login import SystemBackend
+from tests.helpers.ghl_client import GraphQLClient
+from tests.helpers.gql_raw_query_provider import GhlRawQueryProvider
 
 
 @pytest.fixture(scope="module", autouse=True)
@@ -13,19 +15,13 @@ def _google_login() -> None:
     settings.SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = "test_google_secret"
 
 
-def test_query(ghl_client, ghl_raw):
+def test_query(
+    ghl_client: GraphQLClient,
+    ghl_raw: GhlRawQueryProvider,
+) -> None:
     """Test raw query."""
-    context = {
-        "session": {},
-        "GET": {},
-        "POST": {},
-        "build_absolute_uri": lambda mock: mock,
-        "method": "",
-    }
-
     response = ghl_client.execute(
         ghl_raw("social_login"),
-        extra_context=context,
         variable_values={
             "system": SystemBackend.GOOGLE.name,
         },

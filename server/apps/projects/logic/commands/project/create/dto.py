@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from rest_framework import serializers
 
-from apps.core.utils.objects import Empty, empty
+from apps.core.helpers.objects import Empty, empty
 from apps.media.models import Image
 from apps.projects.logic.commands.project.dto import (
     FigmaIntegrationDto,
@@ -31,5 +31,5 @@ class ProjectDto:
 
     title: str | Empty = empty
     description: str = ""
-    figma_integration: str | FigmaIntegrationDto = empty
-    emblem: int = empty
+    figma_integration: FigmaIntegrationDto | Empty | None = empty
+    emblem: int | Empty | None = empty

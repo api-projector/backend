@@ -2,10 +2,17 @@ from dataclasses import dataclass
 
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
-from apps.core.logic import commands
+from apps.core.logic import messages
 from apps.core.services.image.cropper import CroppingParameters, crop_image
 from apps.media.models import Image
 from apps.users.models import User
+
+
+@dataclass(frozen=True)
+class CommandResult:
+    """Upload image command result."""
+
+    image: Image
 
 
 @dataclass(frozen=True)
@@ -20,25 +27,17 @@ class UploadImageDto:
     scale: float
 
 
-@dataclass(frozen=True)
-class Command(commands.ICommand):
+class Command(messages.BaseCommand[CommandResult]):
     """Upload image command."""
 
     user: User
     image_data: UploadImageDto
 
 
-@dataclass(frozen=True)
-class CommandResult:
-    """Upload image command result."""
-
-    image: Image
-
-
-class CommandHandler(commands.ICommandHandler[Command, CommandResult]):
+class CommandHandler(messages.BaseCommandHandler[Command]):
     """Uploading image."""
 
-    def execute(self, command: Command) -> CommandResult:
+    def handle(self, command: Command) -> CommandResult:
         """Main logic here."""
         image_data = command.image_data
 

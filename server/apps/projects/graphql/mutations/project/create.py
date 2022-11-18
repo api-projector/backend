@@ -2,10 +2,10 @@ import graphene
 from graphql import ResolveInfo
 
 from apps.core.graphql.mutations import BaseCommandMutation
-from apps.core.logic import commands
 from apps.projects.graphql.mutations.project.inputs import BaseProjectInput
 from apps.projects.graphql.types.project import ProjectType
 from apps.projects.logic.commands.project import create as project_create
+from apps.projects.logic.commands.project.create.create import SwaggerSource
 
 
 class CreateProjectInput(BaseProjectInput):
@@ -31,11 +31,23 @@ class CreateProjectMutation(BaseCommandMutation):
         root: object | None,
         info: ResolveInfo,  # noqa: WPS110
         **kwargs,
-    ) -> commands.ICommand:
+    ) -> project_create.Command:
         """Build command."""
+        project_data = kwargs.get("input")
+
+        from_swagger = (
+            project_data.pop("from_swagger", None) if project_data else None
+        )
+        swagger_source = None
+        if from_swagger:
+            swagger_source = SwaggerSource(
+                scheme_url=from_swagger["scheme_url"],
+            )
+
         return project_create.Command(
             user=info.context.user,  # type: ignore
-            data=project_create.ProjectDto(**kwargs.get("input")),
+            data=project_create.ProjectDto(**project_data),
+            swagger_source=swagger_source,
         )
 
     @classmethod

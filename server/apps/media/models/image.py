@@ -3,10 +3,10 @@ from datetime import datetime
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from apps.core.helpers.media import get_absolute_path
+from apps.core.helpers.objects import get_string_hash
 from apps.core.models import BaseModel
 from apps.core.models.mixins import Timestamps
-from apps.core.utils.media import get_absolute_path
-from apps.core.utils.objects import get_string_hash
 
 
 def get_upload_path(instance, filename) -> str:
