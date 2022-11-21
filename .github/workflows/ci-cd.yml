@@ -16,19 +16,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - uses: hadolint/hadolint-action@v1.6.0
+      - name: Running hadolint
+        uses: hadolint/hadolint-action@v1.6.0
         with:
           dockerfile: docker/Dockerfile
 
-      - name: Running YAMLlint
+      - name: Running yaml lint
         uses: "docker://pipelinecomponents/yamllint:0.21.1"
         with:
           args: yamllint .
 
-      - name: Running YAMLlint
+      - name: Running shellcheck
         uses: "docker://pipelinecomponents/shellcheck:0.11.4"
         with:
-          args: find . -name \*.sh -type f -print0 | xargs -0 -P $(nproc) -r -n1 shellcheck
+          args: bash -c "find . -name \*.sh -type f -print0 | xargs -0 -P $(nproc) -r -n1 shellcheck"
 
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/python@master
