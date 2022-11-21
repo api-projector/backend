@@ -1,4 +1,6 @@
-install-deps:
+# -- poetry --
+
+poetry-install:
 	@poetry install --remove-untracked
 
 lint:
@@ -14,7 +16,7 @@ lint:
         server
 	poetry check
 	pip check
-	#safety check --bare --full-report
+	#safety check --bare
 	polint -i location,unsorted locale
 	dennis-cmd lint --errorsonly locale
 

@@ -1,8 +1,8 @@
+import string
 import uuid
 
 from django.conf import settings
 from django.db import models
-from django.utils.baseconv import BASE64_ALPHABET
 from django.utils.crypto import get_random_string
 from django.utils.translation import gettext_lazy as _
 
@@ -10,14 +10,16 @@ from apps.core.models import BaseModel
 from apps.core.models.mixins import Timestamps
 from apps.media.models.fields import ImageField
 
+_ID_ALPHABET = string.ascii_uppercase + string.ascii_lowercase + string.digits
+
 
 def get_new_id():
     """Generate new Id for project."""
     old_ids = list(Project.objects.values_list("id", flat=True))
-    uid = get_random_string(8, BASE64_ALPHABET)
+    uid = get_random_string(8, _ID_ALPHABET)
 
     while uid in old_ids:
-        uid = get_random_string(8, BASE64_ALPHABET)
+        uid = get_random_string(8, _ID_ALPHABET)
 
     return uid
 

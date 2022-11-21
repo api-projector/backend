@@ -2,7 +2,7 @@
 name = "api_projector"
 version = "0.1.0"
 description = ""
-authors = ["Junte Ltd"]
+authors = ["junte ltd"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -60,6 +60,9 @@ wemake-python-styleguide = "*"
 black = "*"
 types-requests = "*"
 types-python-dateutil = "*"
+
+[tool.poetry.group.dev.dependencies]
+py = "^1.11.0"
 
 [tool.black]
 line-length = 79
