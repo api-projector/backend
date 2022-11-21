@@ -1,5 +1,5 @@
 import graphene
-from graphql import ResolveInfo
+from graphql import GraphQLResolveInfo
 
 from apps.core.graphql.mutations import BaseCommandMutation
 from apps.users.graphql.types import TokenType
@@ -27,7 +27,7 @@ class RegisterMutation(BaseCommandMutation):
     def build_command(
         cls,
         root: object | None,
-        info: ResolveInfo,  # noqa: WPS110
+        info: GraphQLResolveInfo,  # noqa: WPS110
         **kwargs,
     ) -> register.Command:
         """Build command."""
@@ -37,7 +37,7 @@ class RegisterMutation(BaseCommandMutation):
     def get_response_data(
         cls,
         root: object | None,
-        info: ResolveInfo,  # noqa: WPS110
+        info: GraphQLResolveInfo,  # noqa: WPS110
         command_result: register.CommandResult,
     ) -> dict[str, object]:
         """Prepare response data."""

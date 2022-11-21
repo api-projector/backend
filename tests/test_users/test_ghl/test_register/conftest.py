@@ -8,4 +8,4 @@ def register_mutation(ghl_mutations):
 
     :param ghl_mutations:
     """
-    return ghl_mutations.fields["register"].resolver
+    return ghl_mutations.fields["register"].resolve

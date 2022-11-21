@@ -10,15 +10,25 @@ env:
   DOCKER_IMAGE_TEST_PATH: /tmp/test_image.tar
 
 jobs:
-  pre_build:
+  preflight:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - uses: hadolint/hadolint-action@v1.6.0
         with:
           dockerfile: docker/Dockerfile
+
+      - name: Running YAMLlint
+        uses: "docker://pipelinecomponents/yamllint:0.21.1"
+        with:
+          args: yamllint .
+
+      - name: Running YAMLlint
+        uses: "docker://pipelinecomponents/shellcheck:0.11.4"
+        with:
+          args: find . -name \*.sh -type f -print0 xargs -0 -P $(nproc) -r -n1 shellcheck
 
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/python@master
@@ -34,9 +44,9 @@ jobs:
           sarif_file: snyk.sarif
 
 
-  build_test_image:
+  build-test-image:
     runs-on: ubuntu-20.04
-    needs: pre_build
+    needs: preflight
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -72,7 +82,7 @@ jobs:
 
   lint:
     runs-on: ubuntu-20.04
-    needs: build_test_image
+    needs: build-test-image
     steps:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -92,10 +102,10 @@ jobs:
 
   test:
     runs-on: ubuntu-20.04
-    needs: build_test_image
+    needs: build-test-image
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1

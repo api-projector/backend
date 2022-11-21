@@ -1,6 +1,6 @@
 import graphene
 from django.db import models
-from graphql import ResolveInfo
+from graphql import GraphQLResolveInfo
 from jnt_django_graphene_toolbox import types
 
 from apps.core.logic import messages
@@ -30,7 +30,7 @@ class ProjectType(types.BaseModelObjectType):
     def get_queryset(
         cls,
         queryset: models.QuerySet,
-        info: ResolveInfo,  # noqa: WPS110
+        info: GraphQLResolveInfo,  # noqa: WPS110
     ) -> models.QuerySet:
         """Get queryset."""
         return messages.dispatch_message(

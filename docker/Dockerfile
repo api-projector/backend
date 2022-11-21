@@ -9,12 +9,12 @@ ENV C_FORCE_ROOT=true \
     PIP_NO_CACHE_DIR=off \
     PIP_DISABLE_PIP_VERSION_CHECK=on \
     PIP_DEFAULT_TIMEOUT=100 \
-    # poetry:
-    POETRY_VERSION=1.1.13 \
+    # poetry
+    POETRY_VERSION=1.2.2 \
     POETRY_NO_INTERACTION=1 \
     POETRY_VIRTUALENVS_CREATE=false \
     POETRY_CACHE_DIR='/var/cache/pypoetry' \
-    PATH="$PATH:/root/.poetry/bin"
+    PATH="$PATH:/root/.local/bin:$PATH"
 
 WORKDIR /app
 
@@ -30,7 +30,7 @@ RUN apt-get update \
               nginx=1.* \
               make=4.* \
               curl=7.* \
-    && curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/${POETRY_VERSION}/get-poetry.py | python \
+    && curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/${POETRY_VERSION}/install-poetry.py | python - \
     && poetry install --no-dev --no-interaction --no-ansi \
     && apt-get remove --purge -y gcc binutils \
     && apt-get autoremove -y \

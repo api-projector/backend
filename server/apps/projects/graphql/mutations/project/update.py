@@ -1,5 +1,5 @@
 import graphene
-from graphql import ResolveInfo
+from graphql import GraphQLResolveInfo
 
 from apps.core.graphql.mutations import BaseCommandMutation
 from apps.projects.graphql.mutations.project.inputs import BaseProjectInput
@@ -27,7 +27,7 @@ class UpdateProjectMutation(BaseCommandMutation):
     def build_command(
         cls,
         root: object | None,
-        info: ResolveInfo,  # noqa: WPS110
+        info: GraphQLResolveInfo,  # noqa: WPS110
         **kwargs,
     ) -> project_update.Command:
         """Build command."""
@@ -41,7 +41,7 @@ class UpdateProjectMutation(BaseCommandMutation):
     def get_response_data(
         cls,
         root: object | None,
-        info: ResolveInfo,  # noqa: WPS110
+        info: GraphQLResolveInfo,  # noqa: WPS110
         command_result: project_update.CommandResult,
     ) -> dict[str, object]:
         """Prepare response data."""

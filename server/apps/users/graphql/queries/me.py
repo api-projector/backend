@@ -1,5 +1,5 @@
 import graphene
-from graphql import ResolveInfo
+from graphql import GraphQLResolveInfo
 from jnt_django_graphene_toolbox.errors import GraphQLPermissionDenied
 
 from apps.users.graphql.types import MeUserType
@@ -10,7 +10,7 @@ class MeQueries(graphene.ObjectType):
 
     me = graphene.Field(MeUserType)
 
-    def resolve_me(self, info: ResolveInfo):  # noqa: WPS110
+    def resolve_me(self, info: GraphQLResolveInfo):  # noqa: WPS110
         """Resolves current context user."""
         if not info.context.user.is_authenticated:  # type: ignore
             return GraphQLPermissionDenied()

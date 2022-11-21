@@ -1,6 +1,5 @@
 import graphene
 from graphene_django.debug import DjangoDebug
-from jnt_django_graphene_toolbox import scheme
 
 from apps.core.graphql.views import ApiGraphQLView, PlaygroundGraphQLView
 from apps.media.graphql.mutations import MediaMutations
@@ -29,7 +28,7 @@ class Mutation(  # noqa: WPS215
     """Graphql mutations."""
 
 
-schema = scheme.Schema(
+schema = graphene.Schema(
     query=Query,
     mutation=Mutation,
 )

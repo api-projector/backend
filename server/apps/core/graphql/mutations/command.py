@@ -1,4 +1,4 @@
-from graphql import ResolveInfo
+from graphql import GraphQLResolveInfo
 from jnt_django_graphene_toolbox.errors import (
     GraphQLInputError,
     GraphQLPermissionDenied,
@@ -24,7 +24,7 @@ class BaseCommandMutation(BaseMutation):
     def mutate_and_get_payload(
         cls,
         root: object | None,
-        info: ResolveInfo,  # noqa: WPS110
+        info: GraphQLResolveInfo,  # noqa: WPS110
         **kwargs,
     ):
         """Overrideable mutation operation."""
@@ -45,7 +45,7 @@ class BaseCommandMutation(BaseMutation):
     def build_command(
         cls,
         root: object | None,
-        info: ResolveInfo,  # noqa: WPS110
+        info: GraphQLResolveInfo,  # noqa: WPS110
         validated_data,
     ):
         """Stub for getting command."""
@@ -55,7 +55,7 @@ class BaseCommandMutation(BaseMutation):
     def get_response_data(
         cls,
         root: object | None,
-        info: ResolveInfo,  # noqa: WPS110
+        info: GraphQLResolveInfo,  # noqa: WPS110
         command_result,
     ) -> dict[str, object]:
         """Stub for getting usecase input dto."""
