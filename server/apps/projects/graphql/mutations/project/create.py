@@ -45,7 +45,7 @@ class CreateProjectMutation(BaseCommandMutation):
             )
 
         return project_create.Command(
-            user=info.context.user,  # type: ignore
+            user=info.context.user,
             data=project_create.ProjectDto(**project_data),
             swagger_source=swagger_source,
         )

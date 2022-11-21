@@ -37,8 +37,8 @@ class ProjectType(types.BaseModelObjectType):
             allowed.Query(
                 user=(
                     None
-                    if info.context.user.is_anonymous  # type: ignore
-                    else info.context.user  # type: ignore
+                    if info.context.user.is_anonymous
+                    else info.context.user
                 ),
                 queryset=queryset.all(),
                 only_owned=False,

@@ -32,7 +32,7 @@ class UpdateProjectMutation(BaseCommandMutation):
     ) -> project_update.Command:
         """Build command."""
         return project_update.Command(
-            user=info.context.user,  # type: ignore
+            user=info.context.user,
             project=kwargs["id"],
             data=project_update.ProjectDto(**kwargs.get("input")),
         )

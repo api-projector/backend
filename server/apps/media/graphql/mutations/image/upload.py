@@ -38,7 +38,7 @@ class UploadImageMutation(BaseCommandMutation):
     ) -> upload_image.Command:
         """Build command."""
         return upload_image.Command(
-            user=info.context.user,  # type: ignore
+            user=info.context.user,
             image_data=upload_image.UploadImageDto(**kwargs["input"]),
         )
 

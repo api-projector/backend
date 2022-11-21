@@ -22,7 +22,7 @@ class LogoutMutation(BaseCommandMutation):
     ) -> logout.Command:
         """Create command."""
         return logout.Command(
-            token=info.context.auth,  # type: ignore
+            token=info.context.auth,
         )
 
     @classmethod

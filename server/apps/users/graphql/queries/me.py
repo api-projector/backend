@@ -12,7 +12,7 @@ class MeQueries(graphene.ObjectType):
 
     def resolve_me(self, info: GraphQLResolveInfo):  # noqa: WPS110
         """Resolves current context user."""
-        if not info.context.user.is_authenticated:  # type: ignore
+        if not info.context.user.is_authenticated:
             return GraphQLPermissionDenied()
 
-        return info.context.user  # type: ignore
+        return info.context.user

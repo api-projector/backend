@@ -139,7 +139,7 @@ class BaseQueryConnectionField(DjangoConnectionField):  # noqa: WPS214
         after = args.get("after")
         if offset:
             if after:
-                offset += cursor_to_offset(after) + 1
+                offset += (cursor_to_offset(after) or 0) + 1
             # input offset starts at 1 while the graphene offset starts at 0
             args["after"] = offset_to_cursor(offset - 1)
 

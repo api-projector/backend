@@ -21,6 +21,6 @@ def auth_complete(request, backend, *args, **kwargs):
         user=None,
         redirect_name=REDIRECT_FIELD_NAME,
         request=request,
-        *args,
+        *args,  # noqa: B026
         **kwargs,
     )

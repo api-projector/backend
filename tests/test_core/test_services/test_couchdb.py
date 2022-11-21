@@ -26,6 +26,5 @@ def test_cleanup_couch_databases(db, couchdb_service, couchdb_cleanup_service):
     couchdb_cleanup_service.cleanup()
 
     assert couchdb_service.delete_database_called
-
     for project in Project.objects.all():
         assert project.db_name not in couchdb_service.deleted_db_names

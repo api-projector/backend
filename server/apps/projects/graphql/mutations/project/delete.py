@@ -25,7 +25,7 @@ class DeleteProjectMutation(BaseCommandMutation):
     ) -> project_delete.Command:
         """Build command."""
         return project_delete.Command(
-            user=info.context.user,  # type: ignore
+            user=info.context.user,
             data=project_delete.ProjectDeleteData(
                 project=kwargs["project"],
             ),

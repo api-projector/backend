@@ -59,3 +59,4 @@ class BaseCommandMutation(BaseMutation):
         command_result,
     ) -> dict[str, object]:
         """Stub for getting usecase input dto."""
+        return {}

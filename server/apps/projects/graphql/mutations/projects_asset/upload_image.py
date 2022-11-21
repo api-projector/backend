@@ -39,7 +39,7 @@ class UploadImageProjectAssetMutation(BaseCommandMutation):
     ) -> project_asset_create.Command:
         """Build command."""
         return project_asset_create.Command(
-            user=info.context.user,  # type: ignore
+            user=info.context.user,
             data=project_asset_create.ImageProjectAssetDto(
                 **kwargs.get("input"),
             ),

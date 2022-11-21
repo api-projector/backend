@@ -33,7 +33,7 @@ class UpdateMeMutation(BaseCommandMutation):
     ) -> update.Command:
         """Create command."""
         return update.Command(
-            user=info.context.user,  # type: ignore
+            user=info.context.user,
             **kwargs["input"],
         )
 
