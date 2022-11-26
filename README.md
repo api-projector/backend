@@ -7,10 +7,12 @@
 ## Developing
 
 ### Prerequisite
+
 - python 3.10
 - poetry
 
-### Getting started 
+### Getting started
+
 ```bash
 git clone git@github.com:api-projector/backend.git
 cd backend
@@ -29,6 +31,7 @@ python manage.py runserver # run development server
 Visit http://localhost:8000 in your browser. The app should be up & running.
 
 ### Tests
+
 For tests pytest testing tool is used.
 
 ```bash
@@ -36,6 +39,7 @@ make test
 ```
 
 ### Code-base structure
+
 ```bash
 < PROJECT ROOT >
    |
@@ -44,6 +48,9 @@ make test
    | 
    |-- ci/                                   # CI related files 
    |    |-- docker-compose.yml               # Run test environment  
+   |
+   |-- compose/                              # Up local development environment 
+   |    |-- ... 
    |
    |-- docker/                               # Files to build docker image 
    |    |-- nginx                            # Nginx files
@@ -59,11 +66,11 @@ make test
    |    |-- .dockerignore.production         # Docker ignore files for production image. Exclude tests 
    |    |-- Dockerfile                       # Dockerfile to test, production image build 
    |    
+   |-- http/      
+   |    |-- ...                              # http requests files. Read more https://www.jetbrains.com/help/idea/http-client-in-product-code-editor.html
+   | 
    |-- locale/      
    |    |-- ...                              # Locale files
-   |
-   |-- scripts/                              # Tools
-   |    |-- lint.sh                          # Lint script 
    |
    |-- server/
    |    |-- apps/                            # Django apps 
@@ -106,6 +113,7 @@ make test
 ```
 
 ### Django application structure
+
 ```bash
 < APP ROOT >
    |
@@ -169,17 +177,22 @@ make test
 ```
 
 ### Architecture
-The application architecture is implemented as CQRS. The main idea - using commands and queries for communication between layers.
+
+The application architecture is implemented as CQRS. The main idea - using commands and queries for communication
+between layers.
 
 #### Layers
+
 - **business**: main logic, commands, queries, business services,..
 - **infrastructure**: auth, couchdb access, graphql, admin,..
- 
+
 #### Core ideas
+
 - create command/query and send it to the command/query bus:
+
 ```python
 from apps.core.logic import commands
-from apps.core.logic import queries 
+from apps.core.logic import queries
 
 command_result = commands.execute_command(MyCommand(param="test"))
 query_result = queries.execute_query(MyQuery(id=1))
