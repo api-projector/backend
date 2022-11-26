@@ -59,12 +59,12 @@ class CommandHandler(messages.BaseCommandHandler[Command]):
     def __init__(
         self,
         figma_service_factory: IFigmaServiceFactory,
-        external_files_service: IDownloadService,
+        download_service: IDownloadService,
         project_assets_service: ProjectAssetsService,
     ):
         """Initialize."""
         self._figma_service_factory = figma_service_factory
-        self._external_files_service = external_files_service
+        self._download_service = download_service
         self._project_assets_service = project_assets_service
 
     def handle(self, command: Command) -> CommandResult:
@@ -108,7 +108,7 @@ class CommandHandler(messages.BaseCommandHandler[Command]):
         figma_service: IFigmaService,
     ) -> io.BytesIO:
         image_url = figma_service.get_image_url(url)
-        downloaded_file = self._external_files_service.download(image_url)
+        downloaded_file = self._download_service.download(image_url)
 
         if not downloaded_file:
             raise ImageNotDownloadedError()

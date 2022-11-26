@@ -35,6 +35,7 @@ class AppConfig(BaseAppConfig):
             project_commands.delete.CommandHandler,
             project_commands.update.CommandHandler,
             project_commands.create.CommandHandler,
+            project_commands.import_swagger.CommandHandler,
             # queries
             project_queries.allowed.QueryHandler,
             project_queries.openapi.QueryHandler,

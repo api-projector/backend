@@ -7,7 +7,7 @@ from tests.helpers.couchdb import StubCouchDBService
 
 
 @pytest.fixture()
-def couchdb_service():
+def couchdb_service() -> StubCouchDBService:
     """Provides CouchDB mocked service."""
     service = StubCouchDBService()
     core_injector.binder.bind(ICouchDBService, service)

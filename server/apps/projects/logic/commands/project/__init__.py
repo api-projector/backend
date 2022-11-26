@@ -1,1 +1,1 @@
-from . import create, delete, update
+from . import create, delete, update, import_swagger

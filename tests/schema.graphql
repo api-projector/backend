@@ -1,74 +1,15 @@
-schema {
-  query: Query
-  mutation: Mutation
+"""Graphql queries."""
+type Query {
+  me: MeUserType
+  project(
+    """The ID of the object"""
+    id: ID!
+  ): Project
+  allProjects(title: String, offset: Int, sort: [ProjectSort], before: String, after: String, first: Int, last: Int): ProjectTypeConnection
+  _debug: DjangoDebug
 }
 
-input CreateProjectInput {
-  title: String!
-  description: String
-  figmaIntegration: UpdateFigmaIntegrationType
-  emblem: ID
-  fromSwagger: ProjectFromSwaggerType
-}
-
-type CreateProjectMutation {
-  project: Project
-}
-
-scalar DateTime
-
-type DeleteProjectMutation {
-  status: String
-}
-
-type DjangoDebug {
-  sql: [DjangoDebugSQL]
-}
-
-type DjangoDebugSQL {
-  vendor: String!
-  alias: String!
-  sql: String
-  duration: Float!
-  rawSql: String!
-  params: String!
-  startTime: Float!
-  stopTime: Float!
-  isSlow: Boolean!
-  isSelect: Boolean!
-  transId: String
-  transStatus: String
-  isoLevel: String
-  encoding: String
-}
-
-type FigmaIntegration {
-  token: String!
-}
-
-type File implements ModelRelayNode {
-  id: ID!
-  url: String
-}
-
-type Image implements ModelRelayNode {
-  id: ID!
-  url: String
-}
-
-input LoginInput {
-  email: String!
-  password: String!
-}
-
-type LoginMutation {
-  token: Token
-}
-
-type LogoutMutation {
-  status: String
-}
-
+"""Me user graphql type."""
 type MeUserType {
   id: ID
   firstName: String
@@ -78,33 +19,22 @@ type MeUserType {
   avatar: Image
 }
 
+"""Image graphql type."""
+type Image implements ModelRelayNode {
+  """The ID of the object"""
+  id: ID!
+  url: String
+}
+
+"""Datasource relay node."""
 interface ModelRelayNode {
+  """The ID of the object"""
   id: ID!
 }
 
-type Mutation {
-  uploadFigmaAsset(input: UploadFigmaProjectAssetInput!): UploadFigmaProjectAssetMutation
-  uploadImageAsset(input: UploadImageProjectAssetInput!): UploadImageProjectAssetMutation
-  createProject(input: CreateProjectInput): CreateProjectMutation
-  updateProject(id: ID!, input: UpdateProjectInput): UpdateProjectMutation
-  deleteProject(project: ID!): DeleteProjectMutation
-  uploadImage(input: UploadImageInput!): UploadImageMutation
-  login(input: LoginInput!): LoginMutation
-  logout: LogoutMutation
-  register(input: RegisterInput!): RegisterMutation
-  updateMe(input: UpdateMeInput!): UpdateMeMutation
-  socialLogin(system: SystemBackend!): SocialLoginMutation
-  socialLoginComplete(code: String!, state: String!, system: SystemBackend!): SocialLoginCompleteMutation
-}
-
-type PageInfo {
-  hasNextPage: Boolean!
-  hasPreviousPage: Boolean!
-  startCursor: String
-  endCursor: String
-}
-
+"""Project type."""
 type Project implements ModelRelayNode {
+  """The ID of the object"""
   id: ID!
   title: String
   description: String
@@ -114,8 +44,192 @@ type Project implements ModelRelayNode {
   updatedAt: DateTime
   emblem: Image
   figmaIntegration: FigmaIntegration
+  importSwaggerJob: ImportSwaggerJob
 }
 
+"""User graphql type."""
+type User implements ModelRelayNode {
+  """The ID of the object"""
+  id: ID!
+  firstName: String
+  lastName: String
+  email: String
+  isStaff: Boolean
+  isActive: Boolean
+  lastLogin: DateTime
+  avatar: Image
+}
+
+"""
+The `DateTime` scalar type represents a DateTime
+value as specified by
+[iso8601](https://en.wikipedia.org/wiki/ISO_8601).
+"""
+scalar DateTime
+
+"""FigmaIntegration type."""
+type FigmaIntegration {
+  token: String!
+}
+
+"""ImportSwaggerJobType type."""
+type ImportSwaggerJob {
+  state: String!
+  log: String!
+}
+
+type ProjectTypeConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [ProjectTypeEdge]!
+  count: Int
+}
+
+"""
+The Relay compliant `PageInfo` type, containing data necessary to paginate this connection.
+"""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+}
+
+"""A Relay edge containing a `ProjectType` and its cursor."""
+type ProjectTypeEdge {
+  """The item at the end of the edge"""
+  node: Project
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+"""Allowed sort fields."""
+enum ProjectSort {
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+}
+
+"""Debugging information for the current query."""
+type DjangoDebug {
+  """Executed SQL queries for this API query."""
+  sql: [DjangoDebugSQL]
+
+  """Raise exceptions for this API query."""
+  exceptions: [DjangoDebugException]
+}
+
+"""Represents a single database query made to a Django managed DB."""
+type DjangoDebugSQL {
+  """The type of database being used (e.g. postrgesql, mysql, sqlite)."""
+  vendor: String!
+
+  """The Django database alias (e.g. 'default')."""
+  alias: String!
+
+  """The actual SQL sent to this database."""
+  sql: String
+
+  """Duration of this database query in seconds."""
+  duration: Float!
+
+  """The raw SQL of this query, without params."""
+  rawSql: String!
+
+  """JSON encoded database query parameters."""
+  params: String!
+
+  """Start time of this database query."""
+  startTime: Float!
+
+  """Stop time of this database query."""
+  stopTime: Float!
+
+  """Whether this database query took more than 10 seconds."""
+  isSlow: Boolean!
+
+  """Whether this database query was a SELECT."""
+  isSelect: Boolean!
+
+  """Postgres transaction ID if available."""
+  transId: String
+
+  """Postgres transaction status if available."""
+  transStatus: String
+
+  """Postgres isolation level if available."""
+  isoLevel: String
+
+  """Postgres connection encoding if available."""
+  encoding: String
+}
+
+"""Represents a single exception raised."""
+type DjangoDebugException {
+  """The class of the exception"""
+  excType: String!
+
+  """The message of the exception"""
+  message: String!
+
+  """The stack trace"""
+  stack: String!
+}
+
+"""Graphql mutations."""
+type Mutation {
+  """Create project asset mutation."""
+  uploadFigmaAsset(input: UploadFigmaProjectAssetInput!): UploadFigmaProjectAssetMutation
+
+  """Create project image asset mutation."""
+  uploadImageAsset(input: UploadImageProjectAssetInput!): UploadImageProjectAssetMutation
+
+  """Create project mutation."""
+  createProject(input: CreateProjectInput): CreateProjectMutation
+
+  """Update project mutation."""
+  updateProject(id: ID!, input: UpdateProjectInput): UpdateProjectMutation
+
+  """Delete project mutation."""
+  deleteProject(project: ID!): DeleteProjectMutation
+
+  """Upload image mutation."""
+  uploadImage(input: UploadImageInput!): UploadImageMutation
+
+  """Login mutation returns token."""
+  login(input: LoginInput!): LoginMutation
+
+  """Logout mutation."""
+  logout: LogoutMutation
+
+  """Register mutation returns."""
+  register(input: RegisterInput!): RegisterMutation
+
+  """Register mutation returns user as me."""
+  updateMe(input: UpdateMeInput!): UpdateMeMutation
+
+  """Login mutation through social."""
+  socialLogin(system: SystemBackend!): SocialLoginMutation
+
+  """Complete login mutation after redirection."""
+  socialLoginComplete(code: String!, state: String!, system: SystemBackend!): SocialLoginCompleteMutation
+}
+
+"""Create project asset mutation."""
+type UploadFigmaProjectAssetMutation {
+  projectAsset: ProjectAsset
+}
+
+"""Project asset type."""
 type ProjectAsset {
   project: Project
   file: File
@@ -123,101 +237,86 @@ type ProjectAsset {
   fileUrl: String
 }
 
-input ProjectFromSwaggerType {
-  schemeUrl: String
-  scheme: Upload
-}
-
-enum ProjectSort {
-  CREATED_AT_ASC
-  CREATED_AT_DESC
-}
-
-type ProjectTypeConnection {
-  pageInfo: PageInfo!
-  edges: [ProjectTypeEdge]!
-  count: Int
-}
-
-type ProjectTypeEdge {
-  node: Project
-  cursor: String!
-}
-
-type Query {
-  me: MeUserType
-  project(id: ID!): Project
-  allProjects(title: String, offset: Int, sort: [ProjectSort], before: String, after: String, first: Int, last: Int): ProjectTypeConnection
-  _debug: DjangoDebug
-}
-
-input RegisterInput {
-  firstName: String!
-  lastName: String!
-  email: String!
-  password: String!
-}
-
-type RegisterMutation {
-  token: Token
-}
-
-type SocialLoginCompleteMutation {
-  token: Token
-  isNewUser: Boolean
-}
-
-type SocialLoginMutation {
-  redirectUrl: String
-}
-
-enum SystemBackend {
-  GOOGLE
-}
-
-type Token implements ModelRelayNode {
+"""File graphql type."""
+type File implements ModelRelayNode {
+  """The ID of the object"""
   id: ID!
-  user: User
-  key: String
-  created: DateTime
+  url: String
 }
 
-input UpdateFigmaIntegrationType {
-  token: String
-}
-
-input UpdateMeInput {
-  firstName: String
-  lastName: String
-}
-
-type UpdateMeMutation {
-  me: User
-}
-
-input UpdateProjectInput {
-  title: String
-  description: String
-  figmaIntegration: UpdateFigmaIntegrationType
-  emblem: ID
-  fromSwagger: ProjectFromSwaggerType
-}
-
-type UpdateProjectMutation {
-  project: Project
-}
-
-scalar Upload
-
+"""Input for create figma project asset."""
 input UploadFigmaProjectAssetInput {
   project: ID!
   url: String!
 }
 
-type UploadFigmaProjectAssetMutation {
+"""Create project image asset mutation."""
+type UploadImageProjectAssetMutation {
   projectAsset: ProjectAsset
 }
 
+"""Input for create figma project asset."""
+input UploadImageProjectAssetInput {
+  project: ID!
+  file: Upload!
+}
+
+"""
+Create scalar that ignores normal serialization/deserialization, since
+that will be handled by the multipart request spec
+"""
+scalar Upload
+
+"""Create project mutation."""
+type CreateProjectMutation {
+  project: Project
+}
+
+"""Input for create project."""
+input CreateProjectInput {
+  title: String!
+  description: String
+  figmaIntegration: UpdateFigmaIntegrationType = null
+  emblem: ID
+  fromSwagger: ProjectFromSwaggerType = null
+}
+
+"""FigmaIntegration type."""
+input UpdateFigmaIntegrationType {
+  token: String
+}
+
+"""ProjectFromSwagger type."""
+input ProjectFromSwaggerType {
+  schemeUrl: String
+  scheme: Upload = null
+}
+
+"""Update project mutation."""
+type UpdateProjectMutation {
+  project: Project
+}
+
+"""Input for update project."""
+input UpdateProjectInput {
+  title: String
+  description: String
+  figmaIntegration: UpdateFigmaIntegrationType = null
+  emblem: ID
+  fromSwagger: ProjectFromSwaggerType = null
+}
+
+"""Delete project mutation."""
+type DeleteProjectMutation {
+  status: String
+}
+
+"""Upload image mutation."""
+type UploadImageMutation {
+  image: Image
+}
+
+"""User image input."""
 input UploadImageInput {
   file: Upload!
   left: Int!
@@ -227,26 +326,67 @@ input UploadImageInput {
   scale: Float!
 }
 
-type UploadImageMutation {
-  image: Image
+"""Login mutation returns token."""
+type LoginMutation {
+  token: Token
 }
 
-input UploadImageProjectAssetInput {
-  project: ID!
-  file: Upload!
-}
-
-type UploadImageProjectAssetMutation {
-  projectAsset: ProjectAsset
-}
-
-type User implements ModelRelayNode {
+"""Token graphql type."""
+type Token implements ModelRelayNode {
+  """The ID of the object"""
   id: ID!
+  user: User
+  key: String
+  created: DateTime
+}
+
+"""User login input."""
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+"""Logout mutation."""
+type LogoutMutation {
+  status: String
+}
+
+"""Register mutation returns."""
+type RegisterMutation {
+  token: Token
+}
+
+"""User register input."""
+input RegisterInput {
+  firstName: String!
+  lastName: String!
+  email: String!
+  password: String!
+}
+
+"""Register mutation returns user as me."""
+type UpdateMeMutation {
+  me: User
+}
+
+"""User update input."""
+input UpdateMeInput {
   firstName: String
   lastName: String
-  email: String
-  isStaff: Boolean
-  isActive: Boolean
-  lastLogin: DateTime
-  avatar: Image
+}
+
+"""Login mutation through social."""
+type SocialLoginMutation {
+  redirectUrl: String
+}
+
+"""System social auth backends."""
+enum SystemBackend {
+  GOOGLE
+}
+
+"""Complete login mutation after redirection."""
+type SocialLoginCompleteMutation {
+  token: Token
+  isNewUser: Boolean
 }

@@ -5,9 +5,12 @@ from jnt_django_graphene_toolbox import types
 
 from apps.core.logic import messages
 from apps.media.graphql.types import ImageType
-from apps.projects.graphql.types import FigmaIntegrationType
+from apps.projects.graphql.types import (
+    FigmaIntegrationType,
+    ImportSwaggerJobType,
+)
 from apps.projects.logic.queries.project import allowed
-from apps.projects.models import Project
+from apps.projects.models import Project, SwaggerImport
 from apps.users.graphql.types import UserType
 
 
@@ -25,6 +28,7 @@ class ProjectType(types.BaseModelObjectType):
     updated_at = graphene.DateTime()
     emblem = graphene.Field(ImageType)
     figma_integration = graphene.Field(FigmaIntegrationType)
+    import_swagger_job = graphene.Field(ImportSwaggerJobType)
 
     @classmethod
     def get_queryset(
@@ -44,3 +48,11 @@ class ProjectType(types.BaseModelObjectType):
                 only_owned=False,
             ),
         ).instances
+
+    def resolve_import_swagger_job(
+        self: Project,
+        info: GraphQLResolveInfo,  # noqa: WPS110
+    ) -> SwaggerImport | None:
+        """Resolve import swagger job."""
+        # TODO: migrate to query
+        return self.swagger_imports.order_by("-created_at").first()

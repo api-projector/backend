@@ -4,7 +4,7 @@ from tests.helpers.asset_provider import AssetsProvider
 
 
 @pytest.fixture()
-def assets(request):
+def assets(request) -> AssetsProvider:
     """
     Assets.
 

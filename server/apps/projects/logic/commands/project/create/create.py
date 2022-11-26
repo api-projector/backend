@@ -6,8 +6,9 @@ from apps.core.helpers.objects import empty
 from apps.core.logic import messages
 from apps.core.logic.helpers.validation import validate_input
 from apps.core.logic.interfaces import ICouchDBService
+from apps.projects.logic.commands.project import import_swagger
 from apps.projects.logic.commands.project.create import dto
-from apps.projects.models import FigmaIntegration, Project
+from apps.projects.models import FigmaIntegration, Project, SwaggerImport
 from apps.users.models import User
 
 
@@ -62,6 +63,9 @@ class CommandHandler(messages.BaseCommandHandler[Command]):
 
         self._couch_db_service.create_database(project.db_name)
 
+        if command.swagger_source:
+            self._import_swagger(command.swagger_source, project)
+
         return CommandResult(project=project)
 
     def _add_figma_integration(self, project: Project, validated_data) -> None:
@@ -71,3 +75,19 @@ class CommandHandler(messages.BaseCommandHandler[Command]):
                 project=project,
                 token=integration["token"],
             )
+
+    def _import_swagger(
+        self,
+        source: SwaggerSource,
+        project: Project,
+    ) -> None:
+        swagger_import = SwaggerImport.objects.create(
+            project=project,
+            swagger_url=source.scheme_url,
+        )
+
+        messages.dispatch_message_async(
+            import_swagger.Command(
+                swagger_import_id=swagger_import.id,
+            ),
+        )

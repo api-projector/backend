@@ -1,3 +1,5 @@
+include config.env
+
 COMPOSE_PROJECT=api-projector
 
 up:
@@ -10,7 +12,7 @@ stop:
 	@docker compose -p ${COMPOSE_PROJECT} stop
 
 download-dump:
-	@rsync -L -av --progress jworker02:/mnt/volumes/pg/backup/api_projector/latest.dump dumps/
+	@rsync -L -av --progress ${POSTGRES_DUMP} dumps/
 
 # -- local postgresql
 
@@ -28,7 +30,7 @@ restore-dump:
 # -- couchdb
 
 download-couchdb-backup:
-	@rsync -L -av root@162.55.208.173:/mnt/storage/api-projector/couchdb/backups/latest.tar.gz .
+	@rsync -L -av ${COUCHDB_DUMP} .
 
 restore-couchdb-dump: download_backup
 	@rm -rf data && mkdir data && tar -zxvf latest.tar.gz -C data
