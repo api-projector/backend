@@ -1,5 +1,6 @@
 import uuid
 
+import requests
 from ibmcloudant.cloudant_v1 import Document
 
 from apps.core.logic.interfaces import ICouchDBService
@@ -55,8 +56,8 @@ class StubCouchDBService(ICouchDBService):  # noqa: WPS214
         self,
         db_name: str,
         document: Document,
-    ) -> dict:
+    ) -> requests.Response:
         """Post the document to database with provided name."""
-        return {
+        return {  # type: ignore
             "id": str(uuid.uuid1()),
         }
