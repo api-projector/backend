@@ -38,6 +38,10 @@ class AssetsProvider:
             ).read(),
         )
 
+    def read(self, filename: str) -> str:
+        """Read file to string."""
+        return self.open_file(filename, mode="r").read()
+
     def get_hash(self, filename: str) -> str:
         """Get md5-hash of file."""
         filepath = find_path(self._cwd, filename)

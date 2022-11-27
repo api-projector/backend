@@ -22,16 +22,19 @@ class SwaggerImport(Timestamps, BaseModel):
     )
 
     swagger_content = models.TextField(
+        default="",
         verbose_name=_("VN__SWAGGER_CONTENT"),
         help_text=_("HT__SWAGGER_CONTENT"),
     )
 
     swagger_url = models.TextField(
+        default="",
         verbose_name=_("VN__SWAGGER_URL"),
         help_text=_("HT__SWAGGER_URL"),
     )
 
     log = models.TextField(
+        default="",
         verbose_name=_("VN__LOG"),
         help_text=_("HT__LOG"),
     )

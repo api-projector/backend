@@ -24,6 +24,7 @@ class SwaggerSource:
     """Swagger data."""
 
     scheme_url: str | None
+    scheme: str | None
 
 
 class Command(messages.BaseCommand[CommandResult]):
@@ -83,7 +84,8 @@ class CommandHandler(messages.BaseCommandHandler[Command]):
     ) -> None:
         swagger_import = SwaggerImport.objects.create(
             project=project,
-            swagger_url=source.scheme_url,
+            swagger_url=source.scheme_url or "",
+            swagger_content=source.scheme or "",
         )
 
         messages.dispatch_message_async(

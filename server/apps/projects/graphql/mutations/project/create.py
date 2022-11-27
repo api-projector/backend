@@ -1,4 +1,5 @@
 import graphene
+from graphene_file_upload.scalars import Upload
 from graphql import GraphQLResolveInfo
 
 from apps.core.graphql.mutations import BaseCommandMutation
@@ -8,10 +9,18 @@ from apps.projects.logic.commands.project import create as project_create
 from apps.projects.logic.commands.project.create.create import SwaggerSource
 
 
+class ProjectFromSwaggerType(graphene.InputObjectType):
+    """ProjectFromSwagger type."""
+
+    scheme_url = graphene.String()
+    scheme = graphene.Field(Upload)
+
+
 class CreateProjectInput(BaseProjectInput):
     """Input for create project."""
 
     title = graphene.String(required=True)
+    from_swagger = graphene.Field(ProjectFromSwaggerType)
 
 
 class CreateProjectMutation(BaseCommandMutation):
@@ -35,19 +44,10 @@ class CreateProjectMutation(BaseCommandMutation):
         """Build command."""
         project_data = kwargs.get("input")
 
-        from_swagger = (
-            project_data.pop("from_swagger", None) if project_data else None
-        )
-        swagger_source = None
-        if from_swagger:
-            swagger_source = SwaggerSource(
-                scheme_url=from_swagger["scheme_url"],
-            )
-
         return project_create.Command(
             user=info.context.user,
             data=project_create.ProjectDto(**project_data),
-            swagger_source=swagger_source,
+            swagger_source=cls._read_swagger_source(project_data),
         )
 
     @classmethod
@@ -61,3 +61,21 @@ class CreateProjectMutation(BaseCommandMutation):
         return {
             "project": command_result.project,
         }
+
+    @classmethod
+    def _read_swagger_source(cls, project_data) -> SwaggerSource | None:
+        from_swagger = (
+            project_data.pop("from_swagger", None) if project_data else None
+        )
+        if not from_swagger:
+            return None
+
+        scheme_data = from_swagger.get("scheme")
+        scheme = None
+        if scheme_data:
+            scheme = scheme_data.read().decode("utf-8")
+
+        return SwaggerSource(
+            scheme_url=from_swagger.get("scheme_url"),
+            scheme=scheme,
+        )

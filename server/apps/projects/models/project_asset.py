@@ -3,7 +3,6 @@ import hashlib
 from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from jnt_django_toolbox.models.fields import EnumField
 
 from apps.core.models import BaseModel
 from apps.core.models.mixins import Timestamps
@@ -34,8 +33,8 @@ class ProjectAsset(Timestamps, BaseModel):
         verbose_name_plural = _("VN__PROJECTS_ASSETS")
         ordering = ("-created_at",)
 
-    source = EnumField(
-        enum=ProjectAssetSource,
+    source = models.TextField(
+        choices=ProjectAssetSource.choices,
         default=ProjectAssetSource.FIGMA,
         verbose_name=_("VN__PROJECT_ASSET_SOURCE"),
         help_text=_("HT__PROJECT_ASSET_SOURCE"),

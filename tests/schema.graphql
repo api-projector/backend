@@ -303,7 +303,6 @@ input UpdateProjectInput {
   description: String
   figmaIntegration: UpdateFigmaIntegrationType = null
   emblem: ID
-  fromSwagger: ProjectFromSwaggerType = null
 }
 
 """Delete project mutation."""
