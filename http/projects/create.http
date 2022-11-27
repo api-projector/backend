@@ -10,6 +10,10 @@ mutation createProject($input: CreateProjectInput!) {
       figmaIntegration {
         token
       }
+      importSwaggerJob {
+        state
+        log
+     }
     }
   }
 }
@@ -18,7 +22,7 @@ mutation createProject($input: CreateProjectInput!) {
   "input": {
     "title": "my project",
     "fromSwagger": {
-      "schemeUrl": ""
+      "schemeUrl": "http://google.com/swagger.json"
     }
   }
 }
