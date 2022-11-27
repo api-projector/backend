@@ -8,7 +8,7 @@ def login_mutation(ghl_mutations):
 
     :param ghl_mutations:
     """
-    return ghl_mutations.fields["login"].resolver
+    return ghl_mutations.fields["login"].resolve
 
 
 @pytest.fixture(scope="session")
@@ -18,7 +18,7 @@ def logout_mutation(ghl_mutations):
 
     :param ghl_mutations:
     """
-    return ghl_mutations.fields["logout"].resolver
+    return ghl_mutations.fields["logout"].resolve
 
 
 @pytest.fixture(scope="session")
@@ -28,4 +28,4 @@ def social_login_complete_mutation(ghl_mutations):
 
     :param ghl_mutations:
     """
-    return ghl_mutations.fields["socialLoginComplete"].resolver
+    return ghl_mutations.fields["socialLoginComplete"].resolve

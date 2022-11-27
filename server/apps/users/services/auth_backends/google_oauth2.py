@@ -1,6 +1,6 @@
 from social_core.backends.google import GoogleOAuth2 as SocialGoogleOAuth2
 
-from apps.users.logic.interfaces.signup import SocialSignupData
+from apps.users.logic.services.signup import SocialSignupData
 from apps.users.models import User
 from apps.users.services.auth_backends.mixin import OAuth2BackendMixin
 

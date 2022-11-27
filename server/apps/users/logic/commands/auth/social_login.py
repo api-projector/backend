@@ -3,17 +3,9 @@ from dataclasses import dataclass
 import injector
 from django.http import HttpRequest
 
-from apps.core.logic import commands
+from apps.core.logic import messages
 from apps.users.logic.interfaces import ISocialLoginService
 from apps.users.logic.interfaces.social_login import SystemBackend
-
-
-@dataclass(frozen=True)
-class Command(commands.ICommand):
-    """Social login input data."""
-
-    request: HttpRequest
-    system: SystemBackend
 
 
 @dataclass(frozen=True)
@@ -23,7 +15,14 @@ class CommandResult:
     redirect_url: str
 
 
-class CommandHandler(commands.ICommandHandler[Command, CommandResult]):
+class Command(messages.BaseCommand[CommandResult]):
+    """Social login input data."""
+
+    request: HttpRequest
+    system: SystemBackend
+
+
+class CommandHandler(messages.BaseCommandHandler[Command]):
     """Social login."""
 
     @injector.inject
@@ -31,7 +30,7 @@ class CommandHandler(commands.ICommandHandler[Command, CommandResult]):
         """Initializing."""
         self._social_login_service = social_login_service
 
-    def execute(self, command: Command) -> CommandResult:
+    def handle(self, command: Command) -> CommandResult:
         """Main logic here."""
         redirect_url = self._social_login_service.begin_login(
             command.request,

@@ -1,11 +1,10 @@
 import graphene
 from graphene_file_upload.scalars import Upload
-from graphql import ResolveInfo
+from graphql import GraphQLResolveInfo
 
 from apps.core.graphql.mutations import BaseCommandMutation
-from apps.core.logic import commands
 from apps.media.graphql.types import ImageType
-from apps.media.logic.commands.image import upload_image
+from apps.media.logic.commands.images import upload_image
 
 
 class UploadImageInput(graphene.InputObjectType):
@@ -34,12 +33,12 @@ class UploadImageMutation(BaseCommandMutation):
     def build_command(
         cls,
         root: object | None,
-        info: ResolveInfo,  # noqa: WPS110
+        info: GraphQLResolveInfo,  # noqa: WPS110
         **kwargs,
-    ) -> commands.ICommand:
+    ) -> upload_image.Command:
         """Build command."""
         return upload_image.Command(
-            user=info.context.user,  # type: ignore
+            user=info.context.user,
             image_data=upload_image.UploadImageDto(**kwargs["input"]),
         )
 
@@ -47,7 +46,7 @@ class UploadImageMutation(BaseCommandMutation):
     def get_response_data(
         cls,
         root: object | None,
-        info: ResolveInfo,  # noqa: WPS110
+        info: GraphQLResolveInfo,  # noqa: WPS110
         command_result: upload_image.CommandResult,
     ) -> dict[str, object]:
         """Prepare response data."""

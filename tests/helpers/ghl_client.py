@@ -1,6 +1,6 @@
 from django.contrib.auth.models import AnonymousUser
+from django.http import HttpRequest, HttpResponse
 from graphene.test import Client
-from jnt_django_toolbox.helpers.objects import dict2obj
 
 from apps.users.models import Token, User
 from apps.users.services.token import TokenService
@@ -31,16 +31,14 @@ class GraphQLClient(Client):
 
         self._token = token
 
-    def execute(self, *args, **kwargs):
+    def execute(self, *args, **kwargs) -> HttpResponse:
         """Execute graphql request."""
-        context = {
-            "user": self._user or AnonymousUser(),
-            "auth": self._token,
-        }
+        request = HttpRequest()
+        request.user = self._user or AnonymousUser()
+        request.auth = self._token
+        request.session = {}
+        request.build_absolute_uri = lambda mock: mock
 
-        context.update(kwargs.get("extra_context", {}))
-
-        context_obj = dict2obj(context)
-        kwargs["context_value"] = context_obj
+        kwargs["context_value"] = request
 
         return super().execute(*args, **kwargs)

@@ -1,4 +1,4 @@
-from graphql import ResolveInfo
+from graphql import GraphQLResolveInfo
 from jnt_django_graphene_toolbox.errors import (
     GraphQLInputError,
     GraphQLPermissionDenied,
@@ -6,12 +6,12 @@ from jnt_django_graphene_toolbox.errors import (
 from jnt_django_graphene_toolbox.mutations import BaseMutation
 
 from apps.core.graphql.errors import GenericGraphQLError
-from apps.core.logic import commands
 from apps.core.logic.errors import (
     AccessDeniedApplicationError,
     BaseApplicationError,
     InvalidInputApplicationError,
 )
+from apps.core.tasks import messages
 
 
 class BaseCommandMutation(BaseMutation):
@@ -24,12 +24,12 @@ class BaseCommandMutation(BaseMutation):
     def mutate_and_get_payload(
         cls,
         root: object | None,
-        info: ResolveInfo,  # noqa: WPS110
+        info: GraphQLResolveInfo,  # noqa: WPS110
         **kwargs,
     ):
         """Overrideable mutation operation."""
         try:
-            command_result = commands.execute_command(
+            command_result = messages.dispatch_message(
                 cls.build_command(root, info, **kwargs),
             )
         except InvalidInputApplicationError as err:
@@ -45,7 +45,7 @@ class BaseCommandMutation(BaseMutation):
     def build_command(
         cls,
         root: object | None,
-        info: ResolveInfo,  # noqa: WPS110
+        info: GraphQLResolveInfo,  # noqa: WPS110
         validated_data,
     ):
         """Stub for getting command."""
@@ -55,7 +55,8 @@ class BaseCommandMutation(BaseMutation):
     def get_response_data(
         cls,
         root: object | None,
-        info: ResolveInfo,  # noqa: WPS110
+        info: GraphQLResolveInfo,  # noqa: WPS110
         command_result,
     ) -> dict[str, object]:
         """Stub for getting usecase input dto."""
+        return {}

@@ -18,7 +18,7 @@ def test_unauth(ghl_client, ghl_raw):
     assert errors[0]["extensions"]["code"] == "ACCESS_DENIED"
 
 
-def test_resolver(user, ghl_auth_mock_info, me_query):
+def test_resolver(user, ghl_auth_mock_info, ghl_queries, me_query):
     """Test me query."""
     response = me_query(None, info=ghl_auth_mock_info)
 

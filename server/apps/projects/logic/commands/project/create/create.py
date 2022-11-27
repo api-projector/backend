@@ -2,21 +2,14 @@ from dataclasses import dataclass
 
 import injector
 
-from apps.core.logic import commands
+from apps.core.helpers.objects import empty
+from apps.core.logic import messages
 from apps.core.logic.helpers.validation import validate_input
 from apps.core.logic.interfaces import ICouchDBService
-from apps.core.utils.objects import empty
+from apps.projects.logic.commands.project import import_swagger
 from apps.projects.logic.commands.project.create import dto
-from apps.projects.models import FigmaIntegration, Project
+from apps.projects.models import FigmaIntegration, Project, SwaggerImport
 from apps.users.models import User
-
-
-@dataclass(frozen=True)
-class Command(commands.ICommand):
-    """Create project input dto."""
-
-    data: dto.ProjectDto  # noqa: WPS110
-    user: User
 
 
 @dataclass(frozen=True)
@@ -26,7 +19,23 @@ class CommandResult:
     project: Project
 
 
-class CommandHandler(commands.ICommandHandler[Command, CommandResult]):
+@dataclass(frozen=True)
+class SwaggerSource:
+    """Swagger data."""
+
+    scheme_url: str | None
+    scheme: str | None
+
+
+class Command(messages.BaseCommand[CommandResult]):
+    """Create project input dto."""
+
+    data: dto.ProjectDto  # noqa: WPS110
+    user: User
+    swagger_source: SwaggerSource | None = None
+
+
+class CommandHandler(messages.BaseCommandHandler[Command]):
     """Creating projects."""
 
     @injector.inject
@@ -37,7 +46,7 @@ class CommandHandler(commands.ICommandHandler[Command, CommandResult]):
         """Initialize."""
         self._couch_db_service = couch_db_service
 
-    def execute(self, command: Command) -> CommandResult:
+    def handle(self, command: Command) -> CommandResult:
         """Main logic here."""
         validated_data = validate_input(
             command.data,
@@ -55,6 +64,9 @@ class CommandHandler(commands.ICommandHandler[Command, CommandResult]):
 
         self._couch_db_service.create_database(project.db_name)
 
+        if command.swagger_source:
+            self._import_swagger(command.swagger_source, project)
+
         return CommandResult(project=project)
 
     def _add_figma_integration(self, project: Project, validated_data) -> None:
@@ -64,3 +76,20 @@ class CommandHandler(commands.ICommandHandler[Command, CommandResult]):
                 project=project,
                 token=integration["token"],
             )
+
+    def _import_swagger(
+        self,
+        source: SwaggerSource,
+        project: Project,
+    ) -> None:
+        swagger_import = SwaggerImport.objects.create(
+            project=project,
+            swagger_url=source.scheme_url or "",
+            swagger_content=source.scheme or "",
+        )
+
+        messages.dispatch_message_async(
+            import_swagger.Command(
+                swagger_import_id=swagger_import.id,
+            ),
+        )

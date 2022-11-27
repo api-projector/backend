@@ -1,7 +1,7 @@
 import dataclasses
 
+from apps.core.helpers.objects import empty
 from apps.core.logic.errors import InvalidInputApplicationError
-from apps.core.utils.objects import empty
 
 
 def validate_input(input_data, validator_class) -> dict[str, object]:

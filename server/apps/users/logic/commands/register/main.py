@@ -1,16 +1,17 @@
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 
 import injector
 from django.utils import timezone
 from rest_framework import serializers
 
-from apps.core.logic import commands
+from apps.core.logic import messages
 from apps.users.logic.commands.register.errors import (
     RegistrationInputError,
     UserAlreadyExistsError,
 )
-from apps.users.logic.interfaces import ISignupService, ITokenService
-from apps.users.logic.interfaces.signup import SignupData
+from apps.users.logic.interfaces import ITokenService
+from apps.users.logic.services import SignupService
+from apps.users.logic.services.signup import SignupData
 from apps.users.models import Token, User
 
 
@@ -33,7 +34,13 @@ class _InputValidator(serializers.Serializer):
 
 
 @dataclass(frozen=True)
-class Command(commands.ICommand):
+class CommandResult:
+    """Register output dto."""
+
+    token: Token
+
+
+class Command(messages.BaseCommand[CommandResult]):
     """Register command."""
 
     first_name: str
@@ -42,27 +49,20 @@ class Command(commands.ICommand):
     password: str
 
 
-@dataclass(frozen=True)
-class CommandResult:
-    """Register output dto."""
-
-    token: Token
-
-
-class CommandHandler(commands.ICommandHandler[Command, CommandResult]):
+class CommandHandler(messages.BaseCommandHandler[Command]):
     """Register new user."""
 
     @injector.inject
     def __init__(
         self,
         token_service: ITokenService,
-        signup_service: ISignupService,
+        signup_service: SignupService,
     ):
         """Initializing."""
         self._token_service = token_service
         self._signup_service = signup_service
 
-    def execute(self, command: Command) -> CommandResult:
+    def handle(self, command: Command) -> CommandResult:
         """Main logic here."""
         self._validate_data(command)
 
@@ -81,9 +81,9 @@ class CommandHandler(commands.ICommandHandler[Command, CommandResult]):
             token=self._token_service.create_user_token(user),
         )
 
-    def _validate_data(self, command) -> None:
+    def _validate_data(self, command: Command) -> None:
         """Validate input data."""
-        serializer = _InputValidator(data=asdict(command))
+        serializer = _InputValidator(data=command.dict())
         if not serializer.is_valid():
             raise RegistrationInputError()
 
@@ -92,6 +92,6 @@ class CommandHandler(commands.ICommandHandler[Command, CommandResult]):
         if User.objects.filter(email=validated_data["email"]).exists():
             raise UserAlreadyExistsError()
 
-    def _update_user(self, user: User):
+    def _update_user(self, user: User) -> None:
         user.last_login = timezone.now()
         user.save(update_fields=("last_login",))

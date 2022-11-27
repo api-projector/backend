@@ -4,7 +4,7 @@ import injector
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from rest_framework import serializers
 
-from apps.core.logic import commands
+from apps.core.logic import messages
 from apps.core.logic.errors import InvalidInputApplicationError
 from apps.projects.logic.services.projects.assets import ProjectAssetsService
 from apps.projects.models import Project, ProjectAsset, ProjectAssetSource
@@ -20,6 +20,13 @@ class _ProjectAssetDtoValidator(serializers.Serializer):
 
 
 @dataclass(frozen=True)
+class CommandResult:
+    """Create project output."""
+
+    project_asset: ProjectAsset
+
+
+@dataclass(frozen=True)
 class ImageProjectAssetDto:
     """Create image project asset data."""
 
@@ -27,22 +34,14 @@ class ImageProjectAssetDto:
     project: str = ""
 
 
-@dataclass(frozen=True)
-class Command(commands.ICommand):
+class Command(messages.BaseCommand[CommandResult]):
     """Create figma project asset input dto."""
 
     data: ImageProjectAssetDto  # noqa: WPS110
     user: User
 
 
-@dataclass(frozen=True)
-class CommandResult:
-    """Create project output."""
-
-    project_asset: ProjectAsset
-
-
-class CommandHandler(commands.ICommandHandler[Command, CommandResult]):
+class CommandHandler(messages.BaseCommandHandler[Command]):
     """Create project asset."""
 
     @injector.inject
@@ -53,7 +52,7 @@ class CommandHandler(commands.ICommandHandler[Command, CommandResult]):
         """Initialize."""
         self._project_assets_service = project_assets_service
 
-    def execute(self, command: Command) -> CommandResult:
+    def handle(self, command: Command) -> CommandResult:
         """Main logic here."""
         validator = _ProjectAssetDtoValidator(
             data=(

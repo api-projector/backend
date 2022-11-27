@@ -4,7 +4,7 @@ from enum import Enum
 import django_filters
 from django.db import models
 
-from apps.core.logic import queries
+from apps.core.logic import messages, queries
 from apps.projects.models import Project
 from apps.users.models import User
 
@@ -23,14 +23,20 @@ class _ProjectFilterSet(django_filters.FilterSet):
 
 
 @dataclass(frozen=True)
-class ProjectFilter:
-    """Project filter ."""
+class QueryResult:
+    """Query result."""
 
-    title: str
+    instances: models.QuerySet
 
 
 @dataclass(frozen=True)
-class Query(queries.IQuery):
+class ProjectFilter:
+    """Project filter ."""
+
+    title: str | None = None
+
+
+class Query(messages.BaseQuery[QueryResult]):
     """List allowed projects."""
 
     user: User | None
@@ -40,17 +46,10 @@ class Query(queries.IQuery):
     only_owned: bool = True
 
 
-@dataclass(frozen=True)
-class QueryResult:
-    """Query result."""
-
-    instances: models.QuerySet
-
-
-class QueryHandler(queries.IQueryHandler[Query, QueryResult]):
+class QueryHandler(messages.BaseQueryHandler[Query]):
     """Allowed projects for user query."""
 
-    def ask(self, query: Query) -> QueryResult:
+    def handle(self, query: Query) -> QueryResult:
         """Handler."""
         return QueryResult(
             instances=self._get_allowed_projects_for_user(query),

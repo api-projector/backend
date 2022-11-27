@@ -4,7 +4,7 @@ import graphene
 class UpdateFigmaIntegrationType(graphene.InputObjectType):
     """FigmaIntegration type."""
 
-    token = graphene.String(required=False)
+    token = graphene.String()
 
 
 class BaseProjectInput(graphene.InputObjectType):

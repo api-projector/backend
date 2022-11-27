@@ -2,14 +2,14 @@
 name = "api_projector"
 version = "0.1.0"
 description = ""
-authors = ["Junte Ltd"]
+authors = ["junte ltd"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
 python-decouple = "*"
 psycopg2-binary = "*"
 pymemcache = "*"
-django = "3.*"
+django = ">=4.1"
 django-health-check = "*"
 django-cors-headers = "*"
 django_extensions = "*"
@@ -34,9 +34,10 @@ fluent-logger = "*"
 celery = "*"
 pillow = "*"
 types-PyYAML = "*"
-social-auth-core = "^4.1.0"
-social-auth-app-django = "^5.0.0"
-PyYAML = "^6.0"
+social-auth-core = "*"
+social-auth-app-django = "*"
+PyYAML = "*"
+pydantic = "*"
 
 [tool.poetry.dev-dependencies]
 mypy = "*"
@@ -50,15 +51,18 @@ pytest-django = "*"
 pytest-xdist = "*"
 httpretty = "*"
 factory-boy = "*"
-flake8 = "*"
+flake8 = "4.*" # wait for https://github.com/tholo/pytest-flake8/issues/87
 flake8-pytest = "*"
 flake8-django = "*"
 flake8-pytest-style = "*"
+flake8-class-attributes-order = "*"
 wemake-python-styleguide = "*"
 black = "*"
-flake8-class-attributes-order = "*"
 types-requests = "*"
 types-python-dateutil = "*"
+
+[tool.poetry.group.dev.dependencies]
+py = "^1.11.0"
 
 [tool.black]
 line-length = 79

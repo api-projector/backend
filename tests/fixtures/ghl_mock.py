@@ -1,16 +1,17 @@
 import pytest
-from graphene_django.rest_framework.tests.test_mutation import mock_info
-from graphql import ResolveInfo
+from graphql import GraphQLResolveInfo
+
+from tests.helpers.ghl_mock import create_mock_info
 
 
 @pytest.fixture()
-def ghl_auth_mock_info(user, rf) -> ResolveInfo:
+def ghl_auth_mock_info(user, rf) -> GraphQLResolveInfo:
     """
     Ghl auth mock info.
 
     :param user:
     :param auth_rf:
-    :rtype: ResolveInfo
+    :rtype: GraphQLResolveInfo
     """
     rf.set_user(user)
     request = rf.post("/graphql/")
@@ -19,26 +20,25 @@ def ghl_auth_mock_info(user, rf) -> ResolveInfo:
 
 
 @pytest.fixture()
-def ghl_mock_info(rf) -> ResolveInfo:
+def ghl_mock_info(rf) -> GraphQLResolveInfo:
     """
     Ghl mock info.
 
     :param rf:
-    :rtype: ResolveInfo
+    :rtype: GraphQLResolveInfo
     """
     request = rf.post("/graphql/")
 
     return _get_mock_info(request)
 
 
-def _get_mock_info(request) -> ResolveInfo:
+def _get_mock_info(request) -> GraphQLResolveInfo:
     """
     Get mock info.
 
     :param request:
     """
-    m_info = mock_info()
-    m_info.context = request
-    m_info.field_asts = [{}]
-    m_info.fragments = {}
-    return m_info
+    return create_mock_info(
+        context=request,
+        fragments={},
+    )

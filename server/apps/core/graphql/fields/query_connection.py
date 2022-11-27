@@ -4,12 +4,12 @@ from functools import partial
 
 import graphene
 from django.db import models
-from graphene.relay import ConnectionField, PageInfo
 from graphene.relay import connection as relay_connection
-from graphene_django import settings, utils
-from graphql import ResolveInfo
-from graphql_relay.connection.arrayconnection import (
-    connection_from_list_slice,
+from graphene.relay.connection import connection_adapter, page_info_adapter
+from graphene_django import DjangoConnectionField, settings, utils
+from graphql import GraphQLResolveInfo
+from graphql_relay import (
+    connection_from_array_slice,
     cursor_to_offset,
     get_offset_with_default,
     offset_to_cursor,
@@ -18,7 +18,7 @@ from jnt_django_graphene_toolbox.errors import GraphQLPermissionDenied
 from jnt_django_graphene_toolbox.types import BaseModelObjectType
 from promise import Promise
 
-from apps.core.logic import queries
+from apps.core.logic import messages
 
 
 @ty.runtime_checkable
@@ -28,10 +28,10 @@ class InstancesQueryResult(ty.Protocol):
     instances: models.QuerySet
 
 
-class BaseQueryConnectionField(ConnectionField):  # noqa: WPS214
+class BaseQueryConnectionField(DjangoConnectionField):  # noqa: WPS214
     """Base class for model collections."""
 
-    query: ty.Type[queries.IQuery]
+    query: ty.Type[messages.BaseQuery]
     auth_required: bool = False
 
     def __init__(self, *args, **kwargs):
@@ -113,15 +113,15 @@ class BaseQueryConnectionField(ConnectionField):  # noqa: WPS214
             info,
         )
 
-        return queries.execute_query(cls.build_query(queryset, info, args))
+        return messages.dispatch_message(cls.build_query(queryset, info, args))
 
     @classmethod
     def build_query(
         cls,
         queryset: models.QuerySet,
-        info: ResolveInfo,  # noqa: WPS110
+        info: GraphQLResolveInfo,  # noqa: WPS110
         args,
-    ) -> queries.IQuery:
+    ) -> messages.BaseQuery:
         """Get params for creating query."""
         raise NotImplementedError()
 
@@ -139,7 +139,7 @@ class BaseQueryConnectionField(ConnectionField):  # noqa: WPS214
         after = args.get("after")
         if offset:
             if after:
-                offset += cursor_to_offset(after) + 1
+                offset += (cursor_to_offset(after) or 0) + 1
             # input offset starts at 1 while the graphene offset starts at 0
             args["after"] = offset_to_cursor(offset - 1)
 
@@ -148,42 +148,43 @@ class BaseQueryConnectionField(ConnectionField):  # noqa: WPS214
             iterable = iterable.instances
 
         if isinstance(iterable, models.QuerySet):
-            list_length = iterable.count()
+            array_length = iterable.count()
         else:
-            list_length = len(iterable)
-        list_slice_length = (
-            min(max_limit, list_length)
-            if max_limit is not None
-            else list_length
-        )
+            array_length = len(iterable)
 
-        # If after is higher than list_length, connection_from_list_slice
+        # If after is higher than array_length, connection_from_array_slice
         # would try to do a negative slicing which makes django throw an
         # AssertionError
-        after = min(
+        slice_start = min(
             get_offset_with_default(args.get("after"), -1) + 1,
-            list_length,
+            array_length,
         )
+        array_slice_length = array_length - slice_start
 
-        if max_limit is not None and "first" not in args:
-            if "last" in args:
-                args["first"] = list_length
-                list_slice_length = list_length
-            else:
-                args["first"] = max_limit
+        # Impose the maximum limit via the `first` field if neither first
+        # or last are already provided (note that if any of them is provided
+        # they must be under max_limit otherwise an error is raised).
 
-        connection = connection_from_list_slice(
-            iterable[after:],
+        is_max_limit = (
+            max_limit is not None
+            and args.get("first", None) is None
+            and args.get("last", None) is None
+        )
+        if is_max_limit:
+            args["first"] = max_limit
+
+        connection = connection_from_array_slice(
+            iterable[slice_start:],
             args,
-            slice_start=after,
-            list_length=list_length,
-            list_slice_length=list_slice_length,
-            connection_type=connection,
+            slice_start=slice_start,
+            array_length=array_length,
+            array_slice_length=array_slice_length,
+            connection_type=partial(connection_adapter, connection),
             edge_type=connection.Edge,
-            pageinfo_type=PageInfo,
+            page_info_type=page_info_adapter,
         )
         connection.iterable = iterable
-        connection.length = list_length
+        connection.length = array_length
         return connection
 
     @classmethod

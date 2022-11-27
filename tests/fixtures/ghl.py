@@ -8,13 +8,13 @@ from tests.helpers.gql_raw_query_provider import GhlRawQueryProvider
 @pytest.fixture(scope="session")
 def ghl_queries():
     """Ghl queries."""
-    return schema.get_query_type()
+    return schema.graphql_schema.query_type
 
 
 @pytest.fixture(scope="session")
 def ghl_mutations():
     """Ghl mutations."""
-    return schema.get_mutation_type()
+    return schema.graphql_schema.mutation_type
 
 
 @pytest.fixture()

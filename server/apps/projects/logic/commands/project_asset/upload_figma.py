@@ -5,7 +5,7 @@ import injector
 from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 
-from apps.core.logic import commands, errors
+from apps.core.logic import errors, messages
 from apps.core.logic.helpers.validation import validate_input
 from apps.media.logic.interfaces import IDownloadService
 from apps.projects.logic.interfaces import IFigmaService, IFigmaServiceFactory
@@ -31,6 +31,13 @@ class _ProjectAssetDtoValidator(serializers.Serializer):
 
 
 @dataclass(frozen=True)
+class CommandResult:
+    """Create project output."""
+
+    project_asset: ProjectAsset
+
+
+@dataclass(frozen=True)
 class FigmaProjectAssetDto:
     """Create figma project asset data."""
 
@@ -38,37 +45,29 @@ class FigmaProjectAssetDto:
     url: str = ""
 
 
-@dataclass(frozen=True)
-class Command(commands.ICommand):
+class Command(messages.BaseCommand[CommandResult]):
     """Create figma project asset input dto."""
 
     data: FigmaProjectAssetDto  # noqa: WPS110
     user: User
 
 
-@dataclass(frozen=True)
-class CommandResult:
-    """Create project output."""
-
-    project_asset: ProjectAsset
-
-
-class CommandHandler(commands.ICommandHandler[Command, CommandResult]):
+class CommandHandler(messages.BaseCommandHandler[Command]):
     """Create project asset."""
 
     @injector.inject
     def __init__(
         self,
         figma_service_factory: IFigmaServiceFactory,
-        external_files_service: IDownloadService,
+        download_service: IDownloadService,
         project_assets_service: ProjectAssetsService,
     ):
         """Initialize."""
         self._figma_service_factory = figma_service_factory
-        self._external_files_service = external_files_service
+        self._download_service = download_service
         self._project_assets_service = project_assets_service
 
-    def execute(self, command: Command) -> CommandResult:
+    def handle(self, command: Command) -> CommandResult:
         """Main logic here."""
         validated_data = validate_input(
             command.data,
@@ -109,7 +108,7 @@ class CommandHandler(commands.ICommandHandler[Command, CommandResult]):
         figma_service: IFigmaService,
     ) -> io.BytesIO:
         image_url = figma_service.get_image_url(url)
-        downloaded_file = self._external_files_service.download(image_url)
+        downloaded_file = self._download_service.download(image_url)
 
         if not downloaded_file:
             raise ImageNotDownloadedError()

@@ -1,15 +1,33 @@
-from dataclasses import asdict
+from dataclasses import asdict, dataclass
 
 import injector
 from django.contrib.auth.hashers import make_password
 
 from apps.media.logic.interfaces import IImageDownloadService
-from apps.users.logic.interfaces import ISignupService
-from apps.users.logic.interfaces.signup import SignupData, SocialSignupData
 from apps.users.models import User
 
 
-class SignupService(ISignupService):
+@dataclass(frozen=True)
+class SignupData:
+    """Data for create user."""
+
+    last_name: str
+    password: str
+    email: str
+    first_name: str
+
+
+@dataclass(frozen=True)
+class SocialSignupData:
+    """Data for create user."""
+
+    email: str
+    first_name: str
+    last_name: str
+    avatar: str
+
+
+class SignupService:
     """Service for signup new user."""
 
     @injector.inject

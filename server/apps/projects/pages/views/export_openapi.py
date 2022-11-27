@@ -2,7 +2,7 @@ import types
 
 from django.http import HttpRequest, HttpResponse
 
-from apps.core.logic.queries import execute_query
+from apps.core.logic import messages
 from apps.core.pages.base_view import BaseView
 from apps.projects.logic.queries import project
 from apps.projects.logic.queries.project.openapi import SchemeFormat
@@ -26,7 +26,7 @@ class View(BaseView):
     ) -> HttpResponse:
         """Request handler."""
         scheme_format = SchemeFormat(output_format)
-        query_result = execute_query(
+        query_result = messages.dispatch_message(
             project.openapi.Query(
                 project=project_id,
                 output_format=SchemeFormat(output_format),

@@ -1,0 +1,9 @@
+GRAPHQL {{address}}/api/graphql
+Authorization: {{authorization}}
+
+query me {
+    me {
+       firstName
+    }
+}
+

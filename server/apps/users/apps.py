@@ -1,8 +1,8 @@
 from django.utils.translation import gettext_lazy as _
 
 from apps.core import injector
-from apps.core.logic.commands import ICommandBus
-from apps.core.utils.apps import BaseAppConfig
+from apps.core.helpers.apps import BaseAppConfig
+from apps.core.logic import messages
 
 
 class AppConfig(BaseAppConfig):
@@ -14,21 +14,33 @@ class AppConfig(BaseAppConfig):
 
     def ready(self):
         """Trigger on app ready."""
-        from apps.users.logic.commands import COMMANDS  # noqa: WPS433
+        from apps.users.logic.commands import register  # noqa: WPS433
+        from apps.users.logic.commands.auth import (  # noqa: WPS433
+            login,
+            logout,
+            social_complete_login,
+            social_login,
+        )
+        from apps.users.logic.commands.me import update  # noqa: WPS433
 
         super().ready()
 
         self._setup_dependency_injection()
 
-        injector.get(ICommandBus).register_many(COMMANDS)
+        messages.register_messages_handlers(
+            # commands
+            login.CommandHandler,
+            logout.CommandHandler,
+            update.CommandHandler,
+            register.CommandHandler,
+            social_login.CommandHandler,
+            social_complete_login.CommandHandler,
+            # queries
+        )
 
     def _setup_dependency_injection(self) -> None:
-        from apps.users.logic.services.modules import (  # noqa: WPS433
-            UserLogicServicesModule,
-        )
         from apps.users.services.modules import (  # noqa: WPS433
             UserInfrastructureServicesModule,
         )
 
         injector.binder.install(UserInfrastructureServicesModule)
-        injector.binder.install(UserLogicServicesModule)

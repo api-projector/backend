@@ -1,17 +1,10 @@
 import pytest
 
 from apps.core import injector
-from apps.core.logic.commands import ICommandBus
-from apps.core.logic.queries import IQueryBus
+from apps.core.logic.messages.interfaces import IMessagesBus
 
 
 @pytest.fixture()
-def command_bus() -> ICommandBus:
+def messages_bus() -> IMessagesBus:
     """Command bus."""
-    return injector.get(ICommandBus)
-
-
-@pytest.fixture()
-def query_bus() -> IQueryBus:
-    """Query bus."""
-    return injector.get(IQueryBus)
+    return injector.get(IMessagesBus)

@@ -8,4 +8,4 @@ def update_me_mutation(ghl_mutations):
 
     :param ghl_mutations:
     """
-    return ghl_mutations.fields["updateMe"].resolver
+    return ghl_mutations.fields["updateMe"].resolve

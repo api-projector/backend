@@ -8,10 +8,9 @@ class GenericGraphQLError(BaseGraphQLError):
 
     def __init__(self, error: BaseError):
         """Initialize."""
-        self.original_error = error
-
         super().__init__(
             message=error.message,
+            original_error=error,
             extensions={
                 "code": error.code,
             },

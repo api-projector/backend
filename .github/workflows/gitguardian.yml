@@ -10,7 +10,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          fetch-depth: 0 # fetch all history so multiple commits can be scanned
+          fetch-depth: 0  # fetch all history so multiple commits can be scanned
 
       - name: GitGuardian scan
         uses: GitGuardian/ggshield-action@master

@@ -1,0 +1,17 @@
+GRAPHQL {{address}}/api/graphql
+
+mutation login($input: LoginInput!) {
+    login(input: $input) {
+        token {
+            key
+            created
+        }
+    }
+}
+
+{
+  "input": {
+    "email": "{{email}}",
+    "password": "{{password}}"
+  }
+}

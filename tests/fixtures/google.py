@@ -1,9 +1,9 @@
 import httpretty
 import pytest
-from graphene_django.rest_framework.tests.test_mutation import mock_info
-from graphql import ResolveInfo
+from graphql import GraphQLResolveInfo
 
 from apps.users.services.auth_backends.google_oauth2 import GoogleOAuth2Backend
+from tests.helpers.ghl_mock import create_mock_info
 from tests.helpers.httpretty_client import HttprettyMock
 
 
@@ -22,7 +22,7 @@ def google_mocker():
 
 
 @pytest.fixture()
-def google_token_request_info(rf) -> ResolveInfo:
+def google_token_request_info(rf) -> GraphQLResolveInfo:
     """Provides gitlab token request info."""
     request = rf.get(GoogleOAuth2Backend.AUTHORIZATION_URL)
     setattr(  # noqa: B010
@@ -31,7 +31,4 @@ def google_token_request_info(rf) -> ResolveInfo:
         {"google-oauth2_state": "google_state"},
     )
 
-    resolve_info = mock_info()
-    resolve_info.context = request
-
-    return resolve_info
+    return create_mock_info(context=request)

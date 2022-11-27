@@ -1,7 +1,7 @@
 import graphene
 
 from apps.core.graphql.fields import BaseQueryConnectionField
-from apps.core.logic import queries
+from apps.core.logic import messages
 from apps.projects.graphql.types import ProjectType
 from apps.projects.logic.queries.project import allowed
 
@@ -28,9 +28,9 @@ class ProjectConnectionField(BaseQueryConnectionField):
         args,
     ):  # noqa: C901
         """Resolve queryset."""
-        return queries.execute_query(
+        return messages.dispatch_message(
             cls.query(
-                queryset=queryset,
+                queryset=queryset.all(),
                 filters=allowed.ProjectFilter(
                     title=args.get("title"),
                 ),

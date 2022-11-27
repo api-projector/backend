@@ -5,20 +5,31 @@ on: [ pull_request, push ]
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ghcr.io/${{ github.repository }}
-  TEST_IMAGE_NAME: app_test:${{ github.sha }}
-  TEST_IMAGE_ARTIFACT: test_image_${{ github.sha }}
-  TEST_IMAGE_PATH: /tmp/test_image.tar
+  DOCKER_IMAGE_TEST: app_test:${{ github.sha }}
+  DOCKER_IMAGE_TEST_ARTIFACT: test_image_${{ github.sha }}
+  DOCKER_IMAGE_TEST_PATH: /tmp/test_image.tar
 
 jobs:
-  pre_build:
+  preflight:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - uses: hadolint/hadolint-action@v1.6.0
+      - name: Running hadolint
+        uses: hadolint/hadolint-action@v1.6.0
         with:
           dockerfile: docker/Dockerfile
+
+      - name: Running yaml lint
+        uses: "docker://pipelinecomponents/yamllint:0.21.1"
+        with:
+          args: yamllint .
+
+      - name: Running shellcheck
+        uses: "docker://pipelinecomponents/shellcheck:0.11.4"
+        with:
+          args: bash -c "find . -name \*.sh -type f -print0 | xargs -0 -P $(nproc) -r -n1 shellcheck"
 
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/python@master
@@ -34,9 +45,9 @@ jobs:
           sarif_file: snyk.sarif
 
 
-  build_test_image:
+  build-test-image:
     runs-on: ubuntu-20.04
-    needs: pre_build
+    needs: preflight
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -57,22 +68,22 @@ jobs:
           context: .
           file: docker/Dockerfile
           push: false
-          tags: ${{ env.TEST_IMAGE_NAME }}
+          tags: ${{ env.DOCKER_IMAGE_TEST }}
           target: test
           cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:_buildcache
           cache-to: type=registry,ref=${{ env.IMAGE_NAME }}:_buildcache,mode=max
-          outputs: type=docker,dest=${{ env.TEST_IMAGE_PATH }}
+          outputs: type=docker,dest=${{ env.DOCKER_IMAGE_TEST_PATH }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ env.TEST_IMAGE_ARTIFACT }}
-          path: ${{ env.TEST_IMAGE_PATH }}
+          name: ${{ env.DOCKER_IMAGE_TEST_ARTIFACT }}
+          path: ${{ env.DOCKER_IMAGE_TEST_PATH }}
           retention-days: 1
 
   lint:
     runs-on: ubuntu-20.04
-    needs: build_test_image
+    needs: build-test-image
     steps:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -80,22 +91,22 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v2
         with:
-          name: ${{ env.TEST_IMAGE_ARTIFACT }}
+          name: ${{ env.DOCKER_IMAGE_TEST_ARTIFACT }}
           path: /tmp
 
       - name: Load Docker image
         run: |
-          docker load --input ${{ env.TEST_IMAGE_PATH }}
+          docker load --input ${{ env.DOCKER_IMAGE_TEST_PATH }}
       - name: Lint
         run: |
-          docker run ${{ env.TEST_IMAGE_NAME }} make lint
+          docker run ${{ env.DOCKER_IMAGE_TEST }} make lint
 
   test:
     runs-on: ubuntu-20.04
-    needs: build_test_image
+    needs: build-test-image
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -103,16 +114,16 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v2
         with:
-          name: ${{ env.TEST_IMAGE_ARTIFACT }}
+          name: ${{ env.DOCKER_IMAGE_TEST_ARTIFACT }}
           path: /tmp
 
       - name: Load Docker image
         run: |
-          docker load --input ${{ env.TEST_IMAGE_PATH }}
+          docker load --input ${{ env.DOCKER_IMAGE_TEST_PATH }}
 
       - name: Test
         env:
-          APP_TEST_IMAGE: ${{ env.TEST_IMAGE_NAME }}
+          APP_TEST_IMAGE: ${{ env.DOCKER_IMAGE_TEST }}
         run: |
           docker-compose -f ci/docker-compose.yml up --exit-code-from app
 

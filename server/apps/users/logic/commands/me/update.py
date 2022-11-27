@@ -1,8 +1,8 @@
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 
 from rest_framework import serializers
 
-from apps.core.logic import commands
+from apps.core.logic import messages
 from apps.users.models import User
 
 
@@ -14,7 +14,13 @@ class MeUpdateDtoValidator(serializers.Serializer):
 
 
 @dataclass(frozen=True)
-class Command(commands.ICommand):
+class CommandResult:
+    """Update me output dto."""
+
+    user: User
+
+
+class Command(messages.BaseCommand[CommandResult]):
     """Update me."""
 
     user: User
@@ -22,23 +28,16 @@ class Command(commands.ICommand):
     last_name: str = ""
 
 
-@dataclass(frozen=True)
-class CommandResult:
-    """Update me output dto."""
-
-    user: User
-
-
-class CommandHandler(commands.ICommandHandler[Command, CommandResult]):
+class CommandHandler(messages.BaseCommandHandler[Command]):
     """Update user."""
 
-    def execute(self, command: Command) -> CommandResult:
+    def handle(self, command: Command) -> CommandResult:
         """Main logic here."""
         return CommandResult(user=self._update_user(command))
 
     def _update_user(self, command: Command) -> User:
         """Update user fields from input dto."""
-        user_data = asdict(command)
+        user_data = command.dict()
         user = user_data.pop("user")
 
         validator = MeUpdateDtoValidator(data=user_data)
