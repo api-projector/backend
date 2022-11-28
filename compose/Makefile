@@ -11,7 +11,7 @@ down:
 stop:
 	@docker compose -p ${COMPOSE_PROJECT} stop
 
-download-dump:
+download-pg-dump:
 	@rsync -L -av --progress ${POSTGRES_DUMP} dumps/
 
 # -- local postgresql
@@ -19,13 +19,13 @@ download-dump:
 restore-dump: drop-db create-db restore-dump
 
 drop-db:
-	@dropdb --u admin --if-exists api_projector
+	@dropdb --u admin --if-exists ${POSTGRES_DATABASE}
 
 create-db:
-	@createdb --u admin api_projector
+	@createdb --u admin ${POSTGRES_DATABASE}
 
 restore-dump:
-	@pg_restore -U admin -d api_projector -Fc --disable-triggers ./dumps/latest.dump
+	@pg_restore -U admin -d ${POSTGRES_DATABASE} -Fc --disable-triggers ./dumps/latest.dump
 
 # -- couchdb
 

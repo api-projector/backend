@@ -1075,7 +1075,7 @@ i18n = ["Babel (>=2.7)"]
 
 [[package]]
 name = "jnt-django-admin-tools"
-version = "0.12.17"
+version = "0.12.18"
 description = "Improved django admin interface"
 category = "main"
 optional = false
@@ -1103,7 +1103,7 @@ jnt_django_toolbox = "*"
 
 [[package]]
 name = "jnt-django-toolbox"
-version = "0.6.0"
+version = "0.7.3"
 description = ""
 category = "main"
 optional = false
@@ -2281,6 +2281,7 @@ coverage = [
 cryptography = [
     {file = "cryptography-38.0.3-cp36-abi3-macosx_10_10_universal2.whl", hash = "sha256:984fe150f350a3c91e84de405fe49e688aa6092b3525f407a18b9646f6612320"},
     {file = "cryptography-38.0.3-cp36-abi3-macosx_10_10_x86_64.whl", hash = "sha256:ed7b00096790213e09eb11c97cc6e2b757f15f3d2f85833cd2d3ec3fe37c1722"},
+    {file = "cryptography-38.0.3-cp36-abi3-macosx_10_12_universal2.whl", hash = "sha256:726e3a1bfee0e919b278c8f766fdcf1fe30f8e6feea590e3f248d3636b58ffb3"},
     {file = "cryptography-38.0.3-cp36-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.manylinux_2_24_aarch64.whl", hash = "sha256:bbf203f1a814007ce24bd4d51362991d5cb90ba0c177a9c08825f2cc304d871f"},
     {file = "cryptography-38.0.3-cp36-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:554bec92ee7d1e9d10ded2f7e92a5d70c1f74ba9524947c0ba0c850c7b011828"},
     {file = "cryptography-38.0.3-cp36-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:b1b52c9e5f8aa2b802d48bd693190341fae201ea51c7a167d69fc48b60e8a959"},
@@ -2553,16 +2554,16 @@ jinja2 = [
     {file = "Jinja2-3.1.2.tar.gz", hash = "sha256:31351a702a408a9e7595a8fc6150fc3f43bb6bf7e319770cbc0db9df9437e852"},
 ]
 jnt-django-admin-tools = [
-    {file = "jnt-django-admin-tools-0.12.17.tar.gz", hash = "sha256:5a14b46292a43b7480eefe698b60441435e6c13d10a966cae08f08871e4d60d5"},
-    {file = "jnt_django_admin_tools-0.12.17-py3-none-any.whl", hash = "sha256:1149af0368548235efa2f1fac094c32a6a94d745f71ef1f00762b2efc395cd5d"},
+    {file = "jnt_django_admin_tools-0.12.18-py3-none-any.whl", hash = "sha256:24e1ab26c14fa106495ff6ec2e03a1e00984a60c42649ccf8f888532176eef93"},
+    {file = "jnt_django_admin_tools-0.12.18.tar.gz", hash = "sha256:3b65c5046aad849037106bb87a7d2fb5f328f4794c78731c3351dbf012fadb41"},
 ]
 jnt-django-graphene-toolbox = [
     {file = "jnt_django_graphene_toolbox-0.5.1-py3-none-any.whl", hash = "sha256:e6821ac730235c239561cdf4b0c93d7afa0b34b0391e8fc1cc9c0a6a4d54530b"},
     {file = "jnt_django_graphene_toolbox-0.5.1.tar.gz", hash = "sha256:6afa963da8ea2d89de747a182bc04e437d22ae5e17c68a0e4c645776d96b1c6a"},
 ]
 jnt-django-toolbox = [
-    {file = "jnt_django_toolbox-0.6.0-py3-none-any.whl", hash = "sha256:80d6dab1be4ea24a20c8cce2f46cce8cff31043d95fea423d1692349bc5de10e"},
-    {file = "jnt_django_toolbox-0.6.0.tar.gz", hash = "sha256:94de433f1f0e48c8da84fd27d41321ce456b5447a0ce5b17ef70b08e40c44b03"},
+    {file = "jnt_django_toolbox-0.7.3-py3-none-any.whl", hash = "sha256:ac6f8a23cafa6c71bdd40601cc63acdfec90957235f8b522c86872066af90018"},
+    {file = "jnt_django_toolbox-0.7.3.tar.gz", hash = "sha256:dee62ea64a6b84f6ba848b94cd41d2a79010a9bb9b145e77185affc2a815cdc2"},
 ]
 kombu = [
     {file = "kombu-5.2.4-py3-none-any.whl", hash = "sha256:8b213b24293d3417bcf0d2f5537b7f756079e3ea232a8386dcc89a59fd2361a4"},

@@ -3,7 +3,6 @@ from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 from django.contrib.auth.forms import AdminPasswordChangeForm
 from django.urls import reverse
 from django.utils.html import format_html
-from jnt_django_toolbox.admin.decorators import admin_field
 
 from apps.users.models import User
 
@@ -56,7 +55,7 @@ class UserAdmin(DjangoUserAdmin):
     readonly_fields = ("last_login",)
     change_password_form = AdminPasswordChangeForm
 
-    @admin_field("Change password")
+    @admin.display(description="Change password")
     def change_password_link(self, instance):
         """Change password link."""
         return format_html(
