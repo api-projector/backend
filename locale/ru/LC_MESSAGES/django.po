@@ -110,7 +110,7 @@ msgid "VN__PROJECTS"
 msgstr "Проекты"
 
 msgid "MSG__CANNOT_DOWNLOAD_FIGMA_IMAGE"
-msgstr ""
+msgstr "Не удается скачать изображения из Figma"
 
 msgid "VN__CREATED"
 msgstr "Дата создания"
@@ -176,7 +176,7 @@ msgid "CH__FIGMA"
 msgstr "Figma"
 
 msgid "CH__UPLOAD"
-msgstr ""
+msgstr "Загрузка"
 
 msgid "VN__PROJECT_ASSET"
 msgstr "Ресур проекта"
@@ -203,7 +203,7 @@ msgid "VN__SWAGGER_CONTENT"
 msgstr "Содержимое swagger"
 
 msgid "HT__SWAGGER_CONTENT"
-msgstr ""
+msgstr " "
 
 msgid "VN__SWAGGER_URL"
 msgstr "URL swagger файла"
