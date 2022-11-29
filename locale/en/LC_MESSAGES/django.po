@@ -111,7 +111,7 @@ msgid "MSG__CANNOT_DOWNLOAD_FIGMA_IMAGE"
 msgstr "Can't download image from Figma"
 
 msgid "VN__CREATED"
-msgstr "Created at"
+msgstr "Created"
 
 msgid "VN__RINNING"
 msgstr "Running"

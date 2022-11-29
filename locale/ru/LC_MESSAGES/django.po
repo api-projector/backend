@@ -113,7 +113,7 @@ msgid "MSG__CANNOT_DOWNLOAD_FIGMA_IMAGE"
 msgstr "Не удается скачать изображения из Figma"
 
 msgid "VN__CREATED"
-msgstr "Дата создания"
+msgstr "Создан"
 
 msgid "VN__RINNING"
 msgstr "Запущен"
