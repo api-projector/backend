@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-11-24 18:00+0300\n"
+"POT-Creation-Date: 2022-11-29 15:14+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -43,6 +43,9 @@ msgstr "Invalid input"
 
 msgid "MSG__OPERATION_NOT_PERMITTED"
 msgstr "Operation not permitted"
+
+msgid "MSG__NOT_FOUND_ERROR"
+msgstr "Not found"
 
 msgid "VN__CREATED_AT"
 msgstr "Created at"
@@ -104,6 +107,21 @@ msgstr " "
 msgid "VN__PROJECTS"
 msgstr "Projects"
 
+msgid "MSG__CANNOT_DOWNLOAD_FIGMA_IMAGE"
+msgstr ""
+
+msgid "VN__CREATED"
+msgstr "Created at"
+
+msgid "VN__RINNING"
+msgstr "Running"
+
+msgid "VN__FAILED"
+msgstr "Failed"
+
+msgid "VN__DONE"
+msgstr "Done"
+
 msgid "VN__FIGMA_INTEGRATION"
 msgstr "Figma integration"
 
@@ -155,6 +173,9 @@ msgstr " "
 msgid "CH__FIGMA"
 msgstr "Figma"
 
+msgid "CH__UPLOAD"
+msgstr ""
+
 msgid "VN__PROJECT_ASSET"
 msgstr "Project asset"
 
@@ -166,6 +187,33 @@ msgstr "Source"
 
 msgid "HT__PROJECT_ASSET_SOURCE"
 msgstr " "
+
+msgid "VN__SWAGGER_IMPORT"
+msgstr "Swagger import"
+
+msgid "VN__STATE"
+msgstr "State"
+
+msgid "HT__STATE"
+msgstr " "
+
+msgid "VN__SWAGGER_CONTENT"
+msgstr "Swagger content"
+
+msgid "HT__SWAGGER_CONTENT"
+msgstr ""
+
+msgid "VN__SWAGGER_URL"
+msgstr "Swagger URL"
+
+msgid "HT__SWAGGER_URL"
+msgstr " "
+
+msgid "VN__LOG"
+msgstr "Log"
+
+msgid "HT__LOG"
+msgstr ""
 
 msgid "MSG__FIGMA_INTEGRATION_NOT_FOUND"
 msgstr "Figma integration not found"
@@ -228,8 +276,17 @@ msgstr "Is active"
 msgid "HT__IS_ACTIVE"
 msgstr " "
 
+msgid "VN__AVATAR"
+msgstr "Avatar"
+
+msgid "HT__AVATAR"
+msgstr " "
+
 msgid "MSG__UNABLE_TO_LOGIN_WITH_PROVIDED_CREDENTIALS"
 msgstr "Unable login with provided credentials"
+
+msgid "MSG__AUTHENTICATION_ERROR"
+msgstr "Authentication error"
 
 msgid "MESSAGE__ENGLISH"
 msgstr "English"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-11-24 18:00+0300\n"
+"POT-Creation-Date: 2022-11-29 15:14+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,9 +15,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
-"%100>=11 && n%100<=14)? 2 : 3);\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
+"(n%100>=11 && n%100<=14)? 2 : 3);\n"
 
 msgid "VN__JOB_QUEUE"
 msgstr "Очередь задач"
@@ -45,6 +45,9 @@ msgstr "Неверный ввод"
 
 msgid "MSG__OPERATION_NOT_PERMITTED"
 msgstr "Операция не разрешена"
+
+msgid "MSG__NOT_FOUND_ERROR"
+msgstr "Объект не найден"
 
 msgid "VN__CREATED_AT"
 msgstr "Дата создания"
@@ -106,6 +109,21 @@ msgstr " "
 msgid "VN__PROJECTS"
 msgstr "Проекты"
 
+msgid "MSG__CANNOT_DOWNLOAD_FIGMA_IMAGE"
+msgstr ""
+
+msgid "VN__CREATED"
+msgstr "Дата создания"
+
+msgid "VN__RINNING"
+msgstr "Запущен"
+
+msgid "VN__FAILED"
+msgstr "Провален"
+
+msgid "VN__DONE"
+msgstr "Сделано"
+
 msgid "VN__FIGMA_INTEGRATION"
 msgstr "Figma интеграция"
 
@@ -157,6 +175,9 @@ msgstr " "
 msgid "CH__FIGMA"
 msgstr "Figma"
 
+msgid "CH__UPLOAD"
+msgstr ""
+
 msgid "VN__PROJECT_ASSET"
 msgstr "Ресур проекта"
 
@@ -167,6 +188,33 @@ msgid "VN__PROJECT_ASSET_SOURCE"
 msgstr "Источник ресурса проекта"
 
 msgid "HT__PROJECT_ASSET_SOURCE"
+msgstr " "
+
+msgid "VN__SWAGGER_IMPORT"
+msgstr "Импорт swagger"
+
+msgid "VN__STATE"
+msgstr "Состояние"
+
+msgid "HT__STATE"
+msgstr " "
+
+msgid "VN__SWAGGER_CONTENT"
+msgstr "Содержимое swagger"
+
+msgid "HT__SWAGGER_CONTENT"
+msgstr ""
+
+msgid "VN__SWAGGER_URL"
+msgstr "URL swagger файла"
+
+msgid "HT__SWAGGER_URL"
+msgstr " "
+
+msgid "VN__LOG"
+msgstr "Лог"
+
+msgid "HT__LOG"
 msgstr " "
 
 msgid "MSG__FIGMA_INTEGRATION_NOT_FOUND"
@@ -230,8 +278,17 @@ msgstr "Активно"
 msgid "HT__IS_ACTIVE"
 msgstr " "
 
+msgid "VN__AVATAR"
+msgstr "Аватар"
+
+msgid "HT__AVATAR"
+msgstr " "
+
 msgid "MSG__UNABLE_TO_LOGIN_WITH_PROVIDED_CREDENTIALS"
 msgstr "Невозможно авторизоваться с представленными данными"
+
+msgid "MSG__AUTHENTICATION_ERROR"
+msgstr "Ошибка авторизации"
 
 msgid "MESSAGE__ENGLISH"
 msgstr "Английский"

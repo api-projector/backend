@@ -25,7 +25,7 @@ test:
 
 # -- django --
 
-generate-locale:
+make-messages:
 	@python manage.py makemessages --ignore=.venv/* -l en -l ru --no-location
 
 compile-messages:
