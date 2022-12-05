@@ -7,8 +7,7 @@ lint:
 	black --check .
 	mypy .
 	flake8 .
-#	DJANGO_ENV=production python manage.py check --deploy --fail-level WARNING
-	DJANGO_ENV=build python manage.py makemigrations --dry-run --check
+	DJANGO_ENV=build python server/manage.py makemigrations --dry-run --check
 	xenon --max-absolute A \
         --max-modules A \
         --max-average A \
