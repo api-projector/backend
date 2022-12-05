@@ -2,7 +2,6 @@ import os
 from datetime import timedelta
 
 from celery import Celery
-from django.conf import settings
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "server.settings")
 
@@ -12,7 +11,7 @@ app.config_from_object("django.conf:settings", namespace="CELERY")
 app.conf.update(worker_pool_restarts=True)
 app.conf.timezone = "UTC"
 
-app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
+app.autodiscover_tasks()
 
 
 @app.on_after_finalize.connect

@@ -44,15 +44,21 @@ FROM base as production
 
 ARG APP_VERSION
 
+ENV DJANGO_ENV=production \
+    APP_VERSION=$APP_VERSION
+
 RUN groupadd --system --gid 10001 app \
     && useradd --system --uid 10001 --no-log-init -g app app
 
-COPY . .
+COPY ./docker/server .
+COPY ./server ./server
+COPY docker/nginx/* /etc/nginx
 
 RUN export DJANGO_ENV=build \
-    && python manage.py collectstatic --noinput --verbosity 0 \
-    && python manage.py compilemessages \
-    && cp docker/nginx/* /etc/nginx \
+    && python server/manage.py collectstatic --noinput --verbosity 0 \
+    && python server/manage.py compilemessages \
+    && rm pyproject.toml \
+    && rm poetry.lock \
     && chmod -R 755 /app \
     && mkdir /var/run/app \
     && mkdir /var/run/nginx \
@@ -62,17 +68,15 @@ RUN export DJANGO_ENV=build \
     && ln -sf /dev/stdout /var/log/nginx/access.log \
     && ln -sf /dev/stderr /var/log/nginx/error.log
 
-
-ENV DJANGO_ENV=production \
-    APP_VERSION=$APP_VERSION
-
 USER app
 
-CMD ["/bin/bash", "docker/server/backend.sh"]
+CMD ["make", "server"]
 
 # ---
 
 FROM base as test
+
+WORKDIR /app
 
 RUN poetry install --no-interaction --no-ansi
 

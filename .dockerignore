@@ -1,3 +1,5 @@
 .venv
 *.pyc
 *.mo
+.mypy_cache
+.pytest_cache

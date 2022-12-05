@@ -1,0 +1,37 @@
+version: '3.7'
+
+x-base-app: &base-app
+  build:
+    context: ../
+    dockerfile: docker/Dockerfile
+    #      target: test
+    target: production
+  volumes:
+    - ../server:/app/server
+  environment:
+    DJANGO_ENV: development
+
+services:
+  server:
+    <<: *base-app
+    command: [ "make", "server" ]
+    ports:
+      - "127.0.0.1:8080:8080"
+
+  celery-worker:
+    <<: *base-app
+    command: [ "make", "celery-worker" ]
+
+  celery-beat:
+    <<: *base-app
+    command: [ "make", "celery-beat" ]
+
+  flower:
+    <<: *base-app
+    command: [ "make", "flower" ]
+    ports:
+      - "127.0.0.1:5555:5555"
+
+
+
+

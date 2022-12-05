@@ -17,8 +17,8 @@ lint:
 	poetry check
 	pip check
 	#safety check --bare
-	polint -i location,unsorted locale
-	dennis-cmd lint --errorsonly locale
+	polint -i location,unsorted server/locale
+	dennis-cmd lint --errorsonly server/locale
 
 test:
 	@pytest
@@ -26,19 +26,19 @@ test:
 # -- django --
 
 make-messages:
-	@python manage.py makemessages --ignore=.venv/* -l en -l ru --no-location
+	@python server/manage.py makemessages --ignore=.venv/* -l en -l ru --no-location
 
 compile-messages:
-	@python manage.py compilemessages
+	@python server/manage.py compilemessages
 
 make-migrations:
-	@python manage.py makemigrations
+	@python server/manage.py makemigrations
 
 migrate:
-	@python manage.py migrate
+	@python server/manage.py migrate
 
 generate-graphql-schema:
-	@python manage.py graphql_schema --schema server.gql.schema --out tests/schema.graphql
+	@python server/manage.py graphql_schema --schema server.gql.schema --out tests/schema.graphql
 
 # -- precommit --
 
