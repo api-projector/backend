@@ -69,10 +69,10 @@ make test
    |-- http/      
    |    |-- ...                              # http requests files. Read more https://www.jetbrains.com/help/idea/http-client-in-product-code-editor.html
    | 
-   |-- locale/      
-   |    |-- ...                              # Locale files
-   |
    |-- server/
+   |    |-- locale/      
+   |    |    |-- ...                              # Locale files
+   |    |
    |    |-- apps/                            # Django apps 
    |    |    |-- core                        # Core utils
    |    |    |    |-- ...
