@@ -3,9 +3,9 @@ SECRET_KEY = "tests"  # noqa: S105
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "postrges",
-        "USER": "postgres",
-        "PASSWORD": "postgres",
+        "NAME": "api-projector",
+        "USER": "api-projector",
+        "PASSWORD": "api-projector",
         "HOST": "postgres",
     },
 }

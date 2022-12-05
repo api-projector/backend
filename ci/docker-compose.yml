@@ -12,6 +12,10 @@ services:
 
   postgres:
     image: postgres:15.1
+    environment:
+      POSTGRES_PASSWORD: api-projector
+      POSTGRES_USER: api-projector
+      POSTGRES_DB: api-projector
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 5s

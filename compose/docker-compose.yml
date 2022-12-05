@@ -1,5 +1,10 @@
 version: '3.7'
 
+x-healthcheck: &healthcheck
+  interval: 10s
+  timeout: 5s
+  retries: 5
+
 services:
   postgres:
     image: postgres:15.1
@@ -12,6 +17,9 @@ services:
       POSTGRES_DB: api-projector
     volumes:
       - pg-data:/var/lib/postgresql/data
+    healthcheck:
+      <<: *healthcheck
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
 
   couchdb:
     image: couchdb:3.0.1
