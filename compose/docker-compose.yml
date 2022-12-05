@@ -11,10 +11,8 @@ services:
     shm_size: 2gb
     ports:
       - "127.0.0.1:5432:5432"
-    environment:
-      POSTGRES_PASSWORD: api-projector
-      POSTGRES_USER: api-projector
-      POSTGRES_DB: api-projector
+    env_file:
+      - config.env
     volumes:
       - pg-data:/var/lib/postgresql/data
     healthcheck:
@@ -25,9 +23,8 @@ services:
     image: couchdb:3.0.1
     ports:
       - "127.0.0.1:5984:5984"
-    environment:
-      COUCHDB_USER: admin
-      COUCHDB_PASSWORD: admin
+    env_file:
+      - config.env
     volumes:
       - ./couchdb/data:/opt/couchdb/data
       - ./couchdb/config:/opt/couchdb/etc/local.d
@@ -36,6 +33,9 @@ services:
     image: redis:6.2.6
     ports:
       - "6379:6379"
+    healthcheck:
+      <<: *healthcheck
+      test: [ "CMD-SHELL", "redis-cli", "--raw", "incr", "ping" ]
 
 volumes:
   pg-data:

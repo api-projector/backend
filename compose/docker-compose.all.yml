@@ -13,20 +13,20 @@ x-base-app: &base-app
 services:
   server:
     <<: *base-app
-    command: [ "make", "server" ]
+    command: [ "python", "server/manage.py", "runserver", "0.0.0.0:8000" ]
     ports:
-      - "127.0.0.1:8080:8080"
+      - "127.0.0.1:8000:8000"
 
   celery-worker:
     <<: *base-app
-    command: [ "make", "celery-worker" ]
+    command: [ "make", "-f", "docker/server/Makefile", "celery-worker" ]
 
   celery-beat:
     <<: *base-app
-    command: [ "make", "celery-beat" ]
+    command: [ "make", "-f", "docker/server/Makefile", "celery-beat" ]
 
   flower:
     <<: *base-app
-    command: [ "make", "flower" ]
+    command: [ "make", "-f", "docker/server/Makefile", "flower" ]
     ports:
       - "127.0.0.1:5555:5555"
