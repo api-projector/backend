@@ -4,8 +4,7 @@ x-base-app: &base-app
   build:
     context: ../
     dockerfile: docker/Dockerfile
-    #      target: test
-    target: production
+    target: test
   volumes:
     - ../server:/app/server
   environment:
@@ -31,7 +30,3 @@ services:
     command: [ "make", "flower" ]
     ports:
       - "127.0.0.1:5555:5555"
-
-
-
-
