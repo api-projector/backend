@@ -1061,7 +1061,7 @@ i18n = ["Babel (>=2.7)"]
 
 [[package]]
 name = "jnt-django-admin-tools"
-version = "0.12.20"
+version = "0.12.24"
 description = "Improved django admin interface"
 category = "main"
 optional = false
@@ -2526,8 +2526,8 @@ jinja2 = [
     {file = "Jinja2-3.1.2.tar.gz", hash = "sha256:31351a702a408a9e7595a8fc6150fc3f43bb6bf7e319770cbc0db9df9437e852"},
 ]
 jnt-django-admin-tools = [
-    {file = "jnt_django_admin_tools-0.12.20-py3-none-any.whl", hash = "sha256:7dda250be5cff7f5e23280c9541745a4fc5b718ce7ccf74932026ebfbc346c50"},
-    {file = "jnt_django_admin_tools-0.12.20.tar.gz", hash = "sha256:caeb9c8f607c3d58f26d7da0a388529dd2f2c773f0bed8ed00c82aa7b94e8b24"},
+    {file = "jnt_django_admin_tools-0.12.24-py3-none-any.whl", hash = "sha256:6e68eda1ccaebe15d9bc32b11f9337599a94649ee735fea9da1abb70df4d0014"},
+    {file = "jnt_django_admin_tools-0.12.24.tar.gz", hash = "sha256:83861fb96230319fa2fde97abc5659bbd1d5de4cd9d406c344e8f99f162a3461"},
 ]
 jnt-django-graphene-toolbox = [
     {file = "jnt_django_graphene_toolbox-0.5.1-py3-none-any.whl", hash = "sha256:e6821ac730235c239561cdf4b0c93d7afa0b34b0391e8fc1cc9c0a6a4d54530b"},
@@ -3141,6 +3141,7 @@ ruamel-yaml-clib = [
     {file = "ruamel.yaml.clib-0.2.7-cp310-cp310-win_amd64.whl", hash = "sha256:d000f258cf42fec2b1bbf2863c61d7b8918d31ffee905da62dede869254d3b8a"},
     {file = "ruamel.yaml.clib-0.2.7-cp311-cp311-macosx_10_9_universal2.whl", hash = "sha256:045e0626baf1c52e5527bd5db361bc83180faaba2ff586e763d3d5982a876a9e"},
     {file = "ruamel.yaml.clib-0.2.7-cp311-cp311-macosx_12_6_arm64.whl", hash = "sha256:721bc4ba4525f53f6a611ec0967bdcee61b31df5a56801281027a3a6d1c2daf5"},
+    {file = "ruamel.yaml.clib-0.2.7-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.manylinux_2_24_x86_64.whl", hash = "sha256:41d0f1fa4c6830176eef5b276af04c89320ea616655d01327d5ce65e50575c94"},
     {file = "ruamel.yaml.clib-0.2.7-cp36-cp36m-macosx_10_9_x86_64.whl", hash = "sha256:4b3a93bb9bc662fc1f99c5c3ea8e623d8b23ad22f861eb6fce9377ac07ad6072"},
     {file = "ruamel.yaml.clib-0.2.7-cp36-cp36m-macosx_12_0_arm64.whl", hash = "sha256:a234a20ae07e8469da311e182e70ef6b199d0fbeb6c6cc2901204dd87fb867e8"},
     {file = "ruamel.yaml.clib-0.2.7-cp36-cp36m-manylinux2014_aarch64.whl", hash = "sha256:15910ef4f3e537eea7fe45f8a5d19997479940d9196f357152a09031c5be59f3"},

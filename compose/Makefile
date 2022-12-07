@@ -12,8 +12,14 @@ up-all:
 down:
 	docker compose down
 
+down-all:
+	docker compose -f docker-compose.yml -f docker-compose.all.yml down
+
 stop:
 	docker compose stop
+
+stop-all:
+	docker compose -f docker-compose.yml -f docker-compose.all.yml stop
 
 download-pg-dump:
 	rsync -L -av --progress ${POSTGRES_DUMP} dumps/pg.dump
