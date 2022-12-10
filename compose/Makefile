@@ -21,6 +21,8 @@ stop:
 stop-all:
 	docker compose -f docker-compose.yml -f docker-compose.all.yml stop
 
+# -- postgresql --
+
 download-pg-dump:
 	rsync -L -av --progress ${POSTGRES_DUMP} dumps/pg.dump
 

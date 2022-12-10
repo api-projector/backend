@@ -1,6 +1,6 @@
 # -- poetry --
 
-poetry-install:
+install:
 	@poetry install --remove-untracked
 
 lint:
