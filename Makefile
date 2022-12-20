@@ -1,9 +1,9 @@
-COMPOSE_ARGS=-f tools/compose/docker-compose.yml
-COMPOSE_ALL_FILE=tools/compose/docker-compose.all.yml
-
 export COMPOSE_PROJECT_NAME=api-projector
 export DOCKER_DEFAULT_PLATFORM=linux/amd64
 -include config.env
+
+COMPOSE_ARGS=-f tools/compose/docker-compose.yml
+COMPOSE_ALL_FILE=tools/compose/docker-compose.all.yml
 
 # -- poetry --
 
@@ -101,7 +101,7 @@ create-pg-db:
 	docker compose ${COMPOSE_ARGS} exec postgres createdb -U ${POSTGRES_USER} ${POSTGRES_DB}
 
 restore-pg-dump: drop-pg-db create-pg-db
-	docker compose ${COMPOSE_ARGS} exec -T postgres pg_restore -U ${POSTGRES_USER} -d ${POSTGRES_DB} -Fc --disable-triggers < tools/compose/dumps/pg.dump
+	docker compose ${COMPOSE_ARGS} exec -T postgres pg_restore --no-owner -C -U ${POSTGRES_USER} -d ${POSTGRES_DB} -Fc --disable-triggers < tools/compose/dumps/pg.dump
 
 # -- couchdb --
 
