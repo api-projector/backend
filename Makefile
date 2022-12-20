@@ -1,9 +1,9 @@
-COMPOSE_FILE=tools/compose/docker-compose.yml
+COMPOSE_ARGS=-f tools/compose/docker-compose.yml
 COMPOSE_ALL_FILE=tools/compose/docker-compose.all.yml
 
 export COMPOSE_PROJECT_NAME=api-projector
 export DOCKER_DEFAULT_PLATFORM=linux/amd64
-include config.env
+-include config.env
 
 # -- poetry --
 
@@ -19,7 +19,7 @@ lint:
         --max-modules A \
         --max-average A \
         --exclude src/apps/core/graphql/fields/query_connection.py \
-        server
+        src
 	poetry check
 	pip check
 	#safety check --bare
@@ -59,22 +59,22 @@ pre-commit-update:
 	@pre-commit autoupdate
 
 up:
-	docker compose -f ${COMPOSE_FILE} up --remove-orphans
+	docker compose ${COMPOSE_ARGS} up --remove-orphans
 
 up-all:
-	docker compose -f ${COMPOSE_FILE} -f ${COMPOSE_ALL_FILE} up --build --remove-orphans
+	docker compose ${COMPOSE_ARGS} -f ${COMPOSE_ALL_FILE} up --build --remove-orphans
 
 down:
-	docker compose -f ${COMPOSE_FILE} down
+	docker compose ${COMPOSE_ARGS} down
 
 down-all:
-	docker compose -f ${COMPOSE_FILE} -f ${COMPOSE_ALL_FILE} down
+	docker compose ${COMPOSE_ARGS} -f ${COMPOSE_ALL_FILE} down
 
 stop:
-	docker compose -f ${COMPOSE_FILE} stop
+	docker compose ${COMPOSE_ARGS} stop
 
 stop-all:
-	docker compose -f ${COMPOSE_FILE} -f ${COMPOSE_ALL_FILE} stop
+	docker compose ${COMPOSE_ARGS} -f ${COMPOSE_ALL_FILE} stop
 
 # -- postgresql --
 
@@ -95,13 +95,13 @@ local-restore-dump: local-drop-db local-create-db
 # -- docker postgresql --
 
 drop-pg-db:
-	docker compose exec postgres dropdb -U ${POSTGRES_USER} --if-exists ${POSTGRES_DB}
+	docker compose ${COMPOSE_ARGS} exec postgres dropdb -U ${POSTGRES_USER} --if-exists ${POSTGRES_DB}
 
 create-pg-db:
-	docker compose exec postgres createdb -U ${POSTGRES_USER} ${POSTGRES_DB}
+	docker compose ${COMPOSE_ARGS} exec postgres createdb -U ${POSTGRES_USER} ${POSTGRES_DB}
 
 restore-pg-dump: drop-pg-db create-pg-db
-	docker compose exec -T postgres pg_restore -U ${POSTGRES_USER} -d ${POSTGRES_DB} -Fc --disable-triggers < tools/compose/dumps/pg.dump
+	docker compose ${COMPOSE_ARGS} exec -T postgres pg_restore -U ${POSTGRES_USER} -d ${POSTGRES_DB} -Fc --disable-triggers < tools/compose/dumps/pg.dump
 
 # -- couchdb --
 
