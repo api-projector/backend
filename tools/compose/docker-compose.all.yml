@@ -13,7 +13,7 @@ x-base-app: &base-app
 services:
   server:
     <<: *base-app
-    command: [ "python", "server/manage.py", "runserver", "0.0.0.0:8000" ]
+    command: [ "python", "src/manage.py", "runserver", "0.0.0.0:8000" ]
     ports:
       - "127.0.0.1:8000:8000"
 

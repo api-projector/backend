@@ -125,7 +125,7 @@ jobs:
         env:
           APP_TEST_IMAGE: ${{ env.DOCKER_IMAGE_TEST }}
         run: |
-          docker-compose -f ci/docker-compose.yml up --exit-code-from app
+          docker-compose -f devops/ci/docker-compose.yml up --exit-code-from app
 
   build:
     runs-on: ubuntu-20.04

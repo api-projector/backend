@@ -50,13 +50,13 @@ ENV DJANGO_ENV=production \
 RUN groupadd --system --gid 10001 app \
     && useradd --system --uid 10001 --no-log-init -g app app
 
-COPY ./docker/server .
-COPY ./server ./server
-COPY docker/nginx/* /etc/nginx
+COPY devops/docker/server .
+COPY devops/docker/nginx/* /etc/nginx
+COPY src ./src
 
 RUN export DJANGO_ENV=build \
-    && python server/manage.py collectstatic --noinput --verbosity 0 \
-    && python server/manage.py compilemessages \
+    && python src/manage.py collectstatic --noinput --verbosity 0 \
+    && python src/manage.py compilemessages \
     && rm pyproject.toml \
     && rm poetry.lock \
     && chmod -R 755 /app \
