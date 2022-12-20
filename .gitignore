@@ -19,6 +19,4 @@ development.py
 # than setup.cfg for pytests
 pytest.ini
 .DS_Store
-*.dump
-latest.tar.gz
-/media
+*.env
