@@ -14,5 +14,5 @@ LANGUAGES = [
 ]
 
 LOCALE_PATHS = [
-    "server/locale",
+    "src/locale",
 ]

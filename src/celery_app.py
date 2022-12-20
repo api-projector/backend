@@ -3,9 +3,9 @@ from datetime import timedelta
 
 from celery import Celery
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "server.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "src.settings")
 
-app = Celery("server")
+app = Celery("celery")
 
 app.config_from_object("django.conf:settings", namespace="CELERY")
 app.conf.update(worker_pool_restarts=True)
